@@ -1,6 +1,6 @@
 # [Alma.salvatori.co](https://alma.salvatori.co)
 
-[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/salvatori/alma new-theme-name)
+[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/salvatori/alma new-theme-name)!]
 
 
 Alma is a WordPress starter theme with a modern development workflow.
