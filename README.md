@@ -5,7 +5,7 @@
 
 Alma is a WordPress starter theme with a modern development workflow.
 
-**Alma 10 is in active development and is currently in alpha. The `master` branch tracks Alma 10 development. If you want a stable version.**
+**Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development. If you want a stable version.**
 
 ## Features
 
