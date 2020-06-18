@@ -1,10 +1,11 @@
-# [Sage](https://roots.io/sage/)
+# [Alma.salvatori.co](https://alma.salvatori.co)
 
-[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/roots/sage)
+[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/salvatori/alma)
 
-Sage is a WordPress starter theme with a modern development workflow.
 
-**Sage 10 is in active development and is currently in alpha. The `master` branch tracks Sage 10 development. If you want a stable version, use the [latest Sage 9 release](https://github.com/roots/sage/releases/latest).**
+Alma is a WordPress starter theme with a modern development workflow.
+
+**Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development. If you want a stable version.**
 
 ## Features
 
@@ -15,7 +16,7 @@ Sage is a WordPress starter theme with a modern development workflow.
 * [Blade](https://laravel.com/docs/5.8/blade) as a templating engine
 * [Bootstrap 4](https://getbootstrap.com/) (optional)
 
-See a working example at [roots-example-project.com](https://roots-example-project.com/).
+See a working example at [example-alma.salvatori.co](https://example-alma.salvatori.co/).
 
 ## Requirements
 
@@ -29,17 +30,17 @@ Make sure all dependencies have been installed before moving on:
 
 ## Theme installation
 
-Install Sage using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
+Install Alma using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
 
 ```sh
 # @ app/themes/ or wp-content/themes/
-$ composer create-project roots/sage your-theme-name
+$ composer create-project salvatori/alma new-theme-name
 ```
 
-To install the latest development version of Sage, add `dev-master` to the end of the command:
+To install the latest development version of Alma, add `dev-master` to the end of the command:
 
 ```shell
-$ composer create-project roots/sage your-theme-name dev-master
+$ composer create-project salvatori/alma new-theme-name dev-master
 ```
 
 During theme installation you will have options to update `style.css` theme headers, select a CSS framework, and configure Browsersync.
@@ -47,7 +48,7 @@ During theme installation you will have options to update `style.css` theme head
 ## Theme structure
 
 ```sh
-themes/your-theme-name/   # → Root of your Sage based theme
+themes/your-theme-name/   # → Root of your Alma based theme
 ├── app/                  # → Theme PHP
 │   ├── Composers/        # → View composers
 │   ├── Providers/        # → Service providers
@@ -98,27 +99,3 @@ Edit `app/setup.php` to enable or disable theme features, setup navigation menus
 * `yarn start` — Compile assets when file changes are made, start Browsersync session
 * `yarn build` — Compile and optimize the files in your assets directory
 * `yarn build:production` — Compile assets for production
-
-## Documentation
-
-* [Sage documentation](https://roots.io/sage/docs/)
-
-## Contributing
-
-Contributions are welcome from everyone. We have [contributing guidelines](https://github.com/roots/guidelines/blob/master/CONTRIBUTING.md) to help you get started.
-
-## Sage sponsors
-
-Help support our open-source development efforts by [becoming a patron](https://www.patreon.com/rootsdev).
-
-<a href="https://kinsta.com/?kaid=OFDHAJIXUDIV"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" width="200" height="150"></a> <a href="https://k-m.com/"><img src="https://cdn.roots.io/app/uploads/km-digital.svg" alt="KM Digital" width="200" height="150"></a>
-
-## Community
-
-Keep track of development and community news.
-
-* Participate on the [Roots Discourse](https://discourse.roots.io/)
-* Follow [@rootswp on Twitter](https://twitter.com/rootswp)
-* Read and subscribe to the [Roots Blog](https://roots.io/blog/)
-* Subscribe to the [Roots Newsletter](https://roots.io/subscribe/)
-* Listen to the [Roots Radio podcast](https://roots.io/podcast/)
