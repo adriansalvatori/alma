@@ -1,11 +1,10 @@
-# [Alma.salvatori.co](https://alma.salvatori.co)
+# [Sage](https://roots.io/sage/)
 
-![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/salvatori/alma new-theme-name)
+[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/roots/sage)
 
+Sage is a WordPress starter theme with a modern development workflow.
 
-Alma is a WordPress starter theme with a modern development workflow.
-
-**Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development. If you want a stable version.**
+**Sage 10 is in active development and is currently in alpha. The `master` branch tracks Sage 10 development. If you want a stable version, use the [latest Sage 9 release](https://github.com/roots/sage/releases/latest).**
 
 ## Features
 
@@ -30,17 +29,17 @@ Make sure all dependencies have been installed before moving on:
 
 ## Theme installation
 
-Install Alma using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
+Install Sage using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of your theme):
 
 ```sh
 # @ app/themes/ or wp-content/themes/
-$ composer create-project salvatori/alma new-theme-name
+$ composer create-project roots/sage your-theme-name
 ```
 
-To install the latest development version of Alma, add `dev-master` to the end of the command:
+To install the latest development version of Sage, add `dev-master` to the end of the command:
 
 ```shell
-$ composer create-project salvatori/alma new-theme-name dev-master
+$ composer create-project roots/sage your-theme-name dev-master
 ```
 
 During theme installation you will have options to update `style.css` theme headers, select a CSS framework, and configure Browsersync.
@@ -48,7 +47,7 @@ During theme installation you will have options to update `style.css` theme head
 ## Theme structure
 
 ```sh
-themes/your-theme-name/   # → Root of your Alma based theme
+themes/your-theme-name/   # → Root of your Sage based theme
 ├── app/                  # → Theme PHP
 │   ├── Composers/        # → View composers
 │   ├── Providers/        # → Service providers
@@ -102,13 +101,13 @@ Edit `app/setup.php` to enable or disable theme features, setup navigation menus
 
 ## Documentation
 
-* [Alma documentation](https://roots.io/sage/docs/)
+* [Sage documentation](https://roots.io/sage/docs/)
 
 ## Contributing
 
 Contributions are welcome from everyone. We have [contributing guidelines](https://github.com/roots/guidelines/blob/master/CONTRIBUTING.md) to help you get started.
 
-## Alma sponsors
+## Sage sponsors
 
 Help support our open-source development efforts by [becoming a patron](https://www.patreon.com/rootsdev).
 
