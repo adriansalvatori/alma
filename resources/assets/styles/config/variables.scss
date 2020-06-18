@@ -1,0 +1,18 @@
+/**
+ * Variables
+ */
+
+$cyan: #2593FF;
+$blue: #23374D;
+$primary: $cyan;
+$dark: $blue;
+$light: #f5f5f5;
+
+$theme-colors: (
+  primary: $primary,
+  dark: $blue,
+  light: $light
+);
+
+$body-family: 'Roboto', sans-serif;
+$body-size: 14px;

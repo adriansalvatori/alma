@@ -1,0 +1,46 @@
+{
+  "name": "salvatori/alma",
+  "type": "wordpress-theme",
+  "description": "Salvatori Studio Default Theme - Based in sage 10",
+  "homepage": "https://salvatori.co",
+  "license": "MIT",
+  "authors": [{
+    "name": "Adrián Salvatori",
+    "email": "adrian@salvatori.co",
+    "homepage": "http://adrian.salvatori.co",
+    "role": "Developer"
+  }],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "php": "^7.2.5",
+    "log1x/sage-directives": "^1.1",
+    "roots/acorn": "^1.0.1"
+  },
+  "require-dev": {
+    "filp/whoops": "^2.7",
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "suggest": {
+    "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0).",
+    "log1x/sage-svg": "Provides a useful SVG directive for properly inlining SVG's within your Blade views (^1.0)."
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "lint": [
+      "phpcs --ignore=index.php,vendor,resources,storage,dist --extensions=php --standard=PSR12 ."
+    ],
+    "post-autoload-dump": [
+      "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
+    ]
+  }
+}

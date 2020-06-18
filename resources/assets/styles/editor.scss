@@ -1,0 +1,13 @@
+/**
+ * Editor
+ */
+
+@import 'config/variables';
+@import 'config/external';
+
+.editor-styles-wrapper > * {
+  @import 'common/global';
+  @import 'components';
+
+  font-family: $body-family;
+}

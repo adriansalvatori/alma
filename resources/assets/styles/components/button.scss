@@ -1,0 +1,29 @@
+/**
+ * Button
+ */
+
+.wp-block-button {
+  &__link {
+    @extend .button;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &.is-style-outline {
+    .wp-block-button__link {
+     @extend .button, .is-primary, .is-outlined;
+    }
+  }
+
+  &.is-style-solid {
+    .wp-block-button__link {
+      @extend .button, .is-primary;
+    }
+  }
+}
+
+.menu-item a{
+  @extend .has-margin-right-20, .has-text-white;
+}
