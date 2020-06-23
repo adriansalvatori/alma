@@ -34,7 +34,7 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": false,
+  "prefer-stable": true,
   "scripts": {
     "lint": [
       "phpcs --ignore=index.php,vendor,resources,storage,dist --extensions=php --standard=PSR12 ."
