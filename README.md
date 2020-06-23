@@ -14,7 +14,7 @@ Alma is a WordPress starter theme with a modern development workflow.
 * [Laravel Mix](https://github.com/JeffreyWay/laravel-mix) for compiling assets and concatenating and minifying files
 * [Browsersync](http://www.browsersync.io/) for synchronized browser testing
 * [Blade](https://laravel.com/docs/5.8/blade) as a templating engine
-* [Bootstrap 4](https://getbootstrap.com/) (optional)
+* [Bulma](https://bulma.io/)
 
 See a working example at [example-alma.salvatori.co](https://example-alma.salvatori.co/).
 
