@@ -33,16 +33,8 @@ Install Alma using Composer from your WordPress themes directory (replace `your-
 
 ```sh
 # @ app/themes/ or wp-content/themes/
-$ composer create-project salvatori/alma new-theme-name
-```
-
-To install the latest development version of Alma, add `dev-master` to the end of the command:
-
-```shell
 $ composer create-project salvatori/alma new-theme-name dev-master
 ```
-
-During theme installation you will have options to update `style.css` theme headers, select a CSS framework, and configure Browsersync.
 
 ## Theme structure
 
