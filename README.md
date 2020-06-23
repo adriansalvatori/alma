@@ -1,8 +1,5 @@
 # [Alma.salvatori.co](https://alma.salvatori.co)
 
-[![Packagist]](https://packagist.org/packages/salvatori/alma)
-
-
 Alma is a WordPress starter theme with a modern development workflow.
 
 **Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development.**
