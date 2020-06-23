@@ -1,11 +1,11 @@
 # [Alma.salvatori.co](https://alma.salvatori.co)
 
-[![Packagist](https://img.shields.io/packagist/vpre/roots/sage.svg?style=flat-square)](https://packagist.org/packages/salvatori/alma)
+[![Packagist]](https://packagist.org/packages/salvatori/alma)
 
 
 Alma is a WordPress starter theme with a modern development workflow.
 
-**Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development. If you want a stable version.**
+**Alma  is in active development and is currently in alpha. The `master` branch tracks Alma  development.**
 
 ## Features
 
@@ -14,7 +14,9 @@ Alma is a WordPress starter theme with a modern development workflow.
 * [Laravel Mix](https://github.com/JeffreyWay/laravel-mix) for compiling assets and concatenating and minifying files
 * [Browsersync](http://www.browsersync.io/) for synchronized browser testing
 * [Blade](https://laravel.com/docs/5.8/blade) as a templating engine
-* [Bulma](https://bulma.io/)
+* [Bulma](https://bulma.io/) as the default framework (extended with bulma-helpers and bulma.js)
+* [Jarallax](https://github.com/nk-o/jarallax)
+* [Feather Icons](https://feathericons.com/)
 
 See a working example at [example-alma.salvatori.co](https://example-alma.salvatori.co/).
 
