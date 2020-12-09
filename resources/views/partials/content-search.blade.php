@@ -1,4 +1,4 @@
-  @if (get_post_type() === 'inversion-rentando' || get_post_type() === 'propiedades')
+  @if (get_post_type() === 'post')
     @include('components.card')
   @else
     @include('components.category-card')

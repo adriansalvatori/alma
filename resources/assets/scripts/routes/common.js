@@ -1,37 +1,21 @@
-import AOS from 'aos'
-import {tns} from 'tiny-slider/src/tiny-slider'
-import feather from 'feather-icons'
-import {jarallax, jarallaxVideo} from 'jarallax'
-import Bulma from '@vizuaalog/bulmajs'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import feather from 'feather-icons';
+import $ from 'jquery';
+import {jarallax, jarallaxVideo} from 'jarallax';
+import Bulma from '@vizuaalog/bulmajs';
+import 'slick-carousel/slick/slick';
+
 export default {
   init() {
     AOS.init()
-    console.log(Bulma)
     feather.replace()
     jarallaxVideo()
 
     /** Bulma 
      * @docs https://bulmajs.tomerbe.co.uk/docs/0.11/1-getting-started/1-introduction/
      */
-
-    /** Filter */
-
-    let filterSelects = document.querySelectorAll('select[data-filter-type]')
-
-    function setFilterParameters(){
-      let query = ''
-      filterSelects.forEach(select => {
-        query = query +' '+ select.value
-      })
-      console.log(query)
-      document.querySelector('#filterbox').value = query
-    }
-
-    filterSelects.forEach(select => {
-      select.addEventListener('change', function(){
-        setFilterParameters()
-      })
-    })
+    
 
     /**Parallax */
 
@@ -47,29 +31,45 @@ export default {
       imgPosition: '25% 50%',
     })
 
-    jarallax(document.querySelectorAll('.is-parallax-video'), {
-      speed: 0.4,
-      videoSrc: 'mp4:/app/uploads/2020/06/4514359.mp4'
+    document.querySelectorAll('.is-parallax-video').forEach(element => {
+      jarallax(element, {
+        speed: 0.4,
+        videoSrc: `mp4:${element.dataset.url}`
+      });
     });
 
-
-
     /**Slider */
+    $('.slick-carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 400,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
+    });
 
-    if (document.querySelector('.carousel')) {
-      new tns({
-        container: '.carousel',
-        items: 2,
-        slideBy: 'page',
-        autoplay: false,
-        mouseDrag: true,
-        autoplayHoverPause:true,
-        controls: false,
-        pagination: false,
-        nav:false,
-        autoplayButtonOutput: false,
-      })
-    }
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
