@@ -15,7 +15,7 @@ require('laravel-mix-copy-watched');
  */
 
 mix.setPublicPath('./dist')
-   .browserSync('elitebrokers.test');
+   .browserSync('tutorial.test');
 
 mix.sass('resources/assets/styles/app.scss', 'styles')
    .sass('resources/assets/styles/editor.scss', 'styles')

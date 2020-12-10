@@ -1,39 +1,16 @@
-<section class="hero is-fullheight has-overflow-x-hidden has-background-light">
+<section class="hero is-fullheight has-background-light">
   <div class="hero-body">
-    <div class="container has-text-centered">
-      <div class="card-content has-margin-top-100 has-margin-bottom-100">
-        <h2 class="title is-2 has-text-uppercase">Explora nuestras propiedades</h2>
-        <p class="has-margin-top-30">Contamos con un amplio portafolio de inmuebles para arriendo o venta como: <br>
-          oficinas, bodegas, locales comerciales y vivienda.</p>
+    <div class="container">
+      <div class="card-content has-text-centered has-margin-top-100 has-margin-bottom-100" data-aos="fade-up">
+        <h2 class="title is-2 has-text-uppercase">Titulo h2</h2>
+        <p class="has-margin-top-30">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae, dolorem cupiditate quas, deleniti doloribus aperiam ullam dignissimos eos odio saepe dolores aliquam, voluptatem fugiat repellendus soluta excepturi molestias tempora expedita?</p>
       </div>
-      <div class="carousel columns featured-slider">
-        @set($dc, 0)
-        @set($index, 0)
-        @set($deals, get_field('deals_destacados', 'options'))
-
-        @query([
-        'post_type'=> ['inversion-rentando', 'propiedades'],
-        'post__in' => $deals,
-        ])
-
+      <div class="slick-carousel is-full-width" data-aos="fade-up">
+        @query(['post_type' => 'post'])
         @posts()
-        @php($index++)
-        @if ($index == 1)
-        <div class="column is-first">
+        <div class="column is-inline-flex">
           @include('components.card')
         </div>
-        @else
-        @php($dc++)
-        @if ($dc === 1)
-        <div class="column">
-          @include('components.card')
-          @endif
-          @if ($dc === 2)
-          @include('components.card')
-        </div>
-        @php($dc = 0 )
-        @endif
-        @endif
         @endposts
       </div>
     </div>

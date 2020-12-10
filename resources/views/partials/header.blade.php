@@ -1,7 +1,7 @@
 <div class="preheader has-text-right has-background-primary has-text-white has-padding-10">
   <div class="container">
     <div class="level-right">
-      <span class="icon is-medium"><i data-feather="phone"></i></span><span>Llámanos: 031 457 0940 | 316 578 9930</span>
+      <span class="icon is-medium"><i data-feather="phone"></i></span><span>Llámanos: 000 000 000 | 000 000 000</span>
     </div>
   </div>
 </div>
@@ -10,7 +10,7 @@
   <div class="container">
     <div class="navbar-brand">
       <a class="level-item has-margin-right-50 has-padding-5" href="{{home_url()}}">
-        <img src="@asset('images/logowhite.png')" width="150">
+        <img src="@asset('images/logo.png')" width="150">
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -33,9 +33,6 @@
         </div>
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong>Regístrarse</strong>
-            </a>
             <a class="button is-light">
               Iniciar Sesión
             </a>

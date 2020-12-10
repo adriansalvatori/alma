@@ -1,14 +1,94 @@
 /**
  * External
  */
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 @import '~bulma';
 @import '~bulma-helpers';
 
+/*Si necesitas los estilos por defecto de slick carousel descomenta las 2 siguientes lineas
+@import "~slick-carousel/slick/slick";
+@import "~slick-carousel/slick/slick-theme";
+*/
+
 /**
  * Making some helpers
  */
+
+* {
+    font-family: $body-family;
+}
+
+strong {
+    color: $dark !important;
+}
+
+*:focus {
+    outline: unset !important;
+}
+
+.slick-slide {
+    display: inline-block;
+}
+
+.font-w {
+    &.is-300 {
+        font-weight: 300;
+    }
+
+    &.is-400 {
+        font-weight: 400;
+    }
+
+    &.is-600 {
+        font-weight: 600;
+    }
+
+    &.is-700 {
+        font-weight: 700;
+    }
+
+    &.is-800 {
+        font-weight: 800;
+    }
+
+    &.is-900 {
+        font-weight: 900;
+    }
+}
+
+.is-radius {
+    &.r-10 {
+        border-radius: 10px;
+    }
+
+    &.r-15 {
+        border-radius: 15px;
+    }
+
+    &.r-20 {
+        border-radius: 20px;
+    }
+
+    &.r-25 {
+        border-radius: 25px;
+    }
+
+    &.r-30 {
+        border-radius: 30px;
+    }
+    
+    &.r-35 {
+        border-radius: 35px;
+    }
+
+    &.r-40 {
+        border-radius: 45px;
+    }
+
+    &.r-50 {
+        border-radius: 50px;
+    }
+}
 
 .is-opaque{
     &.is-15 {
@@ -38,6 +118,20 @@
 
 .has-overflow-x-hidden {
     overflow-x: hidden;
+}
+
+.has-overflow-y-hidden {
+    overflow-y: hidden;
+}
+
+.has-overflow-x-scroll {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.has-overflow-y-scroll {
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .has-shadow-overlay {
