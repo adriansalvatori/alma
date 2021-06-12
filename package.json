@@ -46,14 +46,17 @@
     "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {
+    "@splidejs/splide": "^2.4.21",
     "@vizuaalog/bulmajs": "^0.11.0",
     "aos": "^3.0.0-beta.6",
     "bulma": "^0.9.0",
     "bulma-helpers": "^0.3.12",
     "bulma-utilities": "^0.3.6",
     "feather-icons": "^4.28.0",
+    "gsap": "^3.6.1",
     "jarallax": "^1.12.1",
     "jquery": "^3.5.0",
+    "locomotive-scroll": "^4.1.1",
     "popper.js": "^1.16.1",
     "purgecss-with-gutenberg": "^1.0.2",
     "slick-carousel": "^1.8.1",

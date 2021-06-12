@@ -1,16 +1,8 @@
-<div class="preheader has-text-right has-background-primary has-text-white has-padding-10">
-  <div class="container">
-    <div class="level-right">
-      <span class="icon is-medium"><i data-feather="phone"></i></span><span>Llámanos: 000 000 000 | 000 000 000</span>
-    </div>
-  </div>
-</div>
-
-<nav class="navbar is-spaced is-dark" role="navigation" aria-label="main navigation" data-sticky data-sticky-offset="52">
+<nav class="navbar is-fixed-top is-spaced is-dark" role="navigation">
   <div class="container">
     <div class="navbar-brand">
       <a class="level-item has-margin-right-50 has-padding-5" href="{{home_url()}}">
-        <img src="@asset('images/logo.png')" width="150">
+        <img src="{{get_option('alma_logo')}}" width="150">
       </a>
 
       <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -42,3 +34,7 @@
     </div>
   </div>
 </nav>
+
+<div class="preloader">
+  
+</div>

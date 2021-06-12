@@ -1,5 +1,5 @@
 
-<div class="card has-margin-bottom-30 has-text-white is-full-width">
+<div class="card is-primary has-margin-bottom-30 has-text-white is-full-width">
   <div class="is-relative has-shadow-overlay has-min-height-300" style="background:url(@thumbnail('full', false)) center center / cover no-repeat;">
   </div>
   <div class="card-content content has-text-weight-bold">

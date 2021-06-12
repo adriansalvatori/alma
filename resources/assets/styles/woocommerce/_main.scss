@@ -1,0 +1,71 @@
+/**
+ * Main WooCommerce styles
+ */
+
+div.woocommerce {
+  padding-left: $column-gap;
+  padding-right: $column-gap;
+
+  @include desktop {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  h2 {
+    font-size: $size-2;
+    margin-top: map-get($spacing-values, "5");
+    margin-bottom: map-get($spacing-values, "3");
+  }
+
+  h3 {
+    font-size: $size-3;
+    margin-bottom: map-get($spacing-values, "2");
+  }
+
+  a.edit {
+    font-size: $size-5;
+  }
+
+  table {
+    @extend .table, .is-striped;
+
+    width: 100%;
+  }
+
+  .remove {
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 100%;
+    text-decoration: none;
+    line-height: 18px;
+    color: $dark;
+  }
+
+  .price del {
+    opacity: 0.5;
+    display: inline-block;
+  }
+
+  .woocommerce-columns {
+    @include columns;
+
+    .woocommerce-column {
+      @include column;
+    }
+
+    @include tablet {
+      @for $i from 1 through 12 {
+        &--#{$i} {
+          .woocommerce-column {
+            flex: none;
+            width: 100%/$i;
+          }
+        }
+      }
+    }
+  }
+}

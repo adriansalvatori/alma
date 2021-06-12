@@ -5,7 +5,8 @@
         <h2 class="title is-2 has-text-uppercase">Titulo h2</h2>
         <p class="has-margin-top-30">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae, dolorem cupiditate quas, deleniti doloribus aperiam ullam dignissimos eos odio saepe dolores aliquam, voluptatem fugiat repellendus soluta excepturi molestias tempora expedita?</p>
       </div>
-      <div class="slick-carousel is-full-width" data-aos="fade-up">
+      
+      <div class="slider is-full-width" data-aos="fade-up">
         @query(['post_type' => 'post'])
         @posts()
         <div class="column is-inline-flex">

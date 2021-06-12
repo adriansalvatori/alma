@@ -1,0 +1,97 @@
+/**
+* Product loops WooCommerce styles
+*/
+
+div.woocommerce {
+  .woocommerce-result-count {
+    float: left;
+  }
+
+  .woocommerce-ordering {
+    float: right;
+  }
+
+  .woocommerce-ordering,
+  .woocommerce-result-count {
+    margin-bottom: map-get($spacing-values, "2");
+    padding: map-get($spacing-values, "2") 0;
+  }
+
+  ul.products {
+    @include columns;
+    @include is-multiline;
+
+    clear: both;
+
+    .product {
+      @include column;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: map-get($spacing-values, "6");
+
+      h2 {
+        margin-top: 0;
+      }
+
+      .woocommerce-loop-product__title {
+        color: $dark;
+        font-weight: $weight-bold;
+      }
+
+      .price {
+        margin-bottom: map-get($spacing-values, "5");
+        display: block;
+        color: $dark;
+      }
+    }
+
+    @include tablet {
+      @for $i from 1 through 12 {
+        &.columns-#{$i} {
+          .product {
+            flex: none;
+            width: 100%/$i;
+          }
+        }
+      }
+    }
+  }
+
+  .woocommerce-loop-product__link {
+    position: relative;
+    display: block;
+  }
+}
+
+//Pagination
+.woocommerce-pagination {
+  @extend .pagination;
+
+  .page-numbers {
+    @extend .pagination-list;
+
+    li {
+      display: inline;
+      margin: 2px;
+
+      span.current {
+        background-color: $pagination-current-background-color;
+        color: $pagination-current-color;
+        border-color: $pagination-current-border-color;
+      }
+    }
+
+    a,
+    span {
+      @extend .pagination-link;
+
+      &:link,
+      &:visited {
+        @extend .pagination-link;
+      }
+    }
+  }
+}

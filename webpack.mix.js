@@ -2,7 +2,7 @@ const mix = require('laravel-mix');
 require('@tinypixelco/laravel-mix-wp-blocks');
 require('laravel-mix-purgecss');
 require('laravel-mix-copy-watched');
-
+require('dotenv').config({ path: '../../../../.env' });
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -15,7 +15,7 @@ require('laravel-mix-copy-watched');
  */
 
 mix.setPublicPath('./dist')
-   .browserSync('tutorial.test');
+   .browserSync(process.env.WP_HOME);
 
 mix.sass('resources/assets/styles/app.scss', 'styles')
    .sass('resources/assets/styles/editor.scss', 'styles')

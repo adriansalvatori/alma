@@ -29,16 +29,16 @@ require $composer;
 |
 */
 
-collect(['helpers', 'setup', 'filters', 'admin'])
+collect(['helpers', 'setup', 'filters', 'admin', 'theme-options'])
     ->each(function ($file) {
-        $file = "app/{$file}.php";
+    $file = "app/{$file}.php";
 
-        if (! locate_template($file, true, true)) {
-            wp_die(
-                sprintf(__('Error locating <code>%s</code> for inclusion.', 'sage'), $file)
-            );
-        }
-    });
+    if (! locate_template($file, true, true)) {
+        wp_die(
+            sprintf(__('Error locating <code>%s</code> for inclusion.', 'sage'), $file)
+        );
+    }
+});
 
 /*
 |--------------------------------------------------------------------------

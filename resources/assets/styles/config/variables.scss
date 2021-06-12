@@ -14,5 +14,15 @@ $theme-colors: (
   light: $light
 );
 
+
 $body-family: 'Roboto', sans-serif;
-$body-size: 14px;
+$body-size: 15px;
+
+
+[data-aos] {
+  transition-timing-function: ease-out !important;
+  
+  &:not([data-aos-duration]) {
+      transition-duration: 1s !important;
+  }
+}

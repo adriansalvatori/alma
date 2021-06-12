@@ -14,3 +14,5 @@ namespace App;
 add_filter('excerpt_more', function () {
     return ' &hellip; <a href="' . get_permalink() . '">' . __('Ver más', 'sage') . '</a>';
 });
+
+

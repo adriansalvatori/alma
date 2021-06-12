@@ -1,0 +1,68 @@
+/**
+* Notifications WooCommerce styles
+*/
+
+.woocommerce-notices-wrapper {
+  margin-bottom: map-get($spacing-values, "5");
+}
+
+.woocommerce-message,
+.woocommerce-Message {
+  background-color: $notification-background-color;
+  border-radius: $notification-radius;
+  padding: $notification-padding;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: map-get($spacing-values, "5");
+
+  .button {
+    margin-right: map-get($spacing-values, "3");
+  }
+
+  &[role=alert] {
+    background-color: nth(map-get($colors, "info"), 1);
+    color: nth(map-get($colors, "info"), 2);
+
+    a.restore-item {
+      color: nth(map-get($colors, "info"), 2);
+      text-decoration: underline;
+      display: inline-block;
+      margin-left: map-get($spacing-values, "3");
+    }
+  }
+}
+
+.woocommerce-notice {
+  background-color: $notification-background-color;
+  border-radius: $notification-radius;
+  padding: $notification-padding;
+  margin-bottom: map-get($spacing-values, "3");
+
+  &--success {
+    background-color: $success;
+    color: $success-invert;
+  }
+}
+
+.woocommerce-info {
+  background-color: $notification-background-color;
+  border-radius: $notification-radius;
+  padding: $notification-padding;
+  margin-bottom: map-get($spacing-values, "3");
+}
+
+.woocommerce-error {
+  border-radius: $notification-radius;
+  padding: $notification-padding;
+  background-color: nth(map-get($colors, "warning"), 1);
+  color: nth(map-get($colors, "warning"), 2);
+
+  li {
+    margin-bottom: map-get($spacing-values, "2");
+  }
+}
+
+.woocommerce-NoticeGroup {
+  margin-bottom: map-get($spacing-values, "3");
+}

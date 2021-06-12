@@ -144,3 +144,12 @@ add_action( 'pre_get_posts', function( $query ){
         $query->set( 'post_type', array( 'post' /** aquí se colocan los nuevos cpt que soporten cats */ ) );
     }
 } );
+
+//the_breadcrumb
+include('setup/breadcrumbs.php');
+//Mailer-3000
+include('setup/mailer.php');
+//Ajax add to cart function
+include('setup/add_to_cart.php');
+// modelos 3d en desarrollo
+include('setup/models3d.php');

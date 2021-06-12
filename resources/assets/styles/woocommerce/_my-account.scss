@@ -1,0 +1,79 @@
+/**
+ * My account WooCommerce styles
+ */
+.logged-in.woocommerce-account .woocommerce {
+  @include columns;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content {
+  @include column;
+}
+
+div.woocommerce {
+  .u-columns {
+    .woocommerce-form-register,
+    .woocommerce-form-login {
+      padding: 0;
+    }
+  }
+
+  .woocommerce-privacy-policy-text {
+    font-size: $size-7;
+    margin-top: map-get($spacing-values, "3");
+    margin-bottom: map-get($spacing-values, "3");
+  }
+
+  .woocommerce-MyAccount-navigation {
+    @extend .menu;
+
+    @include tablet {
+      width: 15%;
+      flex-grow: 0;
+      flex-basis: auto;
+    }
+
+    ul {
+      @extend .menu-list;
+
+      list-style: none;
+    }
+
+    li {
+      &.is-active {
+        background-color: $primary;
+
+        a {
+          color: $primary-invert;
+
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
+
+  .woocommerce-MyAccount-content {
+    p {
+      margin-bottom: map-get($spacing-values, "3");
+    }
+  }
+
+  .u-columns.col2-set {
+    @include columns;
+
+    .u-column1,
+    .u-column2 {
+      @include column;
+    }
+  }
+
+  ul.woocommerce-thankyou-order-details {
+    font-size: $size-5;
+
+    li {
+      margin-bottom: map-get($spacing-values, "3");
+    }
+  }
+}

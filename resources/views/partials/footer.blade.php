@@ -1,13 +1,11 @@
-@if (!is_home())
-    
-@include('partials.featured')
-
+@if(!is_front_page())
+  @include('partials.featured')
 @endif
 <footer class="hero is-dark is-medium">
   <div class="hero-body">
     <div class="container">
       <div class="column is-4 is-paddingless">
-        <img src="@asset('images/logo.png')" alt=""><br>
+        <img src="{{get_option('alma_logo')}}" alt=""><br>
       </div>
       <div class="columns">
         <div class="column is-4 content is-small" data-aos="fade-up">
@@ -15,7 +13,7 @@
         </div>
 
         <div class="column is-4" data-aos="fade-up">
-          @include('components.info-contacto')
+          @include('components.contact')
         </div>
 
         <div class="column is-4" data-aos="fade-up">

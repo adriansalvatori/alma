@@ -1,0 +1,21 @@
+div.woocommerce {
+  .product {
+    position: relative;
+
+    .onsale {
+      background-color: nth(map-get($colors, "primary"), 1);
+      color: nth(map-get($colors, "primary"), 2);
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      z-index: 2;
+      padding: map-get($spacing-values, "3");
+      font-weight: $weight-bold;
+    }
+
+    .price {
+      font-size: $size-5;
+    }
+  }
+}
