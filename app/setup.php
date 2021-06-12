@@ -146,10 +146,10 @@ add_action( 'pre_get_posts', function( $query ){
 } );
 
 //the_breadcrumb
-include('setup/breadcrumbs.php');
+include('Setup/breadcrumbs.php');
 //Mailer-3000
-include('setup/mailer.php');
+include('Setup/mailer.php');
 //Ajax add to cart function
-include('setup/add_to_cart.php');
+include('Setup/add_to_cart.php');
 // modelos 3d en desarrollo
-include('setup/models3d.php');
+include('Setup/models3d.php');
