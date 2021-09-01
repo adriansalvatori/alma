@@ -1,7 +1,5 @@
 const mix = require('laravel-mix');
 require('@tinypixelco/laravel-mix-wp-blocks');
-require('laravel-mix-purgecss');
-require('laravel-mix-copy-watched');
 require('dotenv').config({ path: '../../../../.env' });
 /*
  |--------------------------------------------------------------------------
@@ -14,32 +12,31 @@ require('dotenv').config({ path: '../../../../.env' });
  |
  */
 
-mix.setPublicPath('./dist')
-   .browserSync(process.env.WP_HOME);
+mix
+  .setPublicPath('./public')
+  .browserSync(process.env.WP_HOME);
 
-mix.sass('resources/assets/styles/app.scss', 'styles')
-   .sass('resources/assets/styles/editor.scss', 'styles')
-   .purgeCss({
-     enabled:false,
-     whitelist: require('purgecss-with-wordpress').whitelist,
-     whitelistPatterns: require('purgecss-with-wordpress').whitelistPatterns,
-   });
+mix
+  .sass('resources/assets/styles/app.scss', 'styles')
+  .sass('resources/assets/styles/editor.scss', 'styles')
+  .options({
+      processCssUrls: false,
+      enabled:false,
+      whitelist: require('purgecss-with-wordpress').whitelist,
+      whitelistPatterns: require('purgecss-with-wordpress').whitelistPatterns,
+  });
 
-mix.js('resources/assets/scripts/app.js', 'scripts')
-   .js('resources/assets/scripts/customizer.js', 'scripts')
-   .blocks('resources/assets/scripts/editor.js', 'scripts')
-   .extract();
+mix
+  .js('resources/assets/scripts/app.js', 'scripts')
+  .js('resources/assets/scripts/customizer.js', 'scripts')
+  .blocks('resources/assets/scripts/editor.js', 'scripts')
+  .autoload({ jquery: ['$', 'window.jQuery'] })
+  .extract();
 
-mix.copyWatched('resources/assets/images/**', 'dist/images')
-   .copyWatched('resources/assets/fonts/**', 'dist/fonts');
+mix
+  .copyDirectory('resources/assets/images', 'public/images')
+  .copyDirectory('resources/assets/fonts', 'public/fonts');
 
-mix.autoload({
-  jquery: ['$', 'window.jQuery'],
-});
-
-mix.options({
-  processCssUrls: false,
-});
-
-mix.sourceMaps(false, 'source-map')
-   .version();
+mix
+  .sourceMaps()
+  .version();

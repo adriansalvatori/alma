@@ -32,9 +32,8 @@
         </div>
         <div class="level-right" data-aos="fade-up">
           <div class="column">
-            Copyright ® Alma {{date(y)}}.
-            Diseñado, Desarrolladoy y Mantenido por <a href="https://radikal.agency" class="link is-dark">Radikal
-              Agency</a>
+            Copyright ® Alma {{date('Y')}}.
+            Diseñado, Desarrolladoy y Mantenido por <a href="https://salvatori.co" class="link is-dark">Salvatori Group</a>
           </div>
         </div>
       </div>

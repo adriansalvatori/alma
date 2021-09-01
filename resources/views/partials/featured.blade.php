@@ -7,8 +7,10 @@
       </div>
       
       <div class="slider is-full-width" data-aos="fade-up">
-        @query(['post_type' => 'post'])
-        @posts()
+        @query([
+          'post_type' => 'post'
+        ])
+        @posts
         <div class="column is-inline-flex">
           @include('components.card')
         </div>
