@@ -4,9 +4,10 @@
           <div class="columns">
             <div class="column is-4">
               <h1 class="title is-1">
-                Bienvenido a Movidagrafica.
+                <div data-inertia data-inertia-reveal data-inertia-delay="600">Bienvenido a</div>
+                <div data-inertia data-inertia-reveal data-inertia-delay="900">Movidagrafica</div></span>
               </h1>
-              <p class="subtitle has-margin-top-20 has-margin-bottom-20">
+              <p data-inertia data-inertia-reveal data-inertia-delay="1200" class="subtitle has-margin-top-20 has-margin-bottom-20">
                 Aquí es donde las cosas magnificas empiezan a pasar. <b>¡Acompañanos en el viaje!</b>
               </p>
               <div class="buttons">

@@ -77,3 +77,42 @@ html.has-scroll-dragging {
   [data-inertia-direction="horizontal"] .c-scrollbar_thumb {
     right: auto;
     bottom: 0; }
+
+
+/** Revealer **/
+
+[data-inertia-reveal] {
+  position: relative;
+  transform: translateY(100px);
+  clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  transition: ease-in-out 0.8s;
+
+  &.is-revealed {
+    clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+    transform: translateY(0px);
+  }
+
+  &[data-inertia-delay="300"]{
+    transition-delay: 300ms;
+  }
+
+  &[data-inertia-delay="600"]{
+    transition-delay: 600ms;
+  }
+
+  &[data-inertia-delay="900"]{
+    transition-delay: 900ms;
+  }
+
+  &[data-inertia-delay="1200"]{
+    transition-delay: 1200ms;
+  }
+
+  &[data-inertia-delay="1500"]{
+    transition-delay: 1500ms;
+  }
+
+  &[data-inertia-delay="1800"]{
+    transition-delay: 1800ms;
+  }
+}
