@@ -1,15 +1,9 @@
 @include('partials.header')
-
 <div data-inertia-container>
   <main data-inertia-section class="main">
-    @yield('content')
+    <div data-solar="container">
+      @yield('content')
+    </div>
   </main>
-
-  @hasSection('sidebar')
-  <aside class="sidebar">
-    @yield('sidebar')
-  </aside>
-  @endif
-
   @include('partials.footer')
 </div>

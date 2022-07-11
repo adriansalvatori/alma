@@ -10,7 +10,7 @@
     <?php wp_body_open(); ?>
     <?php do_action('get_header'); ?>
 
-    <div id="app">
+    <div id="app" data-solar="wrapper" >
       <?php echo \Roots\view(\Roots\app('sage.view'), \Roots\app('sage.data'))->render(); ?>
     </div>
 

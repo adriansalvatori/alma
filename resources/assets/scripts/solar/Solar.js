@@ -1,5 +1,4 @@
-import feather from 'feather-icons';
-import {Inertia} from './inertia/Inertia';
+import { Inertia } from './inertia/Inertia';
 import { Satellite } from './satellite/Satellite';
 
 export const Solar = {
@@ -7,6 +6,5 @@ export const Solar = {
     Inertia.init();
     Satellite.init();
     console.log('hello there')
-    feather.replace()
   }
 }

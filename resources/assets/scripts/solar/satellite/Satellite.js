@@ -52,8 +52,8 @@ export const Satellite = {
 
     document.querySelectorAll('[data-gravity]')
       .forEach(element => new Gravity(element, {
-        y: 0.2, // horizontal
-        x: 0.2, // vertical
+        y: 0.3, // horizontal
+        x: 0.3, // vertical
         s: 0.2, // speed
         rs: 0.7 // release speed
       }));

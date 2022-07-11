@@ -1,6 +1,8 @@
 import { jarallax, jarallaxVideo } from "jarallax";
 import LocomotiveScroll from 'locomotive-scroll';
+import barba from '@barba/core'
 import gsap from "gsap";
+import feather from 'feather-icons';
 
 const JarallaxSetup = () => {
   jarallaxVideo();
@@ -16,7 +18,7 @@ const JarallaxSetup = () => {
   })
   document.querySelectorAll('.is-parallax-video').forEach(element => {
     jarallax(element, {
-      speed: 0.4,
+      speed: 0.8,
       videoSrc: `mp4:${element.dataset.url}`
     });
   });
@@ -33,13 +35,40 @@ const ScrollSetup = () => {
     getSpeed: true,
     class: 'is-revealed'
   });
+
+  const barbaConfig = {
+    schema: {
+      prefix: 'data-solar'
+    },
+    transitions:[{
+      name: 'fade-orbit',
+      leave(data) {
+        return gsap.to(data.current.container, {
+          opacity: 0
+        });
+      },
+      after() {
+        JarallaxSetup();
+        feather.replace();
+        scroll.update();
+        scroll.scrollTo('top');
+      },
+      enter(data) {
+        return gsap.from(data.next.container, {
+          opacity: 0
+        });
+      }
+    }]
+  }
+
+  barba.init(barbaConfig);
 }
 
 export const Inertia = {
   init: () => {
     ScrollSetup();
     JarallaxSetup();
-    //RevealSetup();
+    feather.replace();
 
     console.log('Inertia Initiated')
   }
