@@ -25,7 +25,7 @@
         </div>
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-light">
+            <a data-gravity data-cursor-stick class="button is-light">
               Iniciar Sesión
             </a>
           </div>
@@ -36,5 +36,5 @@
 </nav>
 
 <div class="preloader">
-  
+
 </div>
