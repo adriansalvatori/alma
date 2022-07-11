@@ -6756,6 +6756,11 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.5, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
+mouse-follower@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/mouse-follower/-/mouse-follower-1.1.2.tgz#1ec0bba53adb4aa7563a5c619992f58695403cd4"
+  integrity sha512-Wa/3MKMNWW1qy7XuG34NMRAm504p0PckJU4yTyXCoNYFaaIcZi+bpnTg0L2u8QuGBYgs2ue84wGCPIaQQzRV3Q==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -9251,6 +9256,11 @@ split-string@^3.0.1, split-string@^3.0.2:
   integrity sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==
   dependencies:
     extend-shallow "^3.0.0"
+
+splitting@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/splitting/-/splitting-1.0.6.tgz#9197b3fd600c5b56038fc06ae8b9f5933d392875"
+  integrity sha512-2hYicS/hTy1MgjTi4ST6B298uoLSx854VfTf0FeMmCeE6OiZjEixTOGPLqnNzSaM/y3jwoEYj5pmDzYFwRInPw==
 
 sprintf-js@~1.0.2:
   version "1.0.3"

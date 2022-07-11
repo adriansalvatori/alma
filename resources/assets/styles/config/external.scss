@@ -5,6 +5,10 @@
 @import '~bulma';
 @import '~bulma-helpers';
 
+/** Solar */
+
+@import './solar.scss';
+
 /*Si necesitas los estilos por defecto de slick carousel descomenta las 2 siguientes lineas
 @import "~slick-carousel/slick/slick";
 @import "~slick-carousel/slick/slick-theme";
