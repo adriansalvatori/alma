@@ -8,7 +8,7 @@ export const locomo = ()=>{
     const locoScroll = new LocomotiveScroll({
     el: document.querySelector(".scrollContainer"),
         smooth: true,
-        multiplier: 0.8
+        multiplier: 0.8,
     }); 
     
     // Esto de aqui cada vez que hagamos scroll actualiza el ScrollTrigger
@@ -24,7 +24,7 @@ export const locomo = ()=>{
         return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
         },
         // Esto va verifycando lo que hace locomotive para saber en que puinto esta el Scroll o algo asi
-        pinType: document.querySelector(".scrollContainer").style.transform ? "transform" : "fixed"
+        pinType: document.querySelector(".scrollContainer").style.transform ? "transform" : "fixed",
     });
     
     // Esto Ejecuta todas las animaciones de Aos
@@ -36,7 +36,7 @@ export const locomo = ()=>{
             start: el.dataset.start || "top 100%",
             toggleClass: {
                 targets: el, 
-                className: "aos-animate"
+                className: "aos-animate",
             },
             end: el.dataset.end || "bottom",
             scroller:".scrollContainer",

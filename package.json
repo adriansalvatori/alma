@@ -16,6 +16,7 @@
     "clean:views": "rimraf storage/framework/views/*.php",
     "lint": "run-s -c lint:*",
     "lint:scripts": "eslint resources/assets/scripts",
+    "lint:scripts:fix": "eslint resources/assets/scripts --fix",
     "lint:styles": "stylelint \"resources/assets/**/*.{vue,css,sass,scss,less}\"",
     "test": "run-s -c lint",
     "translate": "run-s -c translate:*",
@@ -47,7 +48,9 @@
   },
   "dependencies": {
     "@barba/core": "^2.9.7",
+    "@barba/css": "^2.1.15",
     "@splidejs/splide": "^2.4.21",
+    "@uiball/loaders": "^1.2.6",
     "@vizuaalog/bulmajs": "^0.11.0",
     "aos": "^3.0.0-beta.6",
     "bulma": "^0.9.0",

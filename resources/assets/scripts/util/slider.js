@@ -37,5 +37,5 @@ export const slider = {
 
             new Splide( props.element, props.props ).mount();
         }
-    }
+    },
 }

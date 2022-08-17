@@ -33,12 +33,12 @@ export const mailer = (obj, sending) => {
         },
         txt: {
             size: 10,
-        }
+        },
     }
     if(Array.isArray(obj['files'])) {
         obj['files'].forEach(el =>{
             filesAllowed[el.type.split(" ").join("").toLowerCase()] = {
-                size: el.size * 1 || 10
+                size: el.size * 1 || 10,
             };
         })
     }
@@ -83,7 +83,7 @@ export const mailer = (obj, sending) => {
                         files : listFiles,
                         data: formData,
                         body: mailBody,
-                        response: JSON.parse(this.responseText)
+                        response: JSON.parse(this.responseText),
                     }
                     submitTarget.style.pointerEvents = 'auto';
                     sending(reponse);
@@ -119,8 +119,8 @@ export const mailer = (obj, sending) => {
                                 success: false,
                                 size : '',
                                 type : '',
-                                allowed: filesAllowed
-                            }
+                                allowed: filesAllowed,
+                            },
                         }
 
                         let sizeDone = false;

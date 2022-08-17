@@ -1,0 +1,33 @@
+nav.navbar.vertical-header {
+  width: 4rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 21px 0;
+  justify-content: space-between;
+  align-items: center;
+  border-right: solid 1px rgba(0,0,0,0.2);
+}
+
+#full_menu {
+  transition: ease-in .3s;
+
+  .fibra-optica {
+    transition: ease-in-out .9s;
+    opacity: 1;
+    bottom: 0;
+    position: relative;
+  }
+
+  &.is-disabled {
+    pointer-events: none;
+    opacity: 0;
+    .fibra-optica {
+      bottom: -5%;
+      opacity: 0;
+    }
+  }
+
+
+
+}

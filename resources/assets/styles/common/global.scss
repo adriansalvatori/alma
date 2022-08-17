@@ -20,3 +20,40 @@ a {
     background-color: $color-value;
   }
 }
+
+/** Satellite Cursor */
+
+[data-cursor="-icon"]:hover {
+  color: $danger;
+}
+
+.satellite-cursor {
+
+  &:before {
+    background-color: $danger;
+  }
+
+  &.-inverse {
+
+    &:before{
+      background-color: rgba(255,255,255,1);
+      opacity: 1;
+    }
+
+    .satellite-cursor-text {
+      color: $dark;
+    }
+
+  }
+
+  &.-icon {
+    &:before {
+      height: 45px;
+      width: 45px;
+      background-color: transparent;
+      border: solid 1px $danger;
+    }
+  }
+
+}
+

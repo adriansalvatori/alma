@@ -2,11 +2,12 @@
  * Variables
  */
 
-$cyan: #2593FF;
-$blue: #23374D;
+$cyan: #24b5ff;
+$blue: #192d4e;
 $primary: $cyan;
 $dark: $blue;
-$light: #f5f5f5;
+$light: #f9f9f9;
+$danger: #ba1919;
 
 $theme-colors: (
   primary: $primary,
@@ -15,13 +16,13 @@ $theme-colors: (
 );
 
 
-$body-family: 'Roboto', sans-serif;
-$body-size: 15px;
+$body-family: 'Helvetica Neue','Helvetica','Roboto', sans-serif;
+$body-size: 18px;
 
 
 [data-aos] {
   transition-timing-function: ease-out !important;
-  
+
   &:not([data-aos-duration]) {
       transition-duration: 1s !important;
   }

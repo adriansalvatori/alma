@@ -5,10 +5,10 @@ export default class Gravity {
     constructor(el, options = {}) {
         this.el = $(el);
         this.options = $.extend(true, {
-            y: 0.2,
-            x: 0.2,
-            s: 0.2,
-            rs: 0.7
+            y: 0.03,
+            x: 0.03,
+            s: 0.03,
+            rs: 0.7,
         }, this.el.data('gravity') || options);
 
         this.y = 0;
@@ -48,7 +48,7 @@ export default class Gravity {
             x: x,
             force3D: true,
             overwrite: true,
-            duration: speed
+            duration: speed,
         });
     }
 }

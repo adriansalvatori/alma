@@ -25,7 +25,7 @@ const config = {
   mediaState: '-media',
   stateDetection: {
     '-pointer': 'a,button',
-    '-hidden': 'iframe'
+    '-hidden': 'iframe',
   },
   visible: true,
   visibleOnState: false,
@@ -42,7 +42,7 @@ const config = {
   showTimeout: 20,
   hideOnLeave: true,
   hideTimeout: 300,
-  hideMediaTimeout: 300
+  hideMediaTimeout: 300,
 }
 
 export const Satellite = {
@@ -55,9 +55,9 @@ export const Satellite = {
         y: 0.3, // horizontal
         x: 0.3, // vertical
         s: 0.2, // speed
-        rs: 0.7 // release speed
+        rs: 0.7, // release speed
       }));
 
     console.log('Satellite Initiated');
-  }
+  },
 }

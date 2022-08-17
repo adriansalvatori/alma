@@ -1,7 +1,7 @@
 @if(!is_front_page())
   @include('partials.featured')
 @endif
-<footer data-inertia-section class="hero is-dark is-medium">
+<footer class="hero is-dark is-medium">
   <div class="hero-body">
     <div class="container">
       <div class="column is-4 is-paddingless">

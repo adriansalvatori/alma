@@ -86,22 +86,56 @@ html.has-scroll-dragging {
   transform: translateY(100px);
   clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
   transition: ease-in-out 0.8s;
+  opacity: 0;
 
   &.is-revealed {
     clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
     transform: translateY(0px);
+    opacity: 1;
+  }
+
+  &[data-inertia-delay="100"]{
+    transition-delay: 100ms;
+  }
+
+  &[data-inertia-delay="200"]{
+    transition-delay: 200ms;
   }
 
   &[data-inertia-delay="300"]{
     transition-delay: 300ms;
   }
 
+  &[data-inertia-delay="400"]{
+    transition-delay: 400ms;
+  }
+
+  &[data-inertia-delay="500"]{
+    transition-delay: 500ms;
+  }
+
   &[data-inertia-delay="600"]{
     transition-delay: 600ms;
   }
 
+  &[data-inertia-delay="700"]{
+    transition-delay: 700ms;
+  }
+
+  &[data-inertia-delay="800"]{
+    transition-delay: 800ms;
+  }
+
   &[data-inertia-delay="900"]{
     transition-delay: 900ms;
+  }
+
+  &[data-inertia-delay="1000"]{
+    transition-delay: 1000ms;
+  }
+
+  &[data-inertia-delay="1100"]{
+    transition-delay: 1100ms;
   }
 
   &[data-inertia-delay="1200"]{
@@ -116,3 +150,18 @@ html.has-scroll-dragging {
     transition-delay: 1800ms;
   }
 }
+
+
+[data-solar="wrapper"]{
+  [data-solar="container"] {
+    will-change: transform;
+  }
+
+  &.is-animating {
+    [data-solar="container"] {
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+

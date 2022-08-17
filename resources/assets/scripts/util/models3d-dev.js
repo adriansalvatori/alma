@@ -7,7 +7,7 @@ export const makeModel3d = (e)=>{
     let obj = {
         formData : new FormData(e.target),
         form: e.target,
-        config : {}
+        config : {},
     };
 
     let fields = obj.formData.entries();

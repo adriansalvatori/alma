@@ -3,8 +3,8 @@ import { Satellite } from './satellite/Satellite';
 
 export const Solar = {
   start: () => {
+    document.querySelector('.preloader').classList.add('is-loaded')
     Inertia.init();
     Satellite.init();
-    console.log('hello there')
-  }
+  },
 }
