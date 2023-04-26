@@ -10,7 +10,7 @@ $main-title-base: 3rem;
 $title-base: 2rem;
 
 // Estilos básicos
-.container.fluid {
+.container.is-fluid {
   container-type: inline-size;
 }
 
@@ -29,31 +29,31 @@ $title-base: 2rem;
 
 // Aplicación de mixins
 h1,
-.fluid-mainTitle {
+.title.is-fluid.is-1 {
   @include fluid-font-size($main-title, 5cqi);
 }
 
 h2,
-.fluid-title {
+.subtitle.is-fluid.is-2 {
   @include fluid-font-size($title, 5cqi);
 }
 
 h3,
-.fluid-subtitle {
+.subtitle.is-fluid.is-3 {
   @include fluid-font-size($subtitle, 4cqi);
 }
 
 h4,
-.fluid-caption {
+.caption.is-fluid.is-4 {
   @include fluid-font-size($caption, 3cqi);
 }
 
 h1.calculate,
-.fluid-mainTitle.calculate {
+.title.is-fluid.is-1.calculate {
   @include calculate-font-size($main-title-base, 5cqi);
 }
 
 h2.calculate,
-.fluid-title.calculate {
+.subtitle.is-fluid.is-2.calculate {
   @include calculate-font-size($title-base, 5cqi);
 }
