@@ -1,0 +1,59 @@
+// Variables
+$font-size-diff: 0.3;
+
+$main-title: 6rem;
+$title: 4rem;
+$subtitle: 3rem;
+$caption: 2rem;
+
+$main-title-base: 3rem;
+$title-base: 2rem;
+
+// Estilos básicos
+.container.fluid {
+  container-type: inline-size;
+}
+
+// Mixins
+@mixin fluid-font-size($font-size, $font-size-fluid) {
+  font-size: clamp(
+    max(1rem, $font-size - $font-size * $font-size-diff),
+    $font-size-fluid,
+    $font-size
+  );
+}
+
+@mixin calculate-font-size($font-size-base, $font-size-fluid) {
+  font-size: calc($font-size-base + $font-size-fluid);
+}
+
+// Aplicación de mixins
+h1,
+.fluid-mainTitle {
+  @include fluid-font-size($main-title, 5cqi);
+}
+
+h2,
+.fluid-title {
+  @include fluid-font-size($title, 5cqi);
+}
+
+h3,
+.fluid-subtitle {
+  @include fluid-font-size($subtitle, 4cqi);
+}
+
+h4,
+.fluid-caption {
+  @include fluid-font-size($caption, 3cqi);
+}
+
+h1.calculate,
+.fluid-mainTitle.calculate {
+  @include calculate-font-size($main-title-base, 5cqi);
+}
+
+h2.calculate,
+.fluid-title.calculate {
+  @include calculate-font-size($title-base, 5cqi);
+}
