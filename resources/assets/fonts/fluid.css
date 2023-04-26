@@ -1,0 +1,74 @@
+.fluid-container {
+    container-type: inline-size;
+}
+
+/* Establishing the root statement */
+:root {
+    --main-title: 6rem;
+    --title: 4rem;
+    --subtitle: 3rem;
+    --caption: 2rem;
+
+    --main-title-base: 4rem;
+    --title-base: 3rem;
+
+    --font-size-diff: 0.3;
+}
+
+/* Make the basics styles for fonts */
+h1,
+.fluid-mainTitle {
+    --font-size: var(--main-title);
+    --font-size-fluid: 5cqi;
+}
+
+h2,
+.fluid-title {
+    --font-size: var(--title);
+    --font-size-fluid: 5cqi;
+}
+
+h3,
+.fluid-subtitle {
+    --font-size: var(--subtitle);
+    --font-size-fluid: 4cqi;
+}
+
+h4,
+.fluid-caption {
+    --font-size: var(--caption);
+    --font-size-fluid: 3cqi;
+}
+
+
+/* Make the calculate styles for fonts */
+h1.calculate,
+.fluid-mainTitle.calculate {
+    --font-size-base: var(--main-title-base);
+    --font-size-fluid: 5cqi;
+    --font-size-fluid: 5cqi;
+}
+
+h2.calculate,
+.fluid-title.calculate {
+    --font-size-base: var(--title-base);
+    --font-size-fluid: 5cqi;
+    --font-size-fluid: 5cqi;
+}
+
+
+/* MIXINS */
+
+/* Mixin 1 */
+:is(h1, .fluid-mainTitle, h2, .fluid-title, h3, .fluid-subtitle, h4, .fluid-caption) {
+    font-size: clamp(
+      max(1rem, var(--font-size) - var(--font-size) * var(--font-size-diff, 0.3)),
+      var(--font-size-fluid, 5cqi),
+      var(--font-size)
+    );
+}
+
+/* Mixin 2 */
+:is(h1.calculate, .fluid-mainTitle.calculate, h2.calculate, .fluid-title.calculate) {
+    font-size: calc(var(--font-size-base) + var(--font-size-fluid, 3cqi));
+}
