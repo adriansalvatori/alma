@@ -22,32 +22,31 @@
 
  // Fluid typography mixins application
  h1,
- .title.is-fluid-1 {
+  .is-fluid-1 {
    @include fluid-font-size( $main-title, 5cqi );
  }
  
  h2,
- .title.is-fluid-2 {
+  .is-fluid-2 {
    @include fluid-font-size( $title, 5cqi );
  }
  
  h3,
- .title.is-fluid-3 {
+  .is-fluid-3 {
    @include fluid-font-size( $subtitle, 4cqi );
  }
  
  h4,
- .title.is-fluid-4 {
+  .is-fluid-4 {
    @include fluid-font-size( $caption, 3cqi );
  }
  
  h1.calculate,
- .title.is-fluid-1.calculate {
+  .is-fluid-1.calculate {
    @include calculate-font-size( $main-title-base, 5cqi );
  }
  
- h2.calculate,
- .title.is-fluid-2.calculate {
+ h  .is-fluid-2.calculate {
    @include calculate-font-size( $title-base, 5cqi );
  }
  
