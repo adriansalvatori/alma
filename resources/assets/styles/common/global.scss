@@ -54,6 +54,11 @@ a {
       border: solid 1px $danger;
     }
   }
-
 }
+
+@media (max-width: 1024px) and (orientation: portrait) {
+    .satellite-cursor {
+        display: none !important;
+    }
+  }
 
