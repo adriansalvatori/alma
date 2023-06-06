@@ -16,17 +16,26 @@ $theme-colors: (
 );
 
 // Fonts Variables
-
 $font-size-diff: 0.3;
 
+// h1
 $main-title: 6rem;
+
+// h2
 $title: 4rem;
+
+// h3
 $subtitle: 3rem;
+
+// h4
 $caption: 2rem;
 
+// calculate h1
 $main-title-base: 3rem;
-$title-base: 2rem;
 
+// calculate h2
+$title-base: 2rem;
+ 
 // 
 
 $body-family: 'Helvetica Neue','Helvetica','Roboto', sans-serif;
