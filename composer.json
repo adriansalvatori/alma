@@ -14,6 +14,16 @@
       "name": "Richar Arenas",
       "email": "emyerbetharenas@gmail.com",
       "homepage": "https://github.com/ErAo"
+    },
+    {
+      "name": "Santiago Salazar",
+      "email": "santiagosalazar.dev@gmail.com",
+      "homepage": "https://github.com/SantiagoCode"
+    },
+    {
+      "name": "Alejandro Gutierrez",
+      "email": "alejandrocorro27@gmail.com",
+      "homepage": "https://github.com/Alejandrocorro"
     }
   ],
   "autoload": {
@@ -24,9 +34,9 @@
   "require": {
     "php": "^7.3|^8.0",
     "generoi/sage-woocommerce": "^0.1.4",
-    "log1x/sage-directives": "^1.1",
-    "log1x/sage-svg": "^1.0",
-    "roots/acorn": "2.0.0-alpha.0"
+    "log1x/sage-directives": "*",
+    "log1x/sage-svg": "*",
+    "mwdelaney/sage-acf-gutenberg-blocks": "^0.7.0"
   },
   "require-dev": {
     "filp/whoops": "^2.12",
