@@ -99,7 +99,7 @@ const ScrollSetup = () => {
     JarallaxSetup();
     feather.replace({
       class: 'feather',
-      'stroke-width': 1.5
+      'stroke-width': 1.5,
     });
   })
   barba.hooks.after(() => {
@@ -130,7 +130,7 @@ const ScrollSetup = () => {
       },
       enter(data) {
         return Swipe(data.next.container, 'enter', 'right')
-      }
+      },
     },{
       name: 'swipe-orbit-left',
       sync: true,
@@ -140,7 +140,7 @@ const ScrollSetup = () => {
       },
       enter(data) {
         return Swipe(data.next.container, 'enter', 'left')
-      }
+      },
     },{
       name: 'fade-orbit',
       sync: true,
@@ -150,7 +150,7 @@ const ScrollSetup = () => {
       },
       enter(data) {
         return Fade(data.next.container, 'enter', 'left')
-      }
+      },
     }],
   }
 
@@ -163,7 +163,7 @@ export const Inertia = {
     JarallaxSetup();
     feather.replace({
       class: 'feather',
-      'stroke-width': 1.5
+      'stroke-width': 1.5,
     });
   },
 }

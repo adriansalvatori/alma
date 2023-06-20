@@ -37,7 +37,7 @@ export default class Gravity {
             this.move(x, y, this.options.s);
         });
 
-        this.el.on('mouseleave', (e) => {
+        this.el.on('mouseleave', () => {
             this.move(0, 0, this.options.rs);
         });
     }
