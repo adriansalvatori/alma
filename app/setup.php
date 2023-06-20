@@ -112,6 +112,22 @@ add_action('after_setup_theme', function () {
             'color' => '#525ddc',
         ]
     ]);
+
+    /**
+     * Enable Woocommerce theme support
+     * @link https://github.com/generoi/sage-woocommerce
+     */
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+
+    /**
+     * Add support for WooCommerce Subscription templates.
+     */
+    add_filter('sage-woocommerce/templates', function ($paths) {
+        $paths[] = WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/';
+        return $paths;
+    });
 }, 20);
 
 /**
