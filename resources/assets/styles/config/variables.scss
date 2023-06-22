@@ -1,51 +1,35 @@
 /**
- * Variables
+ * Color Variables
  */
-
-$cyan: #24b5ff;
-$blue: #192d4e;
-$primary: $cyan;
-$dark: $blue;
+$primary: #24b5ff;
+$dark: #192d4e;
 $light: #f9f9f9;
 $danger: #ba1919;
+$body-family: ('Helvetica Neue','Helvetica','Roboto', sans-serif);
 
-$theme-colors: (
-  primary: $primary,
-  dark: $blue,
-  light: $light
-);
+/**
+ * Setting up Fluid Typography
+ */
 
-// Fonts Variables
+// @Variation diff
 $font-size-diff: 0.3;
 
-// h1
+// @h1 
 $main-title: 6rem;
 
-// h2
+// @h2
 $title: 4rem;
 
-// h3
+// @h3
 $subtitle: 3rem;
 
-// h4
+// @h4
 $caption: 2rem;
 
-// calculate h1
+// calculate @h1
 $main-title-base: 3rem;
 
-// calculate h2
+// calculate @h2
 $title-base: 2rem;
- 
-// 
-
-$body-family: 'Helvetica Neue','Helvetica','Roboto', sans-serif;
-$body-size: 18px;
 
 
-[data-aos] {
-  transition-timing-function: ease-out !important;
-
-  &:not([data-aos-duration]) {
-      transition-duration: 1s !important;
-  }
-}

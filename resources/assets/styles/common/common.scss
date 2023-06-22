@@ -1,3 +1,16 @@
+* {
+    font-family: $body-family;
+}
+
+strong {
+    color: $dark !important;
+}
+
+*:focus {
+    outline: unset !important;
+}
+
+
 .button {
     @extend .button;
     display: inline-flex !important;

@@ -1,15 +1,13 @@
 /** Config */
-@import url('https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css');
-@import 'config/variables';
-@import 'config/external';
-@import 'config/solar.scss';
-@import 'woocommerce/index';
+@import 'config';
+@import 'woocommerce';
+
 /** Common */
-@import 'common/global';
-@import 'common/my-styles';
+@import 'common';
+
 /** Components */
-@import 'components/button';
+@import 'components';
 
 /** Partials */
-@import 'partials/header';
+@import 'partials';
 
