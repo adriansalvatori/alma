@@ -1,0 +1,43 @@
+.button {
+    @extend .button;
+    display: inline-flex !important;
+}
+
+input:not(.input) {
+    &:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="file"]) {
+        @extend .input, .my-2;
+    }
+
+    &[type="submit"] {
+        @extend .button, .is-primary, .is-outlined, .is-radiusless, .my-2;
+    }
+}
+
+button:not(.button) {
+    @extend .button, .is-primary, .is-outlined, .is-radiusless, .my-2;
+}
+
+textarea:not(.textarea) {
+    @extend .textarea, .my-2;
+}
+
+select:not(.select) {
+    @extend .select, .my-2;
+}
+
+.comment-author.vcard {
+    display: flex;
+    margin-bottom: 1rem;
+    
+    img {
+        margin-right: 10px;
+    }
+
+    .fn {
+        margin-right: 5px;
+    }
+} 
+
+.card {
+    border-radius: 20px;
+}

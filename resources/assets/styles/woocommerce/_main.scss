@@ -2,6 +2,8 @@
  * Main WooCommerce styles
  */
 
+@use "sass:math";
+
 div.woocommerce {
   padding-left: $column-gap;
   padding-right: $column-gap;
@@ -62,7 +64,7 @@ div.woocommerce {
         &--#{$i} {
           .woocommerce-column {
             flex: none;
-            width: 100%/$i;
+            width: math.div(100%, $i);
           }
         }
       }
