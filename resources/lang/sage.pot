@@ -1,0 +1,109 @@
+# Copyright (C) 2023 Roots
+# This file is distributed under the MIT License.
+msgid ""
+msgstr ""
+"Project-Id-Version: Alma by Salvatori 2.0.2-dev\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/alma\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-06-26T04:39:58+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.0\n"
+"X-Domain: sage\n"
+
+#. Theme Name of the theme
+msgid "Alma by Salvatori"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "https://alma.salvatori.co"
+msgstr ""
+
+#. Description of the theme
+msgid "Alma is a WordPress starter theme. This version has fixed some composer issues."
+msgstr ""
+
+#. Author of the theme
+msgid "Roots"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://roots.io/"
+msgstr ""
+
+#: app/filters.php:15
+msgid "Ver más"
+msgstr ""
+
+#: app/setup.php:71
+msgid "Primary Navigation"
+msgstr ""
+
+#: app/setup.php:110
+#: app/setup.php:147
+msgid "Primary"
+msgstr ""
+
+#: app/setup.php:152
+msgid "Footer"
+msgstr ""
+
+#: app/View/Composers/Post.php:48
+msgid "Latest Posts"
+msgstr ""
+
+#: app/View/Composers/Post.php:58
+msgid "Search Results for %s"
+msgstr ""
+
+#: app/View/Composers/Post.php:64
+msgid "Not Found"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Modelos 3d"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Custom Template"
+msgstr ""
+
+#: resources/views/forms/search.blade.php:3
+msgctxt "placeholder"
+msgid "Busca algo &hellip;"
+msgstr ""
+
+#: resources/views/index.blade.php:10
+msgid "Sorry, no results were found."
+msgstr ""
+
+#: resources/views/partials/comments.blade.php:5
+msgctxt "comments title"
+msgid "One response to &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s responses to &ldquo;%2$s&rdquo;"
+msgstr[0] ""
+msgstr[1] ""
+
+#: resources/views/partials/comments.blade.php:19
+msgid "&larr; Older comments"
+msgstr ""
+
+#: resources/views/partials/comments.blade.php:26
+msgid "Newer comments &rarr;"
+msgstr ""
+
+#: resources/views/partials/comments.blade.php:37
+msgid "Comments are closed."
+msgstr ""
+
+#: resources/views/partials/content-page.blade.php:2
+#: resources/views/partials/content-single.blade.php:12
+msgid "Pages:"
+msgstr ""
+
+#: resources/views/partials/entry-meta.blade.php:7
+msgid "By"
+msgstr ""
