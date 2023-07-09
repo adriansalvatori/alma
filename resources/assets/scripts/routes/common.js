@@ -1,13 +1,14 @@
+import 'alpine-magic-helpers'; //@Alpine Extensionr: https://www.alpinetoolbox.com/extensions/
 import Alpine from 'alpinejs';
 import { Transitions } from '../transitions';
 
 import {
-  Solar
+  Solar,
 } from '../solar';
 import {
   Carousel,
   Store,
-  Menu
+  Menu,
 } from '../util';
 
 const preloader = document.querySelector('.preloader');
