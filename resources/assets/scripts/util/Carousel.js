@@ -42,6 +42,7 @@ class DragScroll {
   }
 
   calculate() {
+    if (!this.$items.length) return;
     this.progress = 0;
     this.wrapWidth = this.$items[0].clientWidth * this.$items.length;
     this.$wrap.style.width = `${this.wrapWidth}px`;
