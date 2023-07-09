@@ -1,30 +1,36 @@
-import {Solar} from '../solar';
+import Alpine from 'alpinejs';
+import { Transitions } from '../transitions';
+
+import {
+  Solar
+} from '../solar';
+import {
+  Carousel,
+  Store,
+  Menu
+} from '../util';
+
+const preloader = document.querySelector('.preloader');
 
 export default {
   init() {
-    const menu = document.querySelector('#full_menu');
-    const trigger = document.querySelector('#open_menu');
-  
-    const menu_action = () => {
-      menu.classList.toggle('is-disabled');
-      menu.querySelectorAll('[data-inertia-reveal]').forEach(element => {
-        element.classList.toggle('is-revealed');
-      });
-    }
-  
-    trigger.onclick = () => {
-      menu_action()
-    }
-  
-    menu.querySelectorAll('a').forEach(element => {
-      element.onclick = () => {
-        menu_action()
-      }
-    })
-  
-    if(!menu.classList.contains('is-disabled')) document.querySelectorAll('a').forEach(element=> { element.onclick = () => {menu_action()} })
+    window.Alpine = Alpine;
+    Alpine.start();
+    Menu.init();
+    Store.setup();
+    Solar.start();
+    Carousel.init();
+    preloader.classList.remove('is-loading');
   },
   finalize() {
-    Solar.start();
+    window.useInertia.before(() => {
+
+    })
+
+    window.useInertia.after(() => {
+      Carousel.init();
+    })
+    window.inertia.setup.transitions = Transitions;
+    window.inertia.init(window.inertia.setup);
   },
 };

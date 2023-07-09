@@ -52,3 +52,7 @@ export default class Gravity {
         });
     }
 }
+
+export const useGravity = (args = {y: 0.3, x: 0.3, s: 0.2, rs: 0.7}) => {
+    document.querySelectorAll('[data-gravity]').forEach(element => new Gravity(element, args));
+}
