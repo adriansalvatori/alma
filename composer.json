@@ -31,6 +31,8 @@
       "App\\": "app/"
     }
   },
+  "repositories": {
+  },
   "require": {
     "php": "^7.3|^8.0",
     "generoi/sage-woocommerce": "^0.1.4",
