@@ -18,6 +18,14 @@
               </div>
             </div>
           </div>
+          {{-- Estructura principal de el Boton estrella --}}
+          <div>
+            <a href="{{home_url('')}}" class="button is-inverse hover-estrella">
+                @svg('orvita.svg');
+                @svg('star.svg');
+                <span class="has-margin-left-15">Empecemos</span>
+            </a>  
+          </div>
         </div>
     </div>
 </div>
