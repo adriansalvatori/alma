@@ -1,0 +1,38 @@
+/**
+* Buttons
+*/
+div.woocommerce {
+  a.button,
+  button.button,
+  input.button {
+    &.added::after {
+      content: "\2714";
+      margin-left: 0.53em;
+      vertical-align: bottom;
+    }
+
+    &.alt {
+      background-color: nth(map-get($colors, "primary"), 1);
+      border-color: transparent;
+      color: nth(map-get($colors, "primary"), 2);
+
+      &:hover {
+        background-color: darken(nth(map-get($colors, "primary"), 1), 2.5%);
+      }
+    }
+  }
+
+  a.button {
+    &.is-loading {
+      color: transparent !important;
+      pointer-events: none;
+
+      &::after {
+        @include loader;
+        @include center(1em);
+
+        position: absolute !important;
+      }
+    }
+  }
+}

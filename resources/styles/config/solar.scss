@@ -1,0 +1,84 @@
+@import './../../scripts/solar/index.scss';
+
+
+// Estilos básicos
+.container-is-fluid {
+  container-type: inline-size;
+}
+
+
+ // Fluid typography mixins
+ @mixin fluid-font-size( $font-size, $font-size-fluid ) {
+   font-size: clamp(
+     max( 1rem, #{$font-size} - #{$font-size} * #{$font-size-diff} ),
+     #{$font-size-fluid},
+     #{$font-size}
+   );
+ }
+ 
+ @mixin calculate-font-size( $font-size-base, $font-size-fluid ) {
+   font-size: calc( #{$font-size-base} + #{$font-size-fluid} );
+ }
+
+ // Fluid typography mixins application
+ h1,
+  .is-fluid-1 {
+   @include fluid-font-size( $main-title, 5cqi );
+ }
+ 
+ h2,
+  .is-fluid-2 {
+   @include fluid-font-size( $title, 5cqi );
+ }
+ 
+ h3,
+  .is-fluid-3 {
+   @include fluid-font-size( $subtitle, 4cqi );
+ }
+ 
+ h4,
+  .is-fluid-4 {
+   @include fluid-font-size( $caption, 3cqi );
+ }
+ 
+ h1.calculate,
+  .is-fluid-1.calculate {
+   @include calculate-font-size( $main-title-base, 5cqi );
+ }
+ 
+ h  .is-fluid-2.calculate {
+   @include calculate-font-size( $title-base, 5cqi );
+ }
+ 
+
+ // Planet buttons mixins
+ @mixin planet-button($font-color) {
+   color: $font-color;
+   display: flex;
+   margin-right: 40px;
+   align-items: center;
+   transition: .3s;
+ 
+   .icon {
+       margin-right: 15px;
+   }
+ 
+   &:hover {
+     color: $font-color !important;
+     transform: rotate(-3deg);
+     transition: .3s;
+   }
+ }
+
+ // Planet buttons mixins application
+.planet-button-primary {
+  @include planet-button($primary);
+}
+
+.planet-button-dark {
+@include planet-button($dark);
+}
+
+.planet-button-light {
+  @include planet-button($light);
+}

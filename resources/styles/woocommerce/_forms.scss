@@ -1,0 +1,135 @@
+/**
+ * Forms WooCommerce styles
+ */
+div.woocommerce {
+  input[type=text],
+  input[type=number],
+  input[type=email],
+  input[type=tel],
+  input[type=url],
+  input[type=password],
+  input[type=search],
+  textarea,
+  .input-text {
+    @include input;
+
+    box-shadow: $input-shadow;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  input[type=checkbox],
+  input[type=radio] {
+    @extend %checkbox-radio;
+  }
+
+  input[type=radio] {
+    float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+  }
+
+  select {
+    @extend %input;
+
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    vertical-align: top;
+    cursor: pointer;
+    font-size: 1em;
+    outline: none;
+
+    &::-ms-expand {
+      display: none;
+    }
+
+    &:not([multiple]) {
+      @include ltr-property("padding", 2.5em);
+    }
+
+    &[disabled]:hover,
+    fieldset[disabled] &:hover {
+      border-color: $input-disabled-border-color;
+    }
+
+    &[multiple] {
+      height: auto;
+      padding: 0;
+
+      option {
+        padding: 0.5em 1em;
+      }
+    }
+  }
+
+  label {
+    color: $label-color;
+    display: block;
+    font-size: $size-normal;
+    font-weight: $label-weight;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  textarea {
+    display: block;
+    max-width: 100%;
+    min-width: 100%;
+    padding: $textarea-padding;
+    resize: vertical;
+
+    &:not([rows]) {
+      max-height: $textarea-max-height;
+      min-height: $textarea-min-height;
+    }
+
+    &[rows] {
+      height: initial;
+    }
+  }
+
+  .form-row {
+    &:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .select2-container {
+    vertical-align: baseline;
+  }
+
+  .select2-container .select2-selection--single {
+    height: 41px;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+  }
+
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px;
+  }
+
+  .woocommerce-form-coupon,
+  .woocommerce-form-login,
+  .woocommerce-form-register {
+    @extend %block;
+
+    padding: map-get($spacing-values, "5");
+
+    .form-row-first {
+      margin-top: map-get($spacing-values, "3");
+    }
+  }
+}
+
+input.select2-search__field {
+  @include input;
+
+  box-shadow: $input-shadow;
+  max-width: 100%;
+  width: 100%;
+}

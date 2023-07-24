@@ -1,0 +1,109 @@
+/**
+ * Button
+ */
+
+.button {
+  transition: ease-in 0.2s;
+  .icon, svg {
+    transition: ease-in 0.2s;
+  }
+
+  &.is-nude {
+    background: transparent; 
+    border: none; 
+    color: $dark;
+    font-weight: 700;
+  }
+
+  &.is-rounded {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  span {
+    pointer-events: none;
+  }
+}
+
+.wp-block-button {
+  &__link {
+   @extend %control;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &.is-style-outline {
+    .wp-block-button__link {
+      @extend %control;
+      color: $white;
+      background: transparent;
+      border: solid $control-border-width $primary;
+    }
+  }
+
+  &.is-style-solid {
+    .wp-block-button__link {
+      @extend %control;
+      color: $white;
+      background: $primary;
+    }
+  }
+}
+
+.menu-item a{
+  color: $white;
+  margin-right: 20px;
+}
+
+/*** Intro Cards */
+
+.intro-card-container {
+  a.image {
+    position: relative;
+    transition: ease-out .3s;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      transition: ease-out .3s;
+      content: '';
+      background: linear-gradient(11deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.3788224762561274) 36%, rgba(0,212,255,0) 100%);
+      background-size: 200% 100%;
+    }
+
+    .card-name {
+      position: relative;
+      transition: ease-out .3s;
+      top: 20px;
+      opacity: 0;
+    }
+
+    &:hover {
+      clip-path: polygon(5% 5%, 95% 5%, 95% 95%, 5% 95%);
+
+      &:after {
+        background-position:100%;
+      }
+
+      .card-name {
+        position: relative;
+        z-index: 9;
+        top: -40px;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.icon.is-filled {
+  cursor: pointer;
+  svg {
+    fill: currentColor;
+  }
+}

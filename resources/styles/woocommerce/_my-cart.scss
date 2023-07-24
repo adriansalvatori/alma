@@ -1,0 +1,198 @@
+/**
+ * My cart WooCommerce styles
+ */
+
+div.woocommerce {
+  .cart_totals {
+    width: 50%;
+    float: right;
+
+    table {
+      tbody,
+      td,
+      th,
+      tr {
+        padding: map-get($spacing-values, "4");
+      }
+
+      th {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .cart-collaterals::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+
+  .checkout-button {
+    width: 100%;
+  }
+
+  .woocommerce-cart-form {
+    dl {
+      &.variation {
+        margin-top: map-get($spacing-values, "3");
+
+        dt {
+          float: left;
+          clear: both;
+        }
+
+        dt,
+        p {
+          font-size: $size-7;
+        }
+      }
+    }
+
+    .coupon {
+      margin-bottom: map-get($spacing-values, "5");
+
+      @include tablet {
+        float: left;
+        margin-bottom: 0;
+
+        .input-text {
+          margin-right: map-get($spacing-values, "2");
+        }
+
+        .input-text,
+        .button {
+          float: left;
+          width: 200px;
+        }
+      }
+
+      &::before {
+        content: "";
+      }
+
+      label {
+        display: none;
+      }
+    }
+
+    .button {
+      width: 100%;
+
+      @include tablet {
+        width: 200px;
+        float: right;
+      }
+    }
+  }
+
+  table.shop_table_responsive,
+  .woocommerce-page table.shop_table_responsive {
+    width: 100%;
+
+    input.qty {
+      width: 8rem;
+    }
+
+    thead,
+    th {
+      display: none;
+    }
+
+    @include tablet {
+      th {
+        display: table-cell;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+    }
+
+    tr {
+      &:first-child {
+        border-top: 1px solid $border;
+
+        @include tablet {
+          border: none;
+        }
+      }
+
+      td {
+        display: block;
+        text-align: right;
+        border: none;
+
+        @include tablet {
+          display: table-cell;
+          text-align: left;
+          vertical-align: middle;
+        }
+
+        &::before {
+          content: attr(data-title) ": ";
+          font-weight: $weight-bold;
+          float: left;
+
+          @include tablet {
+            display: none;
+          }
+        }
+
+        &.product-remove {
+          float: right;
+
+          @include tablet {
+            float: none;
+            width: 2%;
+          }
+
+          &::before {
+            content: "";
+          }
+        }
+
+        .product-name {
+          @include tablet {
+            width: 40%;
+          }
+        }
+
+        &.product-thumbnail {
+          width: 10%;
+
+          @include tablet {
+            width: 20%;
+          }
+
+          img {
+            width: 70px;
+            max-width: 120px;
+
+            @include tablet {
+              width: 100%;
+              max-width: 200px;
+            }
+          }
+
+          &::before {
+            content: "";
+          }
+        }
+
+        &.product-quantity {
+          &::before {
+            padding-top: 0.5rem;
+          }
+        }
+
+        &.actions {
+          padding: map-get($spacing-values, "5");
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

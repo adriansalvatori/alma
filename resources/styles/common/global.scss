@@ -1,0 +1,71 @@
+/**
+ * Global
+ */
+
+a {
+  color: map-get($theme-colors, 'primary');
+}
+
+/**
+ * Block editor color palette utilities
+ * @see https://git.io/JeyD6
+ */
+
+@each $color-name, $color-value in $theme-colors {
+  .has-#{$color-name}-color {
+    color: $color-value;
+  }
+
+  .has-#{$color-name}-background-color {
+    background-color: $color-value;
+  }
+}
+
+/** Satellite Cursor */
+
+[data-cursor="-icon"]:hover {
+  color: $primary;
+}
+
+.satellite-cursor {
+
+  &:before {
+    background-color: $dark;
+  }
+
+  &.-primary {
+
+    &:before{
+      background-color: $primary;
+      opacity: 1;
+    }
+
+    .satellite-cursor-text {
+      color: $dark;
+    }
+
+  }
+
+  &.-inverse {
+
+    &:before{
+      background-color: $white;
+      opacity: 1;
+    }
+
+    .satellite-cursor-text {
+      color: $dark;
+    }
+
+  }
+
+  &.-icon {
+    &:before {
+      height: 45px;
+      width: 45px;
+      background-color: transparent;
+      border: solid 2px $primary;
+    }
+  }
+}
+

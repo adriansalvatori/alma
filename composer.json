@@ -1,0 +1,76 @@
+{
+  "name": "ravorona/sage",
+  "version": "4.2.0",
+  "description": "Wordpress theme based on Sage starter theme using Vite",
+  "license": "MIT",
+  "authors": [{
+      "name": "Adrián Salvatori",
+      "email": "adriansalvatori@gmail.com",
+      "homepage": "https://github.com/adriansalvatori"
+    },
+    {
+      "name": "Richar Arenas",
+      "email": "emyerbetharenas@gmail.com",
+      "homepage": "https://github.com/ErAo"
+    },
+    {
+      "name": "Santiago Salazar",
+      "email": "santiagosalazar.dev@gmail.com",
+      "homepage": "https://github.com/SantiagoCode"
+    },
+    {
+      "name": "Alejandro Gutierrez",
+      "email": "alejandrocorro27@gmail.com",
+      "homepage": "https://github.com/Alejandrocorro"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/ravorona/sage/issues"
+  },
+  "keywords": [
+    "wordpress"
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "require": {
+    "php": "^8.0",
+    "roots/acorn": "^3.2",
+    "blade-ui-kit/blade-icons": "^1.5",
+    "generoi/sage-woocommerce": "^0.1.4",
+    "log1x/acf-composer": "^2.1",
+    "log1x/pagi": "^1.0",
+    "log1x/poet": "^2.0",
+    "log1x/sage-directives": "^1.1",
+    "log1x/sage-html-forms": "^1.0",
+    "log1x/sage-svg": "^1.1",
+    "log1x/wp-smtp": "^1.0",
+    "stoutlogic/acf-builder": "^1.12",
+    "tiny-pixel/acorn-block-templates": "^1.1"
+  },
+  "require-dev": {
+    "spatie/laravel-ignition": "^1.6",
+    "squizlabs/php_codesniffer": "3.7.1"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "lint": [
+      "phpcs --extensions=php --standard=PSR12 app"
+    ]
+  },
+  "extra": {
+    "acorn": {
+      "providers": [
+        "App\\Providers\\ThemeServiceProvider"
+      ]
+    }
+  }
+}

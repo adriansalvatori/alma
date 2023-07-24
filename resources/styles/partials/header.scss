@@ -1,0 +1,37 @@
+@import './header-vertical.scss';
+
+/**
+ * Header
+ */
+
+.brand {
+  font-weight: bold;
+}
+
+.navbar-brand {
+  width: 280px;
+  overflow: hidden;
+
+  img {
+    position: relative;
+    left: 0;
+    transition: ease-out 0.3s;
+  }
+
+  .logo {
+    opacity: 0;
+  }
+
+  &:hover {
+
+    .iso {
+      opacity: 0;
+      left: -100%;
+    }
+
+    .logo {
+      left: -50%;
+      opacity: 1;
+    }
+  }
+}

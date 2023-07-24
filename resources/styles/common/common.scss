@@ -1,0 +1,60 @@
+strong {
+    color: $dark !important;
+}
+
+*:focus {
+    outline: unset !important;
+}
+
+
+.button {
+    display: inline-flex !important;
+}
+
+input:not(.input) {
+    &:not([type="checkbox"]):not([type="submit"]):not([type="radio"]):not([type="file"]) {
+        @extend %control;
+        margin-top: $size-7;
+    }
+
+    &[type="submit"] {
+        @extend %control;
+        color: $white;
+        background: $primary;
+        margin-top: $size-2;
+    }
+}
+
+button:not(.button) {
+    @extend %control;
+    color: $white;
+    background: $primary;
+    margin-top: $size-2;
+}
+
+textarea:not(.textarea) {
+    @extend %control;
+    margin-top: $size-7;
+}
+
+select:not(.select) {
+    @extend %control;
+    margin-top: $size-7;
+}
+
+.comment-author.vcard {
+    display: flex;
+    margin-bottom: 1rem;
+    
+    img {
+        margin-right: 10px;
+    }
+
+    .fn {
+        margin-right: 5px;
+    }
+} 
+
+.card {
+    border-radius: $alma-radius;
+}
