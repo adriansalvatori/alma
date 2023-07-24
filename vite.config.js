@@ -1,8 +1,7 @@
-import { unlink } from 'fs';
 import * as path from 'path'
 import copy from 'rollup-plugin-copy'
-import outputManifest, { KeyValueDecorator, OutputManifestParam } from 'rollup-plugin-output-manifest'
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
+import outputManifest from 'rollup-plugin-output-manifest'
+import { defineConfig, loadEnv } from 'vite'
 
 const publicDir = 'public'
 const manifestFile = 'manifest.json'

@@ -13,7 +13,7 @@ import {
 
 const preloader = document.querySelector('.preloader');
 
-export default {
+export const Common = {
   init() {
     window.Alpine = Alpine;
     Alpine.start();

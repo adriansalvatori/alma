@@ -1,4 +1,4 @@
-export default {
+export const Home =  {
   init() {
     // JavaScript to be fired on the home page
   },
