@@ -8,6 +8,9 @@ namespace App;
 
 use function Roots\asset;
 
+$directives      = new \Log1x\SageDirectives\Directives();
+$directives_util = new \Log1x\SageDirectives\Util();
+
 /**
  * Register the theme assets.
  *
@@ -112,6 +115,22 @@ add_action('after_setup_theme', function () {
             'color' => '#525ddc',
         ]
     ]);
+
+    /**
+     * Enable Woocommerce theme support
+     * @link https://github.com/generoi/sage-woocommerce
+     */
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+
+    /**
+     * Add support for WooCommerce Subscription templates.
+     */
+    add_filter('sage-woocommerce/templates', function ($paths) {
+        $paths[] = WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/';
+        return $paths;
+    });
 }, 20);
 
 /**
@@ -145,8 +164,41 @@ add_action( 'pre_get_posts', function( $query ){
     }
 } );
 
-//the_breadcrumb
+/**
+ * Product Loop Items.
+ *
+ * @see woocommerce_template_loop_product_link_open()
+ * @see woocommerce_template_loop_product_link_close()
+ * @see woocommerce_template_loop_add_to_cart()
+ * @see woocommerce_template_loop_product_thumbnail()
+ * @see woocommerce_template_loop_product_title()
+ * @see woocommerce_template_loop_category_link_open()
+ * @see woocommerce_template_loop_category_title()
+ * @see woocommerce_template_loop_category_link_close()
+ * @see woocommerce_template_loop_price()
+ * @see woocommerce_template_loop_rating()
+ */
+// remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
+// remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5);
+// remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+// remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
+// remove_action('woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10);
+
+// remove_action('woocommerce_before_subcategory', 'woocommerce_template_loop_category_link_open', 10);
+// remove_action('woocommerce_shop_loop_subcategory_title', 'woocommerce_template_loop_category_title', 10);
+// remove_action('woocommerce_after_subcategory', 'woocommerce_template_loop_category_link_close', 10);
+
+// remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10);
+// remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5);
+
+
+
+
+/**
+ * Importing Breadcrumb function.
+ */
 include('Setup/breadcrumbs.php');
+
 //Mailer-3000
 include('Setup/mailer.php');
 //Ajax add to cart function

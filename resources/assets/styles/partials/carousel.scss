@@ -1,0 +1,16 @@
+.carousel {
+   width: 100vw;
+   cursor: grab;
+   
+   &.dragging {
+     cursor: grabbing;
+   }
+   
+   .carousel-item {
+     max-width: var(--carousel-item-width);
+     user-select: none;
+     @media only screen and (max-width:$tablet) {
+      max-width: var(--carousel-item-mobile-width)
+     }
+   }
+ }

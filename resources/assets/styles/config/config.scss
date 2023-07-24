@@ -1,0 +1,31 @@
+/**
+ * Using Bulma with Variables
+ */
+
+@import '~bulma';
+
+/**
+ * Using Bulma Helpers
+ */
+@import '~bulma-helpers';
+@import '~@creativebulma/bulma-tooltip';
+// @import '~flickity';
+
+/**
+ * Setting up Bulma Theme
+ */
+
+$theme-colors: (
+  primary: $primary,
+  dark: $blue,
+  light: $light,
+  danger: $danger,
+);
+
+
+/**
+ * Import External Fonts
+ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Blinker:wght@400;600&display=swap');
+

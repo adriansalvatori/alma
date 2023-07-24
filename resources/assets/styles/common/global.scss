@@ -24,19 +24,32 @@ a {
 /** Satellite Cursor */
 
 [data-cursor="-icon"]:hover {
-  color: $danger;
+  color: $primary;
 }
 
 .satellite-cursor {
 
   &:before {
-    background-color: $danger;
+    background-color: $dark;
+  }
+
+  &.-primary {
+
+    &:before{
+      background-color: $primary;
+      opacity: 1;
+    }
+
+    .satellite-cursor-text {
+      color: $dark;
+    }
+
   }
 
   &.-inverse {
 
     &:before{
-      background-color: rgba(255,255,255,1);
+      background-color: $white;
       opacity: 1;
     }
 
@@ -51,7 +64,7 @@ a {
       height: 45px;
       width: 45px;
       background-color: transparent;
-      border: solid 1px $danger;
+      border: solid 2px $primary;
     }
   }
 }

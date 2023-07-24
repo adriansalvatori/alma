@@ -48,7 +48,7 @@ const config = {
 export const Satellite = {
   init: () => {
     MouseFollower.registerGSAP(gsap);
-    const cursor = new MouseFollower(config);
+    new MouseFollower(config);
 
     document.querySelectorAll('[data-gravity]')
       .forEach(element => new Gravity(element, {

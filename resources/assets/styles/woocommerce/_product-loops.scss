@@ -53,7 +53,7 @@ div.woocommerce {
         &.columns-#{$i} {
           .product {
             flex: none;
-            width: 100%/$i;
+            width: calc( 100% / $i);
           }
         }
       }
@@ -86,11 +86,9 @@ div.woocommerce {
 
     a,
     span {
-      @extend .pagination-link;
-
       &:link,
       &:visited {
-        @extend .pagination-link;
+        @extend %control;
       }
     }
   }

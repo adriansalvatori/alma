@@ -33,7 +33,7 @@
         <div class="level-right" data-aos="fade-up">
           <div class="column">
             Copyright ® Alma {{date('Y')}}.
-            Diseñado, Desarrolladoy y Mantenido por <a href="https://salvatori.co" class="link is-dark">Salvatori Group</a>
+            Built by <a href="https://movida.company" class="link is-dark">Movida Company™️</a>
           </div>
         </div>
       </div>

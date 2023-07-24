@@ -3,15 +3,31 @@
  */
 
 .button {
-  transition: background ease-in 0.2s;
+  transition: ease-in 0.2s;
   .icon, svg {
     transition: ease-in 0.2s;
+  }
+
+  &.is-nude {
+    background: transparent; 
+    border: none; 
+    color: $dark;
+    font-weight: 700;
+  }
+
+  &.is-rounded {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
+  span {
+    pointer-events: none;
   }
 }
 
 .wp-block-button {
   &__link {
-    @extend .button;
+   @extend %control;
 
     &:hover {
       text-decoration: none;
@@ -20,19 +36,25 @@
 
   &.is-style-outline {
     .wp-block-button__link {
-     @extend .button, .is-primary, .is-outlined;
+      @extend %control;
+      color: $white;
+      background: transparent;
+      border: solid $control-border-width $primary;
     }
   }
 
   &.is-style-solid {
     .wp-block-button__link {
-      @extend .button, .is-primary;
+      @extend %control;
+      color: $white;
+      background: $primary;
     }
   }
 }
 
 .menu-item a{
-  @extend .has-margin-right-20, .has-text-white;
+  color: $white;
+  margin-right: 20px;
 }
 
 /*** Intro Cards */
@@ -76,5 +98,12 @@
         opacity: 1;
       }
     }
+  }
+}
+
+.icon.is-filled {
+  cursor: pointer;
+  svg {
+    fill: currentColor;
   }
 }

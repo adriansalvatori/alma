@@ -37,7 +37,7 @@ export default class Gravity {
             this.move(x, y, this.options.s);
         });
 
-        this.el.on('mouseleave', (e) => {
+        this.el.on('mouseleave', () => {
             this.move(0, 0, this.options.rs);
         });
     }
@@ -51,4 +51,8 @@ export default class Gravity {
             duration: speed,
         });
     }
+}
+
+export const useGravity = (args = {y: 0.3, x: 0.3, s: 0.2, rs: 0.7}) => {
+    document.querySelectorAll('[data-gravity]').forEach(element => new Gravity(element, args));
 }

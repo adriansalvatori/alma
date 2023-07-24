@@ -1,0 +1,56 @@
+.product-card {
+    @extend .card;
+    
+    background-color: $light;
+    box-shadow: unset;
+    padding-top: 5vh;
+    user-select: none;
+    max-height: 75vh;
+
+    figure {
+        max-height: 60vh;
+        display: flex;
+        align-items: center;
+        aspect-ratio: 5/6;
+        margin: 0 auto;
+    }
+
+    .product-image {
+        mix-blend-mode: darken;
+        transition: ease-out .3s;
+        object-fit: contain;
+
+        &.empty-state {
+            opacity: 0.3;
+            padding: 5vh;
+        }
+    }
+
+    .card-footer, .eye {
+        transition: ease-out .5s;
+        translate: 0 30%;
+        opacity: 0;
+    }
+
+    .eye:hover {
+        scale: 1.05;
+    }
+    
+    &:hover {
+        .product-image {
+            scale: 0.95;
+        }
+        .card-footer, .eye {
+            translate: 0 0;
+            opacity: 1;
+        }
+    }
+}
+
+.product-caption {
+    color: $dark;
+    a {
+        color: currentColor;
+    }
+}
+

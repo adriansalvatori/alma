@@ -1,10 +1,10 @@
-@include('partials.loader')
-@include('partials.header')
-@include('partials.menu')
-<div data-inertia-container>
-  <main data-inertia-section class="main has-padding-left-40">
-    <div data-solar="container">
-      @yield('content')
-    </div>
-  </main>
+<x-loader/>
+<div data-inertia-container class="layout">
+    <main data-inertia-section class="main is-clipped" id="main">
+      {{-- <x-navigation/> --}}
+      <div data-solar="container" data-solar-namespace="home">
+        @yield('content')
+        @include('partials.footer')
+      </div>
+    </main>
 </div>

@@ -1,4 +1,4 @@
-<nav class="navbar is-fixed-top is-spaced is-white vertical-header" role="navigation" data-cursor-stick data-cursor="-menu">
+<nav class="navbar is-fixed-top is-spaced is-white" role="navigation" data-cursor-stick data-cursor="-menu">
   <a href="{{home_url()}}" class="name is-size-7 has-text-dark"
     style="writing-mode: vertical-lr;
     transform: rotate(180deg);">
