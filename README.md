@@ -1,11 +1,19 @@
-![Development](https://github.com/ravorona/sage/actions/workflows/develop.yml/badge.svg) ![Release](https://github.com/ravorona/sage/actions/workflows/publish.yml/badge.svg)
 
-# 🧩 Wordpress Starter Theme
+# ⚡️ Alma Lightning (5.0.0) Wordpress Theme. (yeah, right, it's just a wordpress theme 😂)
 
 - Based on [Sage](https://roots.io/sage/) version [10](https://github.com/roots/sage/)
 - Using [Vite](https://vitejs.dev)
 
-## Requirements
+## Features
+- Solar (Sugary implementation of: Locomotive with Lenis, Gsap, Barba, Mouse Follower, Bulma, and some other nice stuff)
+- Laravel Routing
+- Laravel Blade
+- Laravel Components, Composers and Controllers
+- Sage Directives
+- Sage Wooocommerce
+- Alpine
+
+## Tech
 
 - [Acorn](https://roots.io/acorn/docs/installation/) v3
 - [PHP](https://secure.php.net/manual/en/install.php) >= 8.0 (
@@ -17,25 +25,25 @@
 
 ## Theme installation
 
-- **Make sure that you have [Acorn installed](https://roots.io/acorn/docs/installation/)**
-- Install Sage using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of
+- **This framework is shipped with Acorn v3. Read the docs, please (https://roots.io/acorn/docs/)**
+- Install Alma using Composer from your WordPress themes directory (replace `your-theme-name` below with the name of
   your theme):
 
 ```shell
 # @ app/themes/ or wp-content/themes/
-$ composer create-project ravorona/sage your-theme-name
+$ composer create-project salvatori/alma your-theme-name
 ```
 
-To install the latest development version of Sage, add `dev-develop` to the end of the command:
+To install the latest development version of Alma, add `dev-lightning` to the end of the command:
 
 ```shell
-$ composer create-project ravorona/sage your-theme-name dev-develop
+$ composer create-project salvatori/alma your-theme-name dev-lightning
 ```
 
 ## Theme structure
 
 ```sh
-themes/your-theme-name/   # → Root of your Sage based theme
+themes/alma/              # → Root of your Alma based theme
 ├── app/                  # → Theme PHP
 │   ├── Providers/        # → Service providers
 │   ├── View/             # → View models
@@ -44,6 +52,7 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   ├── medias.php        # → Medias helper
 │   └── setup.php         # → Theme setup
 ├── composer.json         # → Autoloading for `app/` files
+├── routes/web.php        # → Place non WP routes here.
 ├── public/               # → Built theme assets (never edit)
 ├── functions.php         # → Theme bootloader
 ├── index.php             # → Theme template wrapper
@@ -54,23 +63,22 @@ themes/your-theme-name/   # → Root of your Sage based theme
 │   ├── images/           # → Theme images
 │   ├── scripts/          # → Theme javascript
 │   ├── styles/           # → Theme stylesheets
-│   ├── svg/              # → Theme svgs
 │   └── views/            # → Theme templates
 │       ├── components/   # → Component templates
 │       ├── forms/        # → Form templates
 │       ├── layouts/      # → Base templates
 │       ├── partials/     # → Partial templates
-        └── sections/     # → Section templates
+        └── woocommerce/  # → Woocommerce templates
 ├── screenshot.png        # → Theme screenshot for WP admin
 ├── style.css             # → Theme meta information
 ├── vendor/               # → Composer packages (never edit)
-└── vite.config.ts        # → Vite configuration
+└── vite.config.js        # → Vite configuration
 ```
 
 ## Theme development
 
 - Run `yarn` from the theme directory to install dependencies
-- Update `vite.config.ts` for bundler fine tuning
+- Update `vite.config.js` for bundler fine tuning
 
 ### Build commands
 
@@ -87,19 +95,11 @@ themes/your-theme-name/   # → Root of your Sage based theme
 Add the following variables in your project `.env`
 
 ```sh
+# Hot module reload enabled? This should be turned off in production.
+HMR_ENABLED=true
 # Endpoint where the bundler serve your assets
 HMR_ENTRYPOINT=http://localhost:5173
 ```
-
-#### Theme side
-
-For advanced dev server configuration, copy `.env.example` according
-to [Vite naming convention and loading order](https://vitejs.dev/guide/env-and-mode.html#env-files) and update variables
-
-#### FYI
-
-Running HMR Mode remove the `public/manifest.json` file, so do not forget to re-run the assets compilation
-with `yarn build` if needed.
 
 ## Documentation
 
