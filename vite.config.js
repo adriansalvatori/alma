@@ -38,6 +38,7 @@ export default defineConfig(({ mode }) => {
             devSourcemap: true
         },
         build: {
+            //target: 'es2015',
             sourcemap: 'inline',
             manifest: false,
             outDir: publicDir,
