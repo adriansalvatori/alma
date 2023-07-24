@@ -7,16 +7,6 @@
   <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
-  <?php wp_body_open(); ?>
-  <?php do_action('get_header'); ?>
-
-  <div id="app" data-solar="wrapper">
-    <?php echo view(app('sage.view'), app('sage.data'))->render(); ?>
-  </div>
-  
-  <?php do_action('get_footer'); ?>
-  <?php wp_footer(); ?>
-</body>
+<?php echo view(app('sage.view'), app('sage.data'))->render(); ?>
 
 </html>
