@@ -99,6 +99,8 @@ Add the following variables in your project `.env`
 HMR_ENABLED=true
 # Endpoint where the bundler serve your assets
 HMR_ENTRYPOINT=http://localhost:5173
+# Enable the Experimental Router for Laravel Routing
+ACORN_ENABLE_EXPIRIMENTAL_ROUTER=true
 ```
 
 ## Documentation
