@@ -4,8 +4,9 @@
   "description": "Wordpress theme based on Alma using Vite",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "start": "vite",
+    "prod": "vite build",
+    "production": "vite build",
     "serve": "vite preview",
     "lint:js": "eslint --ext .js .",
     "lint:css": "stylelint **/*.{scss,css}",
