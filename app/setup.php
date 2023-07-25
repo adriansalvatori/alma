@@ -8,6 +8,9 @@ namespace App;
 
 use function Roots\bundle;
 
+$directives      = new \Log1x\SageDirectives\Directives();
+$directives_util = new \Log1x\SageDirectives\Util();
+
 /**
  * Register the theme assets.
  *
