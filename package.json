@@ -1,6 +1,6 @@
 {
   "name": "@salvatori/alma",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "description": "Wordpress theme based on Alma using Vite",
   "license": "MIT",
   "scripts": {
