@@ -1,7 +1,9 @@
 {
   "name": "salvatori/alma",
   "version": "5.0.2",
-  "description": "Wordpress theme based on Sage starter theme using Vite",
+  "type": "wordpress-theme",
+  "homepage": "https://movidagrafica.co/",
+  "description": "Wordpress theme based on Alma using Vite",
   "license": "MIT",
   "authors": [{
       "name": "Adrián Salvatori",

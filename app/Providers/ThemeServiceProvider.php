@@ -24,6 +24,5 @@ class ThemeServiceProvider extends SageServiceProvider
     public function boot()
     {
         parent::boot();
-        
     }
 }
