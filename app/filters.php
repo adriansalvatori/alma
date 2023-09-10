@@ -22,7 +22,7 @@ add_filter('excerpt_more', function (): string {
  */
 add_filter('script_loader_tag', function ($tag, $handle, $src): string {
 
-    if ($handle !== 'app/0') {
+    if (!preg_match('[app|alma]', $handle)) {
         return $tag;
     }
 
