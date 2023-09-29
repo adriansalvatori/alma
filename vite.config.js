@@ -2,6 +2,7 @@ import * as path from 'path'
 import copy from 'rollup-plugin-copy'
 import outputManifest from 'rollup-plugin-output-manifest'
 import { defineConfig, loadEnv } from 'vite'
+import FullReload from 'vite-plugin-full-reload'
 
 const publicDir = 'public'
 const manifestFile = 'manifest.json'
@@ -37,6 +38,27 @@ export default defineConfig(({ mode }) => {
         css: {
             devSourcemap: true
         },
+        plugins: [
+            FullReload(['app/*/**', 'resources/views/**/*']),
+            copy({
+                copyOnce: true,
+                hook: 'writeBundle',
+                targets: [
+                    {
+                        src: path.resolve(__dirname, `${assets.base}/images/**/*`),
+                        dest: `${publicDir}/images`
+                    },
+                    {
+                        src: path.resolve(__dirname, `${assets.base}/svg/**/*`),
+                        dest: `${publicDir}/svg`
+                    },
+                    {
+                        src: path.resolve(__dirname, `${assets.base}/fonts/**/*`),
+                        dest: `${publicDir}/fonts`
+                    }
+                ]
+            })
+        ],
         build: {
             //target: 'es2015',
             sourcemap: 'inline',
