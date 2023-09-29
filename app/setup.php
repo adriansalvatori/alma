@@ -71,8 +71,19 @@ add_action('after_setup_theme', function (): void {
      * @link https://roots.io/plugins/soil/
      */
     add_theme_support('soil', [
-        'clean-up',
+        'clean-up' => [
+            'wp_obscurity',
+            'disable_emojis',
+            'disable_gutenberg_block_css',
+            'disable_extra_rss',
+            'disable_recent_comments_css',
+            'disable_gallery_css',
+            'clean_html5_markup' => false,
+        ],
         'nav-walker',
+        'disable-asset-versioning',
+        'disable-trackbacks',
+        'js-to-footer',
         'nice-search',
         'relative-urls'
     ]);
