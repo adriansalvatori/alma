@@ -35,7 +35,7 @@
     "laravel-mix-copy-watched": "^3.0.0",
     "laravel-mix-purgecss": "^6.0.0",
     "npm-run-all": "^4.1",
-    "postcss": "^8.4.25",
+    "postcss": "^8.4.31",
     "purgecss-with-gutenberg": "^1.0.2",
     "purgecss-with-wordpress": "^2.1.0",
     "rimraf": "^3.0.2",
