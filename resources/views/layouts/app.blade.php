@@ -5,11 +5,15 @@
   <div id="app" data-solar="wrapper">
     <x-loader/>
     <div data-inertia-container class="layout">
-        <main data-inertia-section class="main" id="main">
+        <main data-inertia-section class="main is-clipped" id="main">
           {{-- <x-navigation/> --}}
           <div data-solar="container" data-solar-namespace="home">
-            @yield('content')
-            @include('partials.footer')
+            @if(App\show_maintainance_mode())
+              <x-maintainance-mode/>
+            @else
+              @yield('content')
+              @include('partials.footer')
+            @endif
           </div>
         </main>
     </div>
