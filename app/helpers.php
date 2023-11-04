@@ -13,6 +13,17 @@ function hmr_enabled(): bool
 }
 
 /**
+ * Check Maintainance status
+ *
+ * @return boolean
+ */
+function show_maintainance_mode(): bool
+{
+    if(isset($_GET['preview']) || current_user_can( 'administrator' )) return false;
+    return env('WP_MAINTAINANCE_MODE');
+}
+
+/**
  * Build assets hmr uri
  *
  * @param string $asset
