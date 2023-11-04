@@ -103,6 +103,14 @@ HMR_ENTRYPOINT=http://localhost:5173
 ACORN_ENABLE_EXPIRIMENTAL_ROUTER=true
 ```
 
+#### Maintainance Mode
+
+Alma comes with a basic and simple maintainance mode implemented. If you want to enable it, just use this .env variable: 
+
+```
+WP_MAINTAINANCE_MODE="true"
+```
+
 ## Documentation
 
 - [Sage documentation](https://roots.io/sage/docs/)
