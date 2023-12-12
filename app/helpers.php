@@ -20,7 +20,8 @@ function hmr_enabled(): bool
 function show_maintainance_mode(): bool
 {
     if(isset($_GET['preview']) || current_user_can( 'administrator' )) return false;
-    return env('WP_MAINTAINANCE_MODE');
+    $maintainance = env('WP_MAINTAINANCE_MODE')
+    return $maintainance ? $maintainance : true;
 }
 
 /**
