@@ -21,7 +21,7 @@ function show_maintainance_mode(): bool
 {
     if(isset($_GET['preview']) || current_user_can( 'administrator' )) return false;
     $maintainance = env('WP_MAINTAINANCE_MODE');
-    return $maintainance ? $maintainance : true;
+    return $maintainance ? $maintainance : false;
 }
 
 /**
