@@ -38,21 +38,22 @@
     }
   },
   "require": {
-    "php": "^8.0",
-    "roots/acorn":"^3.2",
-    "generoi/sage-woocommerce": "^0.1.4",
-    "log1x/acf-composer": "^2.1",
+    "php": "^8.2",
+    "generoi/sage-woocommerce": "^1.1.2",
+    "illuminate/support": "^10.33",
+    "log1x/acf-composer": "^3.0.20",
     "log1x/pagi": "^1.0",
     "log1x/poet": "^2.0",
     "log1x/sage-directives": "^1.1",
     "log1x/sage-html-forms": "^1.0",
     "log1x/sage-svg": "^1.1",
     "log1x/wp-smtp": "^1.0",
-    "stoutlogic/acf-builder": "^1.12",
-    "tiny-pixel/acorn-block-templates": "^1.1"
+    "roots/acorn": "^4.0.0",
+    "stoutlogic/acf-builder": "^1.12"
   },
   "require-dev": {
-    "spatie/laravel-ignition": "^1.6",
+    "spatie/laravel-ignition": "^2.4",
+    "laravel/pint": "^1.13",
     "squizlabs/php_codesniffer": "3.7.1"
   },
   "config": {

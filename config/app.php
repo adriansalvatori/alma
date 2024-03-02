@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use Roots\Acorn\ServiceProvider;
 
 use function Roots\env;
 
@@ -69,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => get_option('timezone_string', 'UTC'),
+    'timezone' => get_option('timezone_string') ?: 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -154,7 +155,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => ServiceProvider::defaultProviders()->merge([
 
         /*
          * Framework Service Providers...
@@ -195,7 +196,7 @@ return [
          */
         // App\Providers\ThemeServiceProvider::class,
 
-    ],
+    ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
