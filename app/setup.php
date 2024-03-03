@@ -8,6 +8,9 @@ namespace App;
 
 use function Roots\bundle;
 
+// use Blade
+use function Blade\Blade;
+
 $directives      = new \Log1x\SageDirectives\Directives();
 $directives_util = new \Log1x\SageDirectives\Util();
 
@@ -160,6 +163,7 @@ add_action('after_setup_theme', function (): void {
      * @see app/medias.php
      */
     set_image_sizes();
+
 }, 20);
 
 /**

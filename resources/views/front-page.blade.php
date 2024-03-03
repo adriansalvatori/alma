@@ -8,7 +8,7 @@
     'tags' => ['Amsterdam'],
     'category' => '',
     ])
-
+@livewire('async_query')
 @if(function_exists('get_field'))
 @include('partials.billboard-list', [
     'billboards' => get_field('billboards_section_1', 81)

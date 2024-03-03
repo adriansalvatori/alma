@@ -40,7 +40,11 @@
   "require": {
     "php": "^8.2",
     "generoi/sage-woocommerce": "^1.1.2",
+    "illuminate/encryption": "^10.46",
+    "illuminate/queue": "^10.46",
     "illuminate/support": "^10.33",
+    "illuminate/testing": "^10.46",
+    "livewire/livewire": "^3.4",
     "log1x/acf-composer": "^3.0.20",
     "log1x/pagi": "^1.0",
     "log1x/poet": "^2.0",

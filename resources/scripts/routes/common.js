@@ -1,5 +1,4 @@
-import 'alpine-magic-helpers'; //@Alpine Extensionr: https://www.alpinetoolbox.com/extensions/
-import Alpine from 'alpinejs';
+//import Alpine from 'alpinejs';
 import { Transitions } from '../transitions';
 
 import {
