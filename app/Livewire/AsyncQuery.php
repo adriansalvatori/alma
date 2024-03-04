@@ -9,6 +9,11 @@ class AsyncQuery extends Component
     public $posts = [];
     public $posts_links = [];
 
+    public $username = '';
+    public $password = '';
+    public $email = '';
+    public $user_id = '';
+
     public function getPosts(){
         $posts = get_posts();
         if($posts){
@@ -31,6 +36,14 @@ class AsyncQuery extends Component
                     'thumbnail' => get_the_post_thumbnail($post->ID, 'thumbnail')
                 ];
             }
+        }
+    }
+
+    public function registerUser(){
+        // Create a new wordpress user 
+        $user_id = wp_create_user($this->username, $this->password, $this->email);
+        if($user_id){
+            $this->user_id = $user_id;
         }
     }
 
