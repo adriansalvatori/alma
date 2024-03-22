@@ -9,7 +9,7 @@
    .carousel-item {
      max-width: var(--carousel-item-width);
      user-select: none;
-     @media only screen and (max-width:$tablet) {
+     @media only screen and (max-width:var(--tablet)) {
       max-width: var(--carousel-item-mobile-width)
      }
    }

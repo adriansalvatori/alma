@@ -1,3 +1,5 @@
+@use '../config/' as *;
+
 .hero.is-rounded {
     border-radius: $alma-radius;
 }

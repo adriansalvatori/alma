@@ -1,3 +1,4 @@
+@use '../config/' as *;
 
 div.woocommerce {
   .woocommerce-account-fields,
@@ -15,9 +16,9 @@ div.woocommerce {
   }
 
   .wc_payment_method > div {
-    background-color: $notification-background-color;
-    border-radius: $notification-radius;
-    padding: $notification-padding;
+    background-color: var(--notification-background-color);
+    border-radius: var(--notification-radius);
+    padding: var(--notification-padding);
     position: relative;
     display: flex;
     align-items: center;

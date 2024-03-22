@@ -26,7 +26,7 @@
     <form class="user-register-form" wire:submit="registerUser">
         <input placeholder="Username" wire:model="username" type="text" name="username" class="input" id="username">
         <input placeholder="Email" wire:model="email" type="text" name="email" class="input" id="email">
-        <input placeholder="Password" wire:model="password" type="password" name="password" class="input" id="password">
+        <input placeholder="Password" wire:model=" " type="password" name="password" class="input" id="password">
         <button class="button is-primary" type="submit">Register</button>
     </form>
         

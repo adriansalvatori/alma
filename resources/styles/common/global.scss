@@ -1,3 +1,5 @@
+@use '../config/' as *;
+
 /**
  * Global
  */
@@ -6,42 +8,27 @@ a {
   color: map-get($theme-colors, 'primary');
 }
 
-/**
- * Block editor color palette utilities
- * @see https://git.io/JeyD6
- */
-
-@each $color-name, $color-value in $theme-colors {
-  .has-#{$color-name}-color {
-    color: $color-value;
-  }
-
-  .has-#{$color-name}-background-color {
-    background-color: $color-value;
-  }
-}
-
 /** Satellite Cursor */
 
 [data-cursor="-icon"]:hover {
-  color: $primary;
+  color: var(--primary);
 }
 
 .satellite-cursor {
 
   &:before {
-    background-color: $dark;
+    background-color: var(--dark);
   }
 
   &.-primary {
 
     &:before{
-      background-color: $primary;
+      background-color: var(--primary);
       opacity: 1;
     }
 
     .satellite-cursor-text {
-      color: $dark;
+      color: var(--dark);
     }
 
   }
@@ -49,12 +36,12 @@ a {
   &.-inverse {
 
     &:before{
-      background-color: $white;
+      background-color: var(--white);
       opacity: 1;
     }
 
     .satellite-cursor-text {
-      color: $dark;
+      color: var(--dark);
     }
 
   }
@@ -64,7 +51,7 @@ a {
       height: 45px;
       width: 45px;
       background-color: transparent;
-      border: solid 2px $primary;
+      border: solid 2px var(--primary);
     }
   }
 }

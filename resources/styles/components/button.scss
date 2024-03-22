@@ -2,6 +2,8 @@
  * Button
  */
 
+@use '../config/' as *;
+
 .button {
   transition: ease-in 0.2s;
   .icon, svg {
@@ -11,7 +13,7 @@
   &.is-nude {
     background: transparent; 
     border: none; 
-    color: $dark;
+    color: currentColor;
     font-weight: 700;
   }
 
@@ -37,23 +39,23 @@
   &.is-style-outline {
     .wp-block-button__link {
       @extend %control;
-      color: $white;
+      color: var(--white);
       background: transparent;
-      border: solid $control-border-width $primary;
+      border: solid var(--control-border-width) var(--primary);
     }
   }
 
   &.is-style-solid {
     .wp-block-button__link {
       @extend %control;
-      color: $white;
-      background: $primary;
+      color: var(--white);
+      background: var(--primary);
     }
   }
 }
 
 .menu-item a{
-  color: $white;
+  color: var(--white);
   margin-right: 20px;
 }
 

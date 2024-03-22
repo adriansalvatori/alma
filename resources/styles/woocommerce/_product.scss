@@ -1,10 +1,12 @@
+@use '../config/' as *;
+
 div.woocommerce {
   .product {
     position: relative;
 
     .onsale {
-      background-color: nth(map-get($colors, "primary"), 1);
-      color: nth(map-get($colors, "primary"), 2);
+      background-color: var(--primary);
+      color: var(--primary-inverted);
       position: absolute;
       top: 0;
       left: 0;

@@ -1,6 +1,6 @@
 {
   "name": "@salvatori/alma",
-  "version": "6.0.3",
+  "version": "6.1.0",
   "description": "Wordpress theme based on Alma using Vite",
   "license": "MIT",
   "scripts": {
@@ -46,7 +46,7 @@
     "@wordpress/edit-post": "^7.14.0",
     "alpine-magic-helpers": "^1.2.2",
     "alpinejs": "^3.12.2",
-    "bulma": "^0.9.4",
+    "bulma": "^1.0.0",
     "bulma-helpers": "^0.3.12",
     "feather-icons": "^4.28.0",
     "gsap": "^3.6.1",

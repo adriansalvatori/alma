@@ -1,6 +1,8 @@
 /**
  * My cart WooCommerce styles
  */
+ 
+ @use '../config/' as *;
 
 div.woocommerce {
   .cart_totals {

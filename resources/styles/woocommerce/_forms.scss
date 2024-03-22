@@ -1,6 +1,9 @@
 /**
  * Forms WooCommerce styles
  */
+ 
+ @use '../config/' as *;
+ 
 div.woocommerce {
   input[type=text],
   input[type=number],

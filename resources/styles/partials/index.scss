@@ -1,7 +1,8 @@
 /**
  * Partials
  */
+@charset "utf-8";
 
-@import 'header';
-@import 'header-vertical';
-@import 'carousel';
+@forward 'header';
+@forward 'header-vertical';
+@forward 'carousel';

@@ -1,6 +1,9 @@
 /**
 * Buttons
 */
+
+@use '../config/' as *;
+
 div.woocommerce {
   a.button,
   button.button,
@@ -12,12 +15,12 @@ div.woocommerce {
     }
 
     &.alt {
-      background-color: nth(map-get($colors, "primary"), 1);
+      background-color: var(--primary);
       border-color: transparent;
-      color: nth(map-get($colors, "primary"), 2);
+      color: var(--primary-inverted);
 
       &:hover {
-        background-color: darken(nth(map-get($colors, "primary"), 1), 2.5%);
+        background-color: var(--primary-darker);
       }
     }
   }

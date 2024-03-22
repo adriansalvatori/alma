@@ -1,9 +1,7 @@
+@use '~/bulma-helpers/bulma-helpers.sass';
+
 .slick-slide {
     display: inline-block;
-}
-
-.nav-inside {
-    background: $primary !important;
 }
 
 .font-w {
@@ -123,7 +121,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background: linear-gradient(0deg, $dark 0%, transparent 100%);
+        background: linear-gradient(0deg, var(--dark) 0%, transparent 100%);
         opacity: 0.6;
     }
     &:hover{
@@ -131,7 +129,7 @@
 
         &:before {
             opacity: 1;
-            background: linear-gradient(0deg, $primary 0%, transparent 100%);
+            background: linear-gradient(0deg, var(--primary) 0%, transparent 100%);
         }
     }
     * {

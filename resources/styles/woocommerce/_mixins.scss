@@ -1,22 +1,25 @@
+
+@use '../config/' as *;
+
 @mixin column {
   display: block;
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  padding: $column-gap;
+  padding: var(--column-gap);
 }
 
 @mixin columns {
-  margin-left: (-$column-gap);
-  margin-right: (-$column-gap);
-  margin-top: (-$column-gap);
+  margin-left: (-var(--column-gap));
+  margin-right: (-var(--column-gap));
+  margin-top: (-var(--column-gap));
 
   &:last-child {
-    margin-bottom: (-$column-gap);
+    margin-bottom: (-var(--column-gap));
   }
 
   &:not(:last-child) {
-    margin-bottom: calc(1.5rem - #{$column-gap});
+    margin-bottom: calc(1.5rem - #{var(--column-gap)});
   }
 
   @include tablet {

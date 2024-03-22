@@ -4083,10 +4083,12 @@ bulma-helpers@^0.3.12:
   resolved "https://registry.yarnpkg.com/bulma-helpers/-/bulma-helpers-0.3.12.tgz#ffdc68eb35aa926bd6e53c0a8b52124b84f5e980"
   integrity sha512-FHF3rYdVwn7cUE/u6zscozc38+JFBdcKM0d+WQf3btNs47zKStc2mabV3ab3WZ+gYU4a992Or0cCwA/2vkLJ0A==
 
-bulma@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.9.4.tgz#0ca8aeb1847a34264768dba26a064c8be72674a1"
-  integrity sha512-86FlT5+1GrsgKbPLRRY7cGDg8fsJiP/jzTqXXVqiUZZ2aZT8uemEOHlU1CDU+TxklPEZ11HZNNWclRBBecP4CQ==
+bulma@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-1.0.0.tgz#95e8ffa4feb8d64aa1c54a4f0ac6da08e0260672"
+  integrity sha512-7n49v/gdHXaHcU9fVobqGXO2OguiCoMh6CLbeX7jq00XrZ5vOSE4LNS0S/0Q6rlBbckY6kk6W7LwqxS0nu4bug==
+  dependencies:
+    sass "^1.71.1"
 
 bundle-name@^3.0.0:
   version "3.0.0"
@@ -4151,7 +4153,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001464, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001517:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001464, caniuse-lite@^1.0.30001503:
   version "1.0.30001517"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001517.tgz#90fabae294215c3495807eb24fc809e11dc2f0a8"
   integrity sha512-Vdhm5S11DaFVLlyiKu4hiUTkpZu+y1KA/rZZqVQfOD5YdDT/eQKlkt7NaE0WGOFgX32diqt9MiP9CAiFeRklaA==
@@ -8848,6 +8850,15 @@ sass@^1.62.0:
     immutable "^4.0.0"
     source-map-js ">=0.6.2 <2.0.0"
 
+sass@^1.71.1:
+  version "1.72.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.72.0.tgz#5b9978943fcfb32b25a6a5acb102fc9dabbbf41c"
+  integrity sha512-Gpczt3WA56Ly0Mn8Sl21Vj94s1axi9hDIzDFn9Ph9x3C3p4nNyvsqJoQyVXKou6cBlfFWEgRW4rT8Tb4i3XnVA==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
 scheduler@^0.23.0:
   version "0.23.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
@@ -9900,6 +9911,14 @@ virtual-scroll@^2.2.1:
   integrity sha512-RvjcLxluh7B/6GPzLgQ9d0NYG4yqEguTc3MU7AvxyPVltuo2Cq5RokTL9RKUaZCMJ64in2hus0d03gTtoHp55g==
   dependencies:
     tiny-emitter "^2.1.0"
+
+vite-plugin-full-reload@^1.0.5:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-full-reload/-/vite-plugin-full-reload-1.1.0.tgz#ca6fa32631024a459ea9e5613dd4c0ff0f3b7995"
+  integrity sha512-3cObNDzX6DdfhD9E7kf6w2mNunFpD7drxyNgHLw+XwIYAgb+Xt16SEXo0Up4VH+TMf3n+DSVJZtW2POBGcBYAA==
+  dependencies:
+    picocolors "^1.0.0"
+    picomatch "^2.3.1"
 
 vite@^4.3.2:
   version "4.4.6"

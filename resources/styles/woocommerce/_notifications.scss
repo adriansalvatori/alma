@@ -1,6 +1,7 @@
 /**
 * Notifications WooCommerce styles
 */
+@use '../config/' as *;
 
 .woocommerce-notices-wrapper {
   margin-bottom: map-get($spacing-values, "5");
@@ -8,9 +9,9 @@
 
 .woocommerce-message,
 .woocommerce-Message {
-  background-color: $notification-background-color;
-  border-radius: $notification-radius;
-  padding: $notification-padding;
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
   position: relative;
   display: flex;
   align-items: center;
@@ -21,11 +22,11 @@
   }
 
   &[role=alert] {
-    background-color: nth(map-get($colors, "info"), 1);
-    color: nth(map-get($colors, "info"), 2);
+    background-color: var(--info);
+    color: var(--info-inverted);
 
     a.restore-item {
-      color: nth(map-get($colors, "info"), 2);
+      color: var(--info-inverted);
       text-decoration: underline;
       display: inline-block;
       margin-left: map-get($spacing-values, "3");
@@ -34,29 +35,29 @@
 }
 
 .woocommerce-notice {
-  background-color: $notification-background-color;
-  border-radius: $notification-radius;
-  padding: $notification-padding;
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
   margin-bottom: map-get($spacing-values, "3");
 
   &--success {
-    background-color: $success;
-    color: $success-invert;
+    background-color: var(--success);
+    color: var(--success-inverted);
   }
 }
 
 .woocommerce-info {
-  background-color: $notification-background-color;
-  border-radius: $notification-radius;
-  padding: $notification-padding;
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
   margin-bottom: map-get($spacing-values, "3");
 }
 
 .woocommerce-error {
-  border-radius: $notification-radius;
-  padding: $notification-padding;
-  background-color: nth(map-get($colors, "warning"), 1);
-  color: nth(map-get($colors, "warning"), 2);
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
+  color: var(--warning-inverted);
 
   li {
     margin-bottom: map-get($spacing-values, "2");

@@ -2,6 +2,9 @@
 * Product page WooCommerce styles
 */
 
+@use '../config/' as *;
+@use 'mixins' as *;
+
 div.woocommerce {
   .single-product {
     .product {
@@ -29,8 +32,8 @@ div.woocommerce {
       }
 
       padding-top: map-get($spacing-values, "6") !important;
-      padding-left: $column-gap * 2 !important;
-      padding-right: $column-gap * 2 !important;
+      padding-left: calc(var(--column-gap) * 2) !important;
+      padding-right: calc(var(--column-gap) * 2) !important;
 
       .woocommerce-product-details__short-description {
         margin-bottom: map-get($spacing-values, "3");
@@ -67,8 +70,8 @@ div.woocommerce {
         top: $size-6;
         right: $size-6;
         z-index: 2;
-        width: $size-2;
-        height: $size-2;
+        width: var(--size-2);
+        height: var(--size-2);
         background: $white;
         text-indent: -9999px;
         border-radius: $radius-rounded;

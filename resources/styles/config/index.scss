@@ -1,9 +1,8 @@
 /**
  * Config
  */
-@import 'variables';
-@import 'config';
-@import 'helpers';
-@import 'solar';
+@charset "utf-8";
 
-
+@forward 'config';
+@forward 'helpers';
+@forward 'solar';

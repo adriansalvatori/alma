@@ -1,13 +1,13 @@
 /** Config */
-@import 'config';
-@import 'woocommerce';
+@use 'config';
+@use 'woocommerce';
 
 /** Common */
-@import 'common';
+@use 'common';
 
 /** Components */
-@import 'components';
+@use 'components';
 
 /** Partials */
-@import 'partials';
+@use 'partials';
 

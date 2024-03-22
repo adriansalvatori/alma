@@ -1,6 +1,10 @@
 /**
  * My account WooCommerce styles
  */
+
+@use '../config/' as *;
+@use 'mixins' as *;
+
 .logged-in.woocommerce-account .woocommerce {
   @include columns;
 }
@@ -41,13 +45,13 @@ div.woocommerce {
 
     li {
       &.is-active {
-        background-color: $primary;
+        background-color: var(--primary);
 
         a {
-          color: $primary-invert;
+          color: var(--primary-inverted);
 
           &:hover {
-            color: $primary;
+            color: var(--primary);
           }
         }
       }

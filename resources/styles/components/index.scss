@@ -1,7 +1,9 @@
 /**
  * Components
  */
-@import 'button';
-@import 'loader';
-@import 'billboard';
-@import 'product-card';
+@charset "utf-8";
+
+@forward 'button';
+@forward 'loader';
+@forward 'billboard';
+@forward 'product-card';

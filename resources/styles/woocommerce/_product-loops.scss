@@ -2,6 +2,10 @@
 * Product loops WooCommerce styles
 */
 
+
+@use '../config/' as *;
+@use 'mixins' as *;
+
 div.woocommerce {
   .woocommerce-result-count {
     float: left;

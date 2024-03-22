@@ -1,3 +1,5 @@
+@use '../config/' as *;
+
 .layout {
     transition: ease-out 0.4s;
     &.is-loading {

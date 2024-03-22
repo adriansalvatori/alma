@@ -1,12 +1,8 @@
 /**
  * Editor
  */
-@import 'config';
+@use 'config' as *;
 
 .editor-styles-wrapper > * {
-  @import 'common';
-  @import 'components';
-  @import 'woocommerce';
-
   font-family: $body-family;
 }

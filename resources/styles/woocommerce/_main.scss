@@ -2,9 +2,12 @@
  * Main WooCommerce styles
  */
 
+@use '../config/' as *;
+@use 'mixins' as *;
+
 div.woocommerce {
-  padding-left: $column-gap;
-  padding-right: $column-gap;
+  padding-left: var(--column-gap);
+  padding-right: var(--column-gap);
 
   @include desktop {
     padding-left: 0;
@@ -12,7 +15,7 @@ div.woocommerce {
   }
 
   h2 {
-    font-size: $size-2;
+    font-size: var(--size-2);
     margin-top: map-get($spacing-values, "5");
     margin-bottom: map-get($spacing-values, "3");
   }
