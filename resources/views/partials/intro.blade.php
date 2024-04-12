@@ -1,4 +1,4 @@
-<section class="hero is-fullheight is-dark is-relative" data-cursor="-inverse" style="height: 100vh">
+<section class="hero is-fullheight is-relative" data-cursor="-inverse" style="height: 100vh">
   <div class="hero-head"></div>
   <div class="hero-body">
     <div class="container">
