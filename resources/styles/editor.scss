@@ -3,6 +3,97 @@
  */
 @use 'config' as *;
 
+/**
+ * Editor Layout UI
+ */
+
+:root {
+  --wp-admin-theme-color: var(--primary);
+  --wp-admin-theme-color--rgb: var(--primary-rgb);
+  --wp-admin-theme-color-darker-10: var(--primary-10-invert);
+  --wp-admin-theme-color-darker-20: var(--primary-20-invert);
+  --wp-admin-border-width-focus: 2px;
+  --wp-block-synced-color: var(--info);
+  --wp-block-synced-color--rgb: var(--info-rgb);
+}
+
+.editor-styles-wrapper {
+  @extend .content;
+}
+
 .editor-styles-wrapper > * {
-  font-family: $body-family;
+  font-family: var(--body-family);
+}
+
+body, 
+.components-search-control input[type=search].components-search-control__input, 
+.components-panel__body>.components-panel__body-title:hover, 
+.components-button.editor-post-last-revision__title:active, .components-button.editor-post-last-revision__title:hover {
+  background: var(--body-background-color) !important;
+  &:focus {
+    background: var(--body-background-color) !important;
+    color: var(--text-strong) !important;
+  }
+}
+
+.edit-post-fullscreen-mode-close.components-button, 
+.edit-post-header, 
+.interface-interface-skeleton__secondary-sidebar, 
+.interface-interface-skeleton__sidebar,
+.components-popover__content,
+.interface-complementary-area, 
+.interface-complementary-area-header, 
+.components-panel, 
+.block-editor-default-block-appender .block-editor-inserter__toggle.components-button.has-icon, 
+.block-editor-block-inspector__no-block-tools, .block-editor-block-inspector__no-blocks, 
+.block-editor-block-contextual-toolbar, 
+.edit-post-editor__document-overview-panel .edit-post-editor__document-overview-panel__close-button, 
+.interface-interface-skeleton__footer, 
+.interface-interface-skeleton__footer .block-editor-block-breadcrumb
+ {
+  background: var(--background) !important;
+  color : var(--text-strong) !important;
+}
+
+.components-button, 
+.block-editor-block-types-list__item-icon, 
+.edit-post-editor__list-view-overview>div>span {
+  color: var(--text-strong) !important;
+}
+
+.components-button {
+  &:hover:disabled, &[aria-disabled=true]:hover {
+    color: var(--text-strong) !important;
+  }
+}
+
+.block-editor-inserter__tabs .components-tab-panel__tabs, 
+.interface-interface-skeleton__header, 
+.interface-complementary-area-header,
+.components-panel__body, 
+.components-menu-group, 
+.edit-post-post-preview-dropdown .components-popover__content, 
+.interface-navigable-region.interface-interface-skeleton__sidebar, 
+.block-editor-block-contextual-toolbar, 
+.block-editor-inserter__popover.is-quick .components-popover__content, 
+.interface-interface-skeleton__secondary-sidebar, 
+.components-base-control, 
+.block-editor-inserter__quick-inserter-results,
+.block-editor-inserter__quick-inserter-expand.components-button {
+  border-color: var(--body-background-color) !important;
+  box-shadow: unset !important;
+}
+
+.block-editor-inserter__quick-inserter-expand.components-button {
+  background: var(--background-active);
+}
+
+.components-search-control__icon {
+  fill: var(--text-strong) !important;
+}
+
+.components-notice.is-warning {
+  background-color: var(--background-active);
+  border-left-color: var(--warning);
+  color: var(--text)
 }
