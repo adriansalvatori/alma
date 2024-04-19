@@ -15,7 +15,7 @@
 
 ## Tech
 
-- [Acorn](https://roots.io/acorn/docs/installation/) v3
+- [Acorn](https://roots.io/acorn/docs/installation/) v4
 - [PHP](https://secure.php.net/manual/en/install.php) >= 8.0 (
   with [`php-mbstring`](https://secure.php.net/manual/en/book.mbstring.php) enabled)
 - [Composer](https://getcomposer.org/download/)
