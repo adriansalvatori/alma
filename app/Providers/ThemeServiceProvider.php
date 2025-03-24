@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Roots\Acorn\Sage\SageServiceProvider;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Routing\UrlGenerator;
 
 class ThemeServiceProvider extends SageServiceProvider
 {
@@ -32,6 +34,11 @@ class ThemeServiceProvider extends SageServiceProvider
         /** Product Category Directive */
         Blade::directive('productcat', function ($product) {
             return "<?php echo wc_get_product_category_list( $product, ', ', '', '' ); ?>";
+        });
+
+      
+        Request::macro('hasValidSignature', function ($absolute = true) {
+          return app(UrlGenerator::class)->hasValidSignature(request(), $absolute);
         });
 
         parent::boot();
