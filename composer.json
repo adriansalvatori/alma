@@ -5,7 +5,8 @@
   "homepage": "https://movidagrafica.co/",
   "description": "Wordpress theme based on Alma using Vite",
   "license": "MIT",
-  "authors": [{
+  "authors": [
+    {
       "name": "Adrián Salvatori",
       "email": "adriansalvatori@gmail.com",
       "homepage": "https://github.com/adriansalvatori"
@@ -52,8 +53,11 @@
     "log1x/sage-html-forms": "^1.0",
     "log1x/sage-svg": "^1.1",
     "log1x/wp-smtp": "^1.0",
-    "roots/acorn": "^4.0.0",
-    "stoutlogic/acf-builder": "^1.12"
+    "nyholm/psr7": "^1.8",
+    "openai-php/client": "^0.10.3",
+    "roots/acorn": "^4.3.1",
+    "stoutlogic/acf-builder": "^1.12",
+    "symfony/http-client": "^7.2"
   },
   "require-dev": {
     "spatie/laravel-ignition": "^2.4",
@@ -63,7 +67,10 @@
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -75,6 +82,7 @@
   "extra": {
     "acorn": {
       "providers": [
+        "Illuminate\\Foundation\\Providers\\FoundationServiceProvider",
         "App\\Providers\\ThemeServiceProvider"
       ]
     }
