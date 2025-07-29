@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6933e03ff930f833224d8717857daae",
+    "content-hash": "737faccd3cd6aaf7f7c2a9224fd956fb",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -2585,6 +2585,57 @@
             "time": "2025-07-20T18:38:44+00:00"
         },
         {
+            "name": "istogram/wp-api-content-migration",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/istogram/wp-api-content-migration.git",
+                "reference": "7df48d59cb4924fa090ae73ab2c354c29afd1304"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/istogram/wp-api-content-migration/zipball/7df48d59cb4924fa090ae73ab2c354c29afd1304",
+                "reference": "7df48d59cb4924fa090ae73ab2c354c29afd1304",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "aliases": {
+                        "ClearContent": "istogram\\WpApiContentMigration\\Facades\\ClearContent",
+                        "ContentMigration": "istogram\\WpApiContentMigration\\Facades\\ContentMigration"
+                    },
+                    "providers": [
+                        "istogram\\WpApiContentMigration\\Providers\\ContentMigrationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "istogram\\WpApiContentMigration\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Timos Zabetakis",
+                    "email": "timoszab@gmail.com"
+                }
+            ],
+            "description": "An Acorn package to migrate content from a WP API to a local WP installation",
+            "support": {
+                "issues": "https://github.com/istogram/wp-api-content-migration/issues",
+                "source": "https://github.com/istogram/wp-api-content-migration/tree/v1.2"
+            },
+            "time": "2024-09-14T20:57:31+00:00"
+        },
+        {
             "name": "johnbillion/args",
             "version": "2.2.2",
             "source": {
@@ -3399,6 +3450,66 @@
                 }
             ],
             "time": "2025-06-10T08:02:49+00:00"
+        },
+        {
+            "name": "log1x/acorn-disable-media-pages",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Log1x/acorn-disable-media-pages.git",
+                "reference": "4bffcc484afb52a9c175c998e0890cd60ae012ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Log1x/acorn-disable-media-pages/zipball/4bffcc484afb52a9c175c998e0890cd60ae012ae",
+                "reference": "4bffcc484afb52a9c175c998e0890cd60ae012ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Log1x\\DisableMediaPages\\DisableMediaPagesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Log1x\\DisableMediaPages\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brandon Nifong",
+                    "email": "brandon@tendency.me"
+                }
+            ],
+            "description": "Disable media attachment pages in WordPress.",
+            "keywords": [
+                "acorn",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/log1x/acorn-disable-media-pages/issues",
+                "source": "https://github.com/Log1x/acorn-disable-media-pages/tree/v1.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Log1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-01-02T21:53:20+00:00"
         },
         {
             "name": "log1x/sage-directives",
