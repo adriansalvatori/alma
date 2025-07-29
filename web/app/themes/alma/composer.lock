@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c89c587e8fbcba888e89f30c3a09e2a",
+    "content-hash": "d6933e03ff930f833224d8717857daae",
     "packages": [
         {
             "name": "blade-ui-kit/blade-icons",
@@ -2585,6 +2585,379 @@
             "time": "2025-07-20T18:38:44+00:00"
         },
         {
+            "name": "johnbillion/args",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnbillion/args.git",
+                "reference": "d13fe0c5388f66cfa9310a1940625c27347c38d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnbillion/args/zipball/d13fe0c5388f66cfa9310a1940625c27347c38d9",
+                "reference": "d13fe0c5388f66cfa9310a1940625c27347c38d9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "ergebnis/json-printer": "3.7.0",
+                "humanmade/coding-standards": "1.2.1",
+                "johnbillion/falsey-assertequals-detector": "^3",
+                "phpdocumentor/reflection": "~4.0 || ~5.0",
+                "phpstan/phpstan": "1.12.12",
+                "phpstan/phpstan-phpunit": "1.4.1",
+                "phpstan/phpstan-strict-rules": "1.6.1",
+                "phpunit/phpunit": "^9.0",
+                "roots/wordpress-core-installer": "1.100.0",
+                "roots/wordpress-full": "6.8",
+                "szepeviktor/phpstan-wordpress": "1.3.5"
+            },
+            "type": "library",
+            "extra": {
+                "args-shapes": [
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/category.php",
+                        "param": "args",
+                        "function": "\\get_categories()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/comment.php",
+                        "param": "args",
+                        "function": "\\get_comments()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "args",
+                        "function": "\\get_posts()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/category.php",
+                        "param": "args",
+                        "function": "\\get_tags()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\get_terms()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/user.php",
+                        "param": "args",
+                        "function": "\\get_users()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/general-template.php",
+                        "param": "args",
+                        "function": "\\paginate_links()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/blocks.php",
+                        "param": "args",
+                        "function": "\\register_block_type()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/meta.php",
+                        "param": "args",
+                        "function": "\\register_meta()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "args",
+                        "function": "\\register_post_meta()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "args",
+                        "function": "\\register_post_status()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "args",
+                        "function": "\\register_post_type()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/rest-api.php",
+                        "param": "args",
+                        "function": "\\register_rest_field()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/option.php",
+                        "param": "args",
+                        "function": "\\register_setting()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\register_taxonomy()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\register_term_meta()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\wp_count_terms()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/functions.php",
+                        "param": "args",
+                        "function": "\\wp_die()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/category-template.php",
+                        "param": "args",
+                        "function": "\\wp_dropdown_categories()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/l10n.php",
+                        "param": "args",
+                        "function": "\\wp_dropdown_languages()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/category-template.php",
+                        "param": "args",
+                        "function": "\\wp_generate_tag_cloud()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/nav-menu.php",
+                        "param": "args",
+                        "function": "\\wp_get_nav_menus()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\wp_get_object_terms()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "postarr",
+                        "function": "\\wp_insert_post()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\wp_insert_term()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/user.php",
+                        "param": "userdata",
+                        "function": "\\wp_insert_user()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/nav-menu-template.php",
+                        "param": "args",
+                        "function": "\\wp_nav_menu()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_remote_get()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_remote_head()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_remote_post()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_remote_request()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_safe_remote_get()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_safe_remote_head()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_safe_remote_post()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/http.php",
+                        "param": "args",
+                        "function": "\\wp_safe_remote_request()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/post.php",
+                        "param": "postarr",
+                        "function": "\\wp_update_post()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/taxonomy.php",
+                        "param": "args",
+                        "function": "\\wp_update_term()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/user.php",
+                        "param": "userdata",
+                        "function": "\\wp_update_user()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-block-type.php",
+                        "param": "args",
+                        "method": "\\WP_Block_Type::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-comment-query.php",
+                        "param": "query",
+                        "method": "\\WP_Comment_Query::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-customize-control.php",
+                        "param": "args",
+                        "method": "\\WP_Customize_Control::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-customize-manager.php",
+                        "param": "args",
+                        "method": "\\WP_Customize_Manager::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-customize-panel.php",
+                        "param": "args",
+                        "method": "\\WP_Customize_Panel::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-customize-section.php",
+                        "param": "args",
+                        "method": "\\WP_Customize_Section::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-customize-setting.php",
+                        "param": "args",
+                        "method": "\\WP_Customize_Setting::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-http.php",
+                        "param": "args",
+                        "method": "\\WP_Http::request()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-query.php",
+                        "param": "query",
+                        "method": "\\WP_Query::parse_query()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-term-query.php",
+                        "param": "query",
+                        "method": "\\WP_Term_Query::__construct()"
+                    },
+                    {
+                        "file": "vendor/wordpress/wordpress/wp-includes/class-wp-user-query.php",
+                        "param": "query",
+                        "method": "\\WP_User_Query::prepare_query()"
+                    }
+                ],
+                "wordpress-install-dir": "vendor/wordpress/wordpress"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Args\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "John Blackbourn",
+                    "homepage": "https://johnblackbourn.com/"
+                }
+            ],
+            "description": "I don't want to get into an argument about this.",
+            "support": {
+                "issues": "https://github.com/johnbillion/args/issues",
+                "source": "https://github.com/johnbillion/args/tree/2.2.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/johnbillion",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-16T18:09:01+00:00"
+        },
+        {
+            "name": "johnbillion/extended-cpts",
+            "version": "5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/johnbillion/extended-cpts.git",
+                "reference": "20b7e9773b60f7301cd59ee520affa0ff63f90e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/johnbillion/extended-cpts/zipball/20b7e9773b60f7301cd59ee520affa0ff63f90e6",
+                "reference": "20b7e9773b60f7301cd59ee520affa0ff63f90e6",
+                "shasum": ""
+            },
+            "require": {
+                "johnbillion/args": "^1.4.1 || ^2.0",
+                "php": ">= 7.4.0"
+            },
+            "require-dev": {
+                "automattic/phpcs-neutron-standard": "1.7.0",
+                "behat/gherkin": "< 4.13.0",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "johnbillion/falsey-assertequals-detector": "*",
+                "johnbillion/plugin-infrastructure": "dev-trunk",
+                "johnbillion/wp-compat": "0.3.1",
+                "lucatume/wp-browser": "3.2.3",
+                "phpcompatibility/phpcompatibility-wp": "2.1.5",
+                "phpstan/phpstan": "1.12.12",
+                "phpstan/phpstan-phpunit": "1.4.1",
+                "roots/wordpress-core-installer": "1.100.0",
+                "roots/wordpress-full": "*",
+                "szepeviktor/phpstan-wordpress": "1.3.5",
+                "wp-coding-standards/wpcs": "2.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "wordpress-install-dir": "vendor/wordpress/wordpress"
+            },
+            "autoload": {
+                "files": [
+                    "functions.php"
+                ],
+                "psr-4": {
+                    "ExtCPTs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "John Blackbourn",
+                    "homepage": "https://johnblackbourn.com/"
+                }
+            ],
+            "description": "A library which provides extended functionality to WordPress custom post types and taxonomies.",
+            "homepage": "https://github.com/johnbillion/extended-cpts/",
+            "support": {
+                "issues": "https://github.com/johnbillion/extended-cpts/issues",
+                "source": "https://github.com/johnbillion/extended-cpts/tree/5.1.0"
+            },
+            "time": "2025-06-18T21:18:03+00:00"
+        },
+        {
             "name": "laravel/prompts",
             "version": "v0.3.6",
             "source": {
@@ -4187,6 +4560,190 @@
                 }
             ],
             "time": "2025-05-28T00:15:05+00:00"
+        },
+        {
+            "name": "roots/acorn-mail",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roots/acorn-mail.git",
+                "reference": "ba0aeb6a7f2d4893f01b27a39d29ca86eb462983"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roots/acorn-mail/zipball/ba0aeb6a7f2d4893f01b27a39d29ca86eb462983",
+                "reference": "ba0aeb6a7f2d4893f01b27a39d29ca86eb462983",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13",
+                "roots/acorn": "^4.0"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Roots\\AcornMail\\AcornMailServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Roots\\AcornMail\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brandon Nifong",
+                    "email": "brandon@tendency.me",
+                    "homepage": "https://github.com/log1x"
+                }
+            ],
+            "description": "Simple WordPress SMTP using Acorn's mail configuration.",
+            "support": {
+                "issues": "https://github.com/roots/acorn-mail/issues",
+                "source": "https://github.com/roots/acorn-mail/tree/v1.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/roots",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-26T14:18:18+00:00"
+        },
+        {
+            "name": "roots/acorn-post-types",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roots/acorn-post-types.git",
+                "reference": "79ee2b9ec6357eef3cb4b81dfb00b3a515b0869a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roots/acorn-post-types/zipball/79ee2b9ec6357eef3cb4b81dfb00b3a515b0869a",
+                "reference": "79ee2b9ec6357eef3cb4b81dfb00b3a515b0869a",
+                "shasum": ""
+            },
+            "require": {
+                "johnbillion/extended-cpts": "^5.0",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13",
+                "roots/acorn": "^4.0"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Roots\\AcornPostTypes\\AcornPostTypesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Roots\\AcornPostTypes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roots",
+                    "email": "team@roots.io"
+                }
+            ],
+            "description": "Simple post types and taxonomies using Extended CPTs for Acorn.",
+            "support": {
+                "issues": "https://github.com/roots/acorn-post-types/issues",
+                "source": "https://github.com/roots/acorn-post-types/tree/v1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/roots",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-06-01T21:17:10+00:00"
+        },
+        {
+            "name": "roots/acorn-prettify",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roots/acorn-prettify.git",
+                "reference": "1d417f8b4dfbf93e82148d7e9a35e5b3cde5cf53"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roots/acorn-prettify/zipball/1d417f8b4dfbf93e82148d7e9a35e5b3cde5cf53",
+                "reference": "1d417f8b4dfbf93e82148d7e9a35e5b3cde5cf53",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13",
+                "roots/acorn": "^4.0"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Roots\\AcornPrettify\\AcornPrettifyServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Roots\\AcornPrettify\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brandon Nifong",
+                    "email": "brandon@tendency.me",
+                    "homepage": "https://github.com/log1x"
+                },
+                {
+                    "name": "Ben Word",
+                    "email": "ben@benword.com",
+                    "homepage": "https://github.com/retlehs"
+                },
+                {
+                    "name": "QWp6t",
+                    "email": "craig@roots.io",
+                    "homepage": "https://github.com/qwp6t"
+                }
+            ],
+            "description": "Theme-agnostic front-end modifications for WordPress",
+            "support": {
+                "issues": "https://github.com/roots/acorn-prettify/issues",
+                "source": "https://github.com/roots/acorn-prettify/tree/v1.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/roots",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-07-18T17:56:03+00:00"
         },
         {
             "name": "roots/support",
