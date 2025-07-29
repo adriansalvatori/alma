@@ -1,37 +1,37 @@
 {
-  "name": "roots/sage",
+  "name": "salvatori/alma",
   "type": "wordpress-theme",
+  "version": "6.0.0",
   "license": "MIT",
   "description": "WordPress starter theme with a modern development workflow",
-  "homepage": "https://roots.io/sage/",
-  "authors": [
+  "homepage": "https://movidagrafica.co/alma",
+   "authors": [
     {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
+      "name": "Adrián Salvatori",
+      "email": "adriansalvatori@gmail.com",
+      "homepage": "https://github.com/adriansalvatori"
     },
     {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
+      "name": "Richar Arenas",
+      "email": "emyerbetharenas@gmail.com",
+      "homepage": "https://github.com/ErAo"
     },
     {
-      "name": "QWp6t",
-      "email": "hi@qwp6t.me",
-      "homepage": "https://github.com/qwp6t"
+      "name": "Santiago Salazar",
+      "email": "santiagosalazar.dev@gmail.com",
+      "homepage": "https://github.com/SantiagoCode"
     },
     {
-      "name": "Brandon Nifong",
-      "email": "brandon@tendency.me",
-      "homepage": "https://github.com/log1x"
+      "name": "Alejandro Gutierrez",
+      "email": "alejandrocorro27@gmail.com",
+      "homepage": "https://github.com/Alejandrocorro"
     }
   ],
   "keywords": [
     "wordpress"
   ],
   "support": {
-    "issues": "https://github.com/roots/sage/issues",
-    "forum": "https://discourse.roots.io/"
+    "issues": "https://github.com/adriansalvatori/alma/issues"
   },
   "autoload": {
     "psr-4": {
