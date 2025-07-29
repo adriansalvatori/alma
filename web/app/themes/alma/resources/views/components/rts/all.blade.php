@@ -6,3 +6,5 @@
     <x-rts.barba/>
 @endif
 
+<x-rts.console/>
+

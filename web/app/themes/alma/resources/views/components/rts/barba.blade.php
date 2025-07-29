@@ -2,12 +2,8 @@
 <script src="https://unpkg.com/@barba/core"></script>
 
 <script>
-
     barba.hooks.after(() => { // This is supposed to fire events
         console.log('Firing events')
-        window.scrollTo({
-            top: 0
-        });
         document.dispatchEvent(new Event('DOMContentLoaded'));
         window.dispatchEvent(new Event('load'));
         if (typeof jQuery !== 'undefined') {
@@ -19,7 +15,7 @@
         cacheFirstPage: false,
         cacheIgnore: ['/carrito/', '/cart', '/checkout/'],
         debug: {{ app()->environment('development') ? 'true' : 'false' }},
-        logLevel: 'debug',
+        logLevel: 'off',
         prefetchIgnore: false,
         prevent: ({
             el
