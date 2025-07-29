@@ -1,6 +1,7 @@
 <?php
 
 use Roots\Acorn\Application;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +33,38 @@ require $composer;
 */
 
 Application::configure()
-    ->withProviders([
-        App\Providers\ThemeServiceProvider::class,
-    ])
-    ->boot();
+        ->withProviders([
+            // Register your service providers
+            App\Providers\ThemeServiceProvider::class,
+        ])
+        ->withMiddleware(function ($middleware) {
+            // Configure HTTP middleware for WordPress requests
+            $middleware->wordpress([
+                Illuminate\Cookie\Middleware\EncryptCookies::class,
+                Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+                Illuminate\Session\Middleware\StartSession::class,
+                Illuminate\View\Middleware\ShareErrorsFromSession::class,
+                Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
+                Illuminate\Routing\Middleware\SubstituteBindings::class,
+            ]);
+
+            // You can also configure middleware for web and API routes
+            // $middleware->web([...]);
+            // $middleware->api([...]);
+        })
+        ->withExceptions(function ( $exceptions) {
+            // Configure exception handling
+            // $exceptions->reportable(function (\Throwable $e) {
+            //     Log::error($e->getMessage());
+            // });
+        })
+        ->withRouting(
+            // Configure routing with named parameters
+            web: base_path('routes/web.php'),    // Laravel-style web routes
+            api: base_path('routes/api.php'),    // API routes
+            wordpress: true,                     // Enable WordPress request handling
+        )
+        ->boot();
 
 /*
 |--------------------------------------------------------------------------

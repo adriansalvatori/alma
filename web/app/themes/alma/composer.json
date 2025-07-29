@@ -40,7 +40,10 @@
   },
   "require": {
     "php": ">=8.2",
+    "blade-ui-kit/blade-icons": "^1.8",
     "generoi/sage-woocommerce": "^1.1",
+    "livewire/livewire": "^3.6",
+    "log1x/acf-composer": "^3.4",
     "log1x/sage-directives": "^2.0",
     "roots/acorn": "^5.0"
   },
