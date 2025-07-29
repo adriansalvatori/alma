@@ -8,10 +8,9 @@
     @php(wp_head())
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <x-rts.all />
 </head>
 
-<body @php(body_class())>
+<body @php(body_class()) data-barba="wrapper">
     @php(wp_body_open())
 
     <div data-scroll id="app">
@@ -21,17 +20,7 @@
 
         @include('sections.header')
 
-        <main style="height: 100vh;">
-            <div>
-                <h1>Hello 👋</h1>
-            </div>
-            <div>
-                <h2 data-scroll data-scroll-speed="0.5">What's up?</h2>
-                <p data-scroll data-scroll-speed="0.8">😬</p>
-            </div>
-        </main>
-
-        <main id="main" class="main">
+        <main id="main" class="main" data-barba="container" data-barba-namespace="home">
             @yield('content')
         </main>
 
@@ -47,6 +36,7 @@
     @php(do_action('get_footer'))
     @php(wp_footer())
     @livewireScripts
+    <x-rts.all />
 </body>
 
 </html>
