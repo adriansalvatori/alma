@@ -13,7 +13,7 @@
 <body @php(body_class()) data-barba="wrapper">
     @php(wp_body_open())
 
-    <div data-scroll id="app">
+    <div id="app">
         <a class="sr-only focus:not-sr-only" href="#main">
             {{ __('Skip to content', 'sage') }}
         </a>
@@ -32,11 +32,11 @@
 
         @include('sections.footer')
     </div>
-
+    <x-rts.all />
     @php(do_action('get_footer'))
     @php(wp_footer())
     @livewireScripts
-    <x-rts.all />
+
 </body>
 
 </html>

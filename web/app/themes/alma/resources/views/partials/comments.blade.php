@@ -1,17 +1,17 @@
 @if (! post_password_required())
-  <section id="comments" class="comments">
+  <section id="comments" class="comments space-y-6">
     @if ($responses())
-      <h2>
+      <h2 class="text-2xl font-bold">
         {!! $title !!}
       </h2>
 
-      <ol class="comment-list">
+      <ol class="comment-list list-decimal pl-6 space-y-4">
         {!! $responses !!}
       </ol>
 
       @if ($paginated())
-        <nav aria-label="Comment">
-          <ul class="pager">
+        <nav aria-label="Comment" class="mt-4">
+          <ul class="pager flex justify-between">
             @if ($previous())
               <li class="previous">
                 {!! $previous !!}
@@ -37,3 +37,4 @@
     @php(comment_form())
   </section>
 @endif
+
