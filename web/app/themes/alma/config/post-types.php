@@ -12,18 +12,7 @@ return [
     |
     */
 
-    'post_types' => [
-        'seed' => [
-            'menu_icon' => 'dashicons-star-filled',
-            'supports' => ['title', 'editor', 'author', 'revisions', 'thumbnail'],
-            'show_in_rest' => true,
-            'names' => [
-                'singular' => 'Seed',
-                'plural' => 'Seeds',
-                'slug' => 'seeds',
-            ],
-        ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -35,14 +24,5 @@ return [
     |
     */
 
-    'taxonomies' => [
-        'seed_category' => [
-            'post_types' => ['seed'],
-            'meta_box' => 'radio',
-            'names' => [
-                'singular' => 'Category',
-                'plural' => 'Categories',
-            ],
-        ],
-    ],
+
 ];

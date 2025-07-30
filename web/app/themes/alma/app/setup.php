@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Vite;
  * @return array
  */
 add_filter('block_editor_settings_all', function ($settings) {
-    $style = Vite::asset('resources/css/editor.css');
+    $style = Vite::asset('resources/css/editor.scss');
 
     $settings['styles'][] = [
         'css' => "@import url('{$style}')",

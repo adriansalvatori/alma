@@ -17,7 +17,12 @@
     }
   ],
   "keywords": [
-    "bedrock", "composer", "roots", "wordpress", "wp", "wp-config"
+    "bedrock",
+    "composer",
+    "roots",
+    "wordpress",
+    "wp",
+    "wp-config"
   ],
   "support": {
     "issues": "https://github.com/roots/bedrock/issues",
@@ -27,7 +32,10 @@
     {
       "type": "composer",
       "url": "https://wpackagist.org",
-      "only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
+      "only": [
+        "wpackagist-plugin/*",
+        "wpackagist-theme/*"
+      ]
     }
   ],
   "require": {
@@ -40,7 +48,12 @@
     "roots/wordpress": "6.8.2",
     "roots/wp-config": "1.0.0",
     "wpackagist-theme/twentytwentyfive": "^1.0",
-    "wpackagist-plugin/advanced-custom-fields": "^6.4"
+    "wpackagist-plugin/advanced-custom-fields": "^6.4",
+    "wpackagist-plugin/woocommerce": "^10.0",
+    "wpackagist-plugin/google-site-kit": "^1.158",
+    "wpackagist-plugin/uipress-lite": "^3.5",
+    "wpackagist-plugin/bulky-bulk-edit-products-for-woo": "^1.2",
+    "wpackagist-plugin/two-factor": "^0.14.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
@@ -58,13 +71,27 @@
   "prefer-stable": true,
   "extra": {
     "installer-paths": {
-      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "web/app/themes/{$name}/": ["type:wordpress-theme"]
+      "web/app/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "web/app/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "web/app/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
     },
     "wordpress-install-dir": "web/wp"
   },
   "scripts": {
+    "post-root-package-install": [
+      "php -r \"copy('.env.example', '.env');\""
+    ],
+    "post-autoload-dump": [
+      "cd ./web/app/themes/alma && composer update",
+      "cd ./web/app/themes/alma && yarn && yarn build",
+      "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
+    ],
     "lint": "pint --test",
     "lint:fix": "pint"
   }

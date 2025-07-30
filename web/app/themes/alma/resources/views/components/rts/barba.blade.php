@@ -11,6 +11,34 @@
         }
     })
 
+    const loaderElements = [
+        document.querySelector('.preloader'),
+        document.querySelector('.layout')
+    ]
+
+    loaderElements.forEach(el => el.classList.remove('is-loading'));
+
+    const Transitions = [{
+        beforeEnter: ({
+            next
+        }) => {
+            const matches = next.html.match(/<body.+?class="([^""]*)"/i);
+            document.body.setAttribute('class', (matches && matches.at(1)) ?? '');
+        },
+        enter() {
+            // animate loading screen away
+            loaderElements.forEach(el => el.classList.remove('is-loading'));
+        },
+        leave() {
+            return new Promise((done) => {
+                loaderElements.forEach(el => el.classList.add('is-loading'));
+                setTimeout(() => {
+                    done();
+                }, 600);
+            });
+        },
+    }]
+
     barba.init({
         cacheFirstPage: false,
         cacheIgnore: ['/carrito/', '/cart', '/checkout/'],
@@ -23,15 +51,7 @@
             .getAttribute('href').includes('wp-admin')),
         preventRunning: false,
         timeout: 2e3,
-        transitions: [{
-            enter() {},
-            beforeEnter: ({
-                next
-            }) => {
-                const matches = next.html.match(/<body.+?class="([^""]*)"/i);
-                document.body.setAttribute('class', (matches && matches.at(1)) ?? '');
-            },
-        }],
+        transitions: Transitions,
         views: [],
     })
 </script>

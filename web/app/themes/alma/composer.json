@@ -43,6 +43,7 @@
     "blade-ui-kit/blade-icons": "^1.8",
     "generoi/sage-woocommerce": "^1.1",
     "istogram/wp-api-content-migration": "^1.2",
+    "jgrossi/corcel": "^9.0",
     "livewire/livewire": "^3.6",
     "log1x/acf-composer": "^3.4",
     "log1x/acorn-disable-media-pages": "^1.0",

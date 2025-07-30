@@ -1,0 +1,70 @@
+/**
+* Notifications WooCommerce styles
+*/
+@use '../config/' as *;
+@use "sass:map";
+
+.woocommerce-notices-wrapper {
+  margin-bottom: map.get($spacing-values, "5");
+}
+
+.woocommerce-message,
+.woocommerce-Message {
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: map.get($spacing-values, "5");
+
+  .button {
+    margin-right: map.get($spacing-values, "3");
+  }
+
+  &[role=alert] {
+    background-color: var(--info);
+    color: var(--info-inverted);
+
+    a.restore-item {
+      color: var(--info-inverted);
+      text-decoration: underline;
+      display: inline-block;
+      margin-left: map.get($spacing-values, "3");
+    }
+  }
+}
+
+.woocommerce-notice {
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
+  margin-bottom: map.get($spacing-values, "3");
+
+  &--success {
+    background-color: var(--success);
+    color: var(--success-inverted);
+  }
+}
+
+.woocommerce-info {
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
+  margin-bottom: map.get($spacing-values, "3");
+}
+
+.woocommerce-error {
+  background-color: var(--notification-background-color);
+  border-radius: var(--notification-radius);
+  padding: var(--notification-padding);
+  color: var(--warning-inverted);
+
+  li {
+    margin-bottom: map.get($spacing-values, "2");
+  }
+}
+
+.woocommerce-NoticeGroup {
+  margin-bottom: map.get($spacing-values, "3");
+}
