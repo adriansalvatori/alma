@@ -53,7 +53,8 @@
     "wpackagist-plugin/google-site-kit": "^1.158",
     "wpackagist-plugin/uipress-lite": "^3.5",
     "wpackagist-plugin/bulky-bulk-edit-products-for-woo": "^1.2",
-    "wpackagist-plugin/two-factor": "^0.14.0"
+    "wpackagist-plugin/two-factor": "^0.14.0",
+    "wpackagist-plugin/wp-user-profiles": "^2.6"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
