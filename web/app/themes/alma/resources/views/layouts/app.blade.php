@@ -8,6 +8,8 @@
     @php(wp_head())
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @livewireStyles
+    @stack('meta')
+    @stack('css')
 </head>
 
 <body @php(body_class()) data-barba="wrapper">
@@ -22,6 +24,7 @@
     </div>
     @livewireScripts
     <x-rts.all />
+    @stack('js')
     @php(do_action('get_footer'))
     @php(wp_footer())
 </body>
