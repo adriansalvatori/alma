@@ -1,7 +1,13 @@
 .hero {
   &.is-boxed {
-    margin: 10px;
+    --color: currentColor;
+    margin: 20px;
     border-radius: var(--radius-large);
+    border: solid 1px rgba(255, 255, 255, 0.2);
+
+    &.is-fullheight {
+      height: calc(100vh - 40px);
+    }
   }
 
   &.is-double-fullheight {

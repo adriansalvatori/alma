@@ -1,0 +1,14 @@
+.title {
+  &.is-large {
+    font-size: 8vh;
+  }
+  &.is-larger {
+    font-size: 12vh;
+  }
+  &.is-largest {
+    font-size: 16vh;
+  }
+  &.is-gigantic {
+    font-size: 20vh;
+  }
+}

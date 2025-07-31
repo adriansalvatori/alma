@@ -14,7 +14,7 @@
     @php(wp_body_open())
     <div id="app">
         <x-loader />
-        @include('sections.header')
+        @include('sections.navigation')
         <main id="main" class="main layout" data-barba="container" data-barba-namespace="home">
             @yield('content')
         </main>
