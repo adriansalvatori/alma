@@ -25,6 +25,7 @@
   "dependencies": {
     "bulma": "^1.0.4",
     "gsap": "^3.13.0",
+    "jarallax": "^2.2.1",
     "sass": "^1.89.2"
   }
 }
