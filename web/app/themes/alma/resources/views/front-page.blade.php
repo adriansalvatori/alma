@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="hero is-fullheight is-dark is-boxed">
+    <div class="hero is-fullheight is-boxed mt-0">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <h2 class="title is-large has-text-weight-bold">
