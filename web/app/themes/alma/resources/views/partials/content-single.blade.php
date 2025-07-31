@@ -1,19 +1,17 @@
-<article class="h-entry p-6 bg-white rounded-lg shadow-md overflow-hidden">
-  <header class="flex items-center justify-between mb-4 border-b">
-    <h1 class="p-name text-3xl font-semibold">
-      {!! $title !!}
-    </h1>
+<article class="card is-shadowless">
+  <header class="card-header">
+    <h1 class="card-header-title p-name is-size-3">{{ $title }}</h1>
 
     @include('partials.entry-meta')
   </header>
 
-  <div class="e-content prose prose-sm lg:prose lg:prose-lg mx-auto">
+  <div class="card-content e-content prose prose-sm lg:prose lg:prose-lg">
     @php(the_content())
   </div>
 
   @if ($pagination())
-    <footer class="mt-8">
-      <nav class="page-nav flex items-center justify-between" aria-label="Page">
+    <footer class="card-footer">
+      <nav class="pagination is-centered" role="navigation" aria-label="Page">
         {!! $pagination !!}
       </nav>
     </footer>

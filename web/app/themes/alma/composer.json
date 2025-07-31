@@ -42,6 +42,7 @@
     "php": ">=8.2",
     "blade-ui-kit/blade-icons": "^1.8",
     "generoi/sage-woocommerce": "^1.1",
+    "illuminate/auth": "^12.21",
     "istogram/wp-api-content-migration": "^1.2",
     "jgrossi/corcel": "^9.0",
     "livewire/livewire": "^3.6",
@@ -54,7 +55,8 @@
     "roots/acorn-prettify": "^1.0"
   },
   "require-dev": {
-    "laravel/pint": "^1.20"
+    "laravel/pint": "^1.20",
+    "orangehill/iseed": "^3.1"
   },
   "suggest": {
     "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0)."

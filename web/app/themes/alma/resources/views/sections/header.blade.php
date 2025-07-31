@@ -1,15 +1,22 @@
-<header class="bg-white shadow-md">
-  <div class="container mx-auto px-6 py-3">
-    <div class="flex items-center justify-between">
-      <a class="text-3xl font-bold text-gray-800 hover:text-gray-700" href="{{ home_url('/') }}">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item title is-3 has-text-weight-bold" href="{{ home_url('/') }}">
         {!! $siteName !!}
       </a>
-      @if (has_nav_menu('primary_navigation'))
-        <nav class="hidden md:flex space-x-6 text-lg">
-          {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'flex space-x-6', 'echo' => false]) !!}
-        </nav>
-      @endif
+      <button class="button navbar-burger" data-target="navbarMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div class="navbar-menu" id="navbarMenu">
+      <div class="navbar-end">
+        @if (has_nav_menu('primary_navigation'))
+          {!! wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'navbar-item', 'echo' => false]) !!}
+        @endif
+      </div>
     </div>
   </div>
-</header>
+</nav>
 

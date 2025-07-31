@@ -8,8 +8,8 @@ $dark: #000;
 $light: #F2F2F2;
 $danger: #CA0049;
 $grey: #D9D9D9;
-$body-family: 'Roboto',sans-serif;
-$title-family: 'Blinker',
+$body-family: 'Helvetica',sans-serif;
+$title-family: 'Helvetica',
 sans-serif;
 $title-weight: 400;
 
@@ -33,7 +33,7 @@ $icon-dimensions-large: $size-4;
 $control-border-width: 2px;
 
 /** Alma Sizes */
-$alma-radius: 20px; // Used, for example, in cards. 
+$alma-radius: 20px; // Used, for example, in cards.
 
 
 /**
@@ -89,6 +89,5 @@ $theme-colors: (
 /**
  * Import External Fonts
  */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Blinker:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;700&display=swap');
 

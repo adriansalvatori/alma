@@ -6,7 +6,7 @@
     <div class="hero-body">
         <div class="container is-fluid">
             <h2 class="title is-1">
-                <span>Hola Eura!!!</span>
+                Welcome to Alma
             </h2>
             <p>Yeah, this is a route, not a wordpress page.</p>
             <a href="{{home_url()}}" class="button is-primary">

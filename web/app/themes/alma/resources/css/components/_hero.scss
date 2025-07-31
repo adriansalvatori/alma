@@ -1,0 +1,10 @@
+.hero {
+  &.is-boxed {
+    margin: 10px;
+    border-radius: var(--radius-large);
+  }
+
+  &.is-double-fullheight {
+    height: 200vh;
+  }
+}

@@ -1,25 +1,25 @@
 @if (! post_password_required())
-  <section id="comments" class="comments space-y-6">
+  <section id="comments" class="comments">
     @if ($responses())
-      <h2 class="text-2xl font-bold">
+      <h2 class="title is-4">
         {!! $title !!}
       </h2>
 
-      <ol class="comment-list list-decimal pl-6 space-y-4">
+      <ol class="comment-list ml-5">
         {!! $responses !!}
       </ol>
 
       @if ($paginated())
         <nav aria-label="Comment" class="mt-4">
-          <ul class="pager flex justify-between">
+          <ul class="pagination is-flex is-justify-content-space-between">
             @if ($previous())
-              <li class="previous">
+              <li class="pagination-previous">
                 {!! $previous !!}
               </li>
             @endif
 
             @if ($next())
-              <li class="next">
+              <li class="pagination-next">
                 {!! $next !!}
               </li>
             @endif

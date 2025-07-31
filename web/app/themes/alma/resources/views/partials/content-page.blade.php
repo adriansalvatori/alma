@@ -1,9 +1,9 @@
-<div class="prose prose-sm lg:prose lg:prose-lg mx-auto">
+<div class="content">
   @php(the_content())
 </div>
 
 @if ($pagination())
-  <nav class="flex items-center justify-between py-4" aria-label="Page">
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
     {!! $pagination !!}
   </nav>
 @endif

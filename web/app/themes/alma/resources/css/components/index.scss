@@ -3,4 +3,5 @@
  */
 @charset "utf-8";
 
-@forward 'product-card';
+@forward './product-card';
+@forward './hero.scss';
