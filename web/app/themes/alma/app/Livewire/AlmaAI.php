@@ -79,6 +79,15 @@ class AlmaAI extends Component
                 }
             });
 
+        $navigateToWelcomePage = Tool::as('navigate_to_welcome_page')
+            ->for('Navigate to the welcome page')
+            ->using(function () {
+                Log::debug('Navigating to the welcome page...');
+                // Navigate to the welcome page
+                redirect('/welcome');
+                return 'Navigating to the welcome page...';
+            });
+
         // Add previous messages for context
         foreach ($this->messages as $msg) {
             $messages[] = $msg['user'] === 'You' ? new UserMessage($msg['text']) : new AssistantMessage($msg['text']);
@@ -89,7 +98,7 @@ class AlmaAI extends Component
                 ->using(Provider::Gemini, 'gemini-2.5-flash')
                 ->withSystemPrompt($this->systemPrompt)
                 ->withMessages($messages)
-                ->withTools([$calculatorTool])
+                ->withTools([$calculatorTool, $navigateToWelcomePage])
                 ->withProviderTools([new ProviderTool('google_search')])
                 ->withMaxSteps(3) // Allow multi-step reasoning
                 ->asStream();
