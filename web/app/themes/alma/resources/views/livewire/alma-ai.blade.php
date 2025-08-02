@@ -1,48 +1,58 @@
-<div class="columns is-flex is-flex-direction-column is-fullheight has-background-grey-dark has-text-grey-lighter py-5">
-    <div class="column is-flex-grow-1 is-flex is-flex-direction-column is-overflow-auto px-4" id="messages">
-        @foreach($messages as $message)
-            <div class="is-flex {{ $message['user'] === 'You' ? 'is-justify-content-flex-end' : 'is-justify-content-flex-start' }}">
-                <div class="box is-shadowless is-radiusless">
-                    <div class="{{ $message['user'] === 'You' ? 'has-background-link' : 'has-background-grey-darker' }} box is-shadowless p-3">
-                        <p class="is-size-7 is-word-break">
-                            {{ $message['text'] }}
-                        </p>
-                    </div>
-                    <span class="is-block is-size-7 mt-1 has-text-grey-light {{ $message['user'] === 'You' ? 'has-text-right' : 'has-text-left' }}">
-                        {{ $message['user'] }}
-                    </span>
+<div class="box is-outlined is-transparent">
+    <div class="chat-messages"  data-lenis-prevent style="max-height: 400px; overflow-y: scroll;" x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }" x-init="scrollToBottom()" @scroll-down.window="scrollToBottom()">
+        @foreach ($messages as $message)
+            <div class="chat-message {{ $message['user'] === 'You' ? 'is-from-me' : 'is-from-ai' }}">
+                <div class="chat-message-content">
+                    <p>{!! nl2br(e($message['text'])) !!}</p>
+                </div>
+                <div class="chat-message-meta">
+                    <span>{{ $message['user'] }}</span>
+                    @if ($message['tools_used'] ?? false)
+                        <span class="tag is-info">Tools: {{ implode(', ', $message['tools_used']) }}</span>
+                    @endif
                 </div>
             </div>
         @endforeach
 
-        @if($isTyping)
-            <div class="is-flex is-justify-content-flex-start">
-                <div class="box is-shadowless is-radiusless">
-                    <div class="has-background-grey-darker box is-shadowless p-3">
-                        <p class="is-size-7 is-word-break" wire:stream="response">
-                            <!-- Streamed content will appear here -->
-                        </p>
-                    </div>
-                    <span class="is-block is-size-7 mt-1 has-text-grey-light has-text-left">
-                        AI
-                    </span>
+        @if ($isTyping)
+            <div class="chat-message is-from-ai">
+                <div class="chat-message-content">
+                    <p wire:stream="response" class="typing-indicator">
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                    </p>
+                </div>
+                <div class="chat-message-meta">
+                    <span>AI</span>
                 </div>
             </div>
         @endif
     </div>
 
-    <div class="column px-4 pt-4 has-border-top has-border-grey-darker">
-        <form wire:submit.prevent="send" class="is-flex is-flex-direction-row is-justify-content-space-between">
-            <input type="text"
-                   wire:model.defer="input"
-                   placeholder="Ask something..."
-                   class="input is-fullwidth is-rounded is-borderless has-background-grey-darker has-text-grey-lighter placeholder-grey-light p-3 shadow focus:ring-link focus:border-link"
-                   required />
-            <button type="submit"
-                    class="button is-link is-rounded px-5 shadow is-uppercase"
-            >
-                Send
-            </button>
-        </form>
-    </div>
+    <form wire:submit.prevent="send" class="form">
+        <div class="field is-grouped">
+            <div class="control is-expanded">
+                <input class="input" type="text" wire:model="input" placeholder="Ask something..." required />
+            </div>
+            <div class="control">
+                <button class="button is-primary" type="submit">
+                    Send
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
+
+@push('css')
+<style>
+    .chat-message { margin: 10px; padding: 10px; border-radius: 8px; }
+    .is-from-me { background: #ffffff; margin-left: 20%; color: black;}
+    .is-from-ai { background: #121212; margin-right: 20%; }
+    .typing-indicator .dot {
+        display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #888; margin: 0 2px;
+        animation: pulse 1.4s infinite ease-in-out;
+    }
+    .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; } 40% { transform: scale(1.2); opacity: 1; } }
+</style>
+@endpush
