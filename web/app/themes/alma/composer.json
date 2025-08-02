@@ -49,6 +49,7 @@
     "log1x/acf-composer": "^3.4",
     "log1x/acorn-disable-media-pages": "^1.0",
     "log1x/sage-directives": "^2.0",
+    "prism-php/prism": "^0.83.0",
     "roots/acorn": "^5.0",
     "roots/acorn-mail": "^1.0",
     "roots/acorn-post-types": "^1.0",
