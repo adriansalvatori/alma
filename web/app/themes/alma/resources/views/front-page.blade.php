@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="hero is-fullheight is-dark is-boxed is-clipped">
+    <div class="hero is-fullheight is-dark is-boxed is-clipped" data-reveal>
         <div class="hero-body">
             <div class="container">
+                <h1 class="title is-massive" data-reveal-text data-reveal-delay="600">Hello <span class="has-text-weight-bold">Galena</span></h1>
                 <livewire:alma-ai />
             </div>
         </div>
