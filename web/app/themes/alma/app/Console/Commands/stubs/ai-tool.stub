@@ -1,0 +1,18 @@
+<?php
+
+namespace {{namespace}};
+
+use Prism\Prism\Facades\Tool;
+
+class {{class}}
+{
+    public function definition()
+    {
+        return Tool::as('{{lower_class}}')
+            ->for('Description of what this tool does')
+            ->using(function () {
+                // Add your tool logic here
+                return 'Tool response placeholder';
+            });
+    }
+}
