@@ -7,6 +7,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Inject styles into the block editor.
@@ -29,14 +30,14 @@ add_filter('block_editor_settings_all', function ($settings) {
  * @return void
  */
 add_filter('admin_head', function () {
-    if (! get_current_screen()?->is_block_editor()) {
+    if (!get_current_screen()?->is_block_editor()) {
         return;
     }
 
     $dependencies = json_decode(Vite::content('editor.deps.json'));
 
     foreach ($dependencies as $dependency) {
-        if (! wp_script_is($dependency)) {
+        if (!wp_script_is($dependency)) {
             wp_enqueue_script($dependency);
         }
     }
@@ -153,3 +154,14 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
+
+/**
+ * 
+ */
+
+add_filter('doing_it_wrong_run', function ($function, $message, $version) {
+    // Optionally log the error somewhere else
+    Log::debug("Doing it wrong: $function - $message (Version: $version)");
+    // error_log( "Doing it wrong: $function - $message (Version: $version)" );
+    return false; // Suppress the notice
+}, 10, 3);
