@@ -3462,16 +3462,16 @@
         },
         {
             "name": "prism-php/prism",
-            "version": "v0.83.1",
+            "version": "v0.83.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/prism-php/prism.git",
-                "reference": "085c6693dc8be85baf020d2fa93b859b91c031bf"
+                "reference": "5f53879d1f18be74cfe96e92390adb9aef8bd02b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/prism-php/prism/zipball/085c6693dc8be85baf020d2fa93b859b91c031bf",
-                "reference": "085c6693dc8be85baf020d2fa93b859b91c031bf",
+                "url": "https://api.github.com/repos/prism-php/prism/zipball/5f53879d1f18be74cfe96e92390adb9aef8bd02b",
+                "reference": "5f53879d1f18be74cfe96e92390adb9aef8bd02b",
                 "shasum": ""
             },
             "require": {
@@ -3527,7 +3527,7 @@
             "description": "A powerful Laravel package for integrating Large Language Models (LLMs) into your applications.",
             "support": {
                 "issues": "https://github.com/prism-php/prism/issues",
-                "source": "https://github.com/prism-php/prism/tree/v0.83.1"
+                "source": "https://github.com/prism-php/prism/tree/v0.83.2"
             },
             "funding": [
                 {
@@ -3535,7 +3535,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-03T13:07:03+00:00"
+            "time": "2025-08-04T23:16:03+00:00"
         },
         {
             "name": "psr/clock",
@@ -4149,16 +4149,16 @@
         },
         {
             "name": "roots/acorn",
-            "version": "v5.0.4",
+            "version": "v5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roots/acorn.git",
-                "reference": "90779d10930d3cc478f02f9fee1c3bab23d6bad0"
+                "reference": "bc51c932b87fc35dd1c8dd6bacb3c31469fe5029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roots/acorn/zipball/90779d10930d3cc478f02f9fee1c3bab23d6bad0",
-                "reference": "90779d10930d3cc478f02f9fee1c3bab23d6bad0",
+                "url": "https://api.github.com/repos/roots/acorn/zipball/bc51c932b87fc35dd1c8dd6bacb3c31469fe5029",
+                "reference": "bc51c932b87fc35dd1c8dd6bacb3c31469fe5029",
                 "shasum": ""
             },
             "require": {
@@ -4166,6 +4166,7 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/guzzle": "^7.8",
+                "illuminate/auth": "^12.0",
                 "illuminate/cache": "^12.0",
                 "illuminate/config": "^12.0",
                 "illuminate/console": "^12.0",
@@ -4250,7 +4251,7 @@
             "support": {
                 "forum": "https://discourse.roots.io/",
                 "issues": "https://github.com/roots/acorn/issues",
-                "source": "https://github.com/roots/acorn/tree/v5.0.4"
+                "source": "https://github.com/roots/acorn/tree/v5.0.5"
             },
             "funding": [
                 {
@@ -4258,7 +4259,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-05-28T00:15:05+00:00"
+            "time": "2025-08-05T18:57:59+00:00"
         },
         {
             "name": "roots/acorn-mail",
