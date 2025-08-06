@@ -8,22 +8,21 @@
                     <input class="input is-small" type="text" wire:model.live.debounce.500ms="searchQuery" placeholder="Search conversations..." />
                 </div>
             </div>
-            <div class="menu" style="max-height: 400px; overflow-y: auto;">
+            <div class="menu" style="max-height: 400px; overflow-y: auto;" data-lenis-prevent="">
                 <ul class="menu-list">
                     @forelse ($recentConversations as $conversation)
                         <li>
-                            <div class="is-flex is-justify-content-space-between is-align-items-center">
+                            <div class="box is-outlined is-transparent level p-1 mb-2 is-shadowless">
                                 <a 
                                     wire:click="loadConversation('{{ $conversation['thread_id'] }}')"
                                     class="is-block {{ $threadId === $conversation['thread_id'] ? 'is-active' : '' }}"
                                     style="flex-grow: 1;"
                                 >
-                                    <strong>{{ $conversation['agent_id'] }}</strong>
-                                    <p class="is-size-7">{{ $conversation['preview'] }}</p>
-                                    <span class="is-size-7 has-text-grey">{{ \Carbon\Carbon::parse($conversation['updated_at'])->diffForHumans() }}</span>
+                                    <strong class="is-size-7">{{ $conversation['preview'] }}</strong>
+                                    <span class="is-size-7">{{ \Carbon\Carbon::parse($conversation['updated_at'])->diffForHumans() }}</span>
                                 </a>
                                 <button 
-                                    class="button is-small is-danger is-outlined" 
+                                    class="button is-danger is-hidden is-outlined" style="aspect-ratio: 1/1; height: 10px; width: 20px;" 
                                     wire:click="deleteConversation('{{ $conversation['thread_id'] }}')"
                                     wire:confirm="Are you sure you want to delete this conversation?"
                                 >
@@ -90,7 +89,7 @@
                         </div>
                         <div class="control">
                             <button class="button is-primary" type="submit">Send</button>
-                            <button class="button is-warning" wire:click="resetConversation">Reset</button>
+                            <button class="button is-primary is-outlined" wire:click="resetConversation">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -112,7 +111,7 @@
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
             40% { transform: scale(1.2); opacity: 1; }
         }
-        .menu-list a.is-active { background-color: #485fc7; color: white; }
-        .menu-list a:hover { background-color: #363636; color: white; }
+        .menu-list a.is-active { background-color: var(--primary); color: var(--primary-invert); }
+        .menu-list a:hover { background-color: var(--primary-80); color: var(--primary-invert); }
     </style>
 @endpush
