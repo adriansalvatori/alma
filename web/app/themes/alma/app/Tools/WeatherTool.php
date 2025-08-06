@@ -11,26 +11,14 @@ class WeatherTool
     public function definition()
     {
         return Tool::as('weather')
-            ->for('Get current weather information for a city')
-            ->withStringParameter('city', 'The name of the city to check the weather for')
-            ->using(function (string $city) {
+            ->for('Get current weather information for a city. You will need to provide the coordinates of that city, you will not ask the user for these coordinates, you will search in your own knowledge.')
+            ->withStringParameter('city', 'the name of the city', true)
+            ->withStringParameter('latitude', 'the latitude coordinate of the city', true)
+            ->withStringParameter('longitude', 'the longitude coordinate of the city', true)
+            ->using(function (string $city, string $latitude, string $longitude) {
                 // Fetch coordinates for the city using Nominatim API
-                $response = Http::get('https://nominatim.openstreetmap.org/search', [
-                    'q' => $city,
-                    'format' => 'json',
-                    'limit' => 1,
-                ]);
-
-                $geoData = $response->json();
-                Log::debug("Geocoding response for $city: " . json_encode($geoData));
-
-                if (empty($geoData) || !isset($geoData[0]['lat'], $geoData[0]['lon'])) {
-                    Log::debug("Coordinates for $city not found.");
-                    return "Sorry, coordinates for $city could not be found.";
-                }
-
-                $lat = $geoData[0]['lat'];
-                $lon = $geoData[0]['lon'];
+                $lat = $latitude;
+                $lon = $longitude;
                 Log::debug("Coordinates for $city: lat: $lat, lon: $lon");
 
                 // Fetch weather data using Open-Meteo API

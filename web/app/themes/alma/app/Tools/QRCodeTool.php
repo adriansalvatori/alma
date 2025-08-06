@@ -10,7 +10,7 @@ class QRCodeTool
     public function definition()
     {
         return Tool::as('qrcode')
-            ->for('Generate a QR code for a given URL')
+            ->for('Generate a QR code image tag for a given URL')
             ->withStringParameter('url', 'The URL to encode in the QR code')
             ->withStringParameter('size', 'The size of the QR code image (e.g., 100x100)', '100x100')
             ->using(function (string $url, string $size = '100x100') {
@@ -36,7 +36,9 @@ class QRCodeTool
                 $qrCodeUrl = $apiUrl . '?' . http_build_query($queryParams);
                 Log::debug("Generated QR code URL for $url with size $size: $qrCodeUrl");
 
-                return "QR code generated: $qrCodeUrl";
+                // Return HTML img tag with QR code
+                $imgTag = "<img src=\"$qrCodeUrl\" alt=\"QR code for $url\" style=\"width: {$size}px; height: {$size}px;\">";
+                return $imgTag;
             });
     }
 }
