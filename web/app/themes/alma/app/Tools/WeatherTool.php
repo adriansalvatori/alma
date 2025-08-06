@@ -14,38 +14,43 @@ class WeatherTool
             ->for('Get current weather information for a city')
             ->withStringParameter('city', 'The name of the city to check the weather for')
             ->using(function (string $city) {
-                $cityCoordinates = [
-                    'London' => ['lat' => 51.5074, 'lon' => -0.1278],
-                    'New York' => ['lat' => 40.7128, 'lon' => -74.0060],
-                    'Tokyo' => ['lat' => 35.6762, 'lon' => 139.6503],
-                    'Paris' => ['lat' => 48.8566, 'lon' => 2.3522],
-                    'Sydney' => ['lat' => -33.8688, 'lon' => 151.2093],
-                ];
+                // Fetch coordinates for the city using Nominatim API
+                $response = Http::get('https://nominatim.openstreetmap.org/search', [
+                    'q' => $city,
+                    'format' => 'json',
+                    'limit' => 1,
+                ]);
 
-                if (!array_key_exists($city, $cityCoordinates)) {
-                    Log::debug("Weather data for $city is not available.");
-                    return "Sorry, weather data for $city is not available.";
+                $geoData = $response->json();
+                Log::debug("Geocoding response for $city: " . json_encode($geoData));
+
+                if (empty($geoData) || !isset($geoData[0]['lat'], $geoData[0]['lon'])) {
+                    Log::debug("Coordinates for $city not found.");
+                    return "Sorry, coordinates for $city could not be found.";
                 }
 
-                $coords = $cityCoordinates[$city];
-                Log::debug("Requesting weather data for $city: lat: {$coords['lat']}, lon: {$coords['lon']}");
+                $lat = $geoData[0]['lat'];
+                $lon = $geoData[0]['lon'];
+                Log::debug("Coordinates for $city: lat: $lat, lon: $lon");
 
-                $response = Http::get("https://api.open-meteo.com/v1/forecast", [
-                    'latitude' => $coords['lat'],
-                    'longitude' => $coords['lon'],
+                // Fetch weather data using Open-Meteo API
+                $weatherResponse = Http::get("https://api.open-meteo.com/v1/forecast", [
+                    'latitude' => $lat,
+                    'longitude' => $lon,
                     'current_weather' => true,
                 ]);
 
-                $data = $response->json();
-                Log::debug("Response for $city: " . json_encode($data));
+                $data = $weatherResponse->json();
+                Log::debug("Weather response for $city: " . json_encode($data));
 
                 if (isset($data['current_weather'])) {
                     $condition = $this->weatherCodeToDescription($data['current_weather']['weathercode']);
                     Log::debug("Weather data for $city: {$data['current_weather']['temperature']}°C, $condition, Wind: {$data['current_weather']['windspeed']} m/s from {$data['current_weather']['winddirection']}°, Time: {$data['current_weather']['time']}");
                     return "Current weather in $city: {$data['current_weather']['temperature']}°C, $condition, Wind: {$data['current_weather']['windspeed']} m/s from {$data['current_weather']['winddirection']}°, Time: {$data['current_weather']['time']}";
                 }
-                Log::debug("Error fetching weather data for $city: " . ($response->failed() ? $response->status() : 'No data'));
-                return "Error fetching weather data for $city: " . ($response->failed() ? $response->status() : 'No data');
+
+                Log::debug("Error fetching weather data for $city: " . ($weatherResponse->failed() ? $weatherResponse->status() : 'No data'));
+                return "Error fetching weather data for $city: " . ($weatherResponse->failed() ? $weatherResponse->status() : 'No data');
             });
     }
 
