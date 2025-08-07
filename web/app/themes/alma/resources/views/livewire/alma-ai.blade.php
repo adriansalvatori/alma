@@ -42,7 +42,7 @@
 
     <!-- Main Chat Area -->
     <div class="column is-9">
-        <div class="container is-max-desktop" data-reveal data-reveal-delay="300" style="height: 100%">
+        <div class="container is-max-desktop" style="height: 100%">
             <div class="box is-outlined is-transparent" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between">
                 <div class="control">
                     <select class="select is-small has-text-white is-transparent mb-3" wire:model="selectedAgent" wire:change="loadAgent">
