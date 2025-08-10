@@ -58,8 +58,15 @@
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }" x-init="scrollToBottom()" @scroll-down.window="scrollToBottom()">
                     @foreach ($messages as $message)
                         <div class="chat-message {{ $message['user'] === 'You' ? 'is-from-me' : 'is-from-ai is-from-ai-' . $selectedAgent }}">
+                            <pre>
+                                {{ print_r($message) }}
+                            </pre>
                             <div class="chat-message-content">
-                                <p>{!! nl2br(e($message['text'])) !!}</p>
+                                @if (isset($message['view']) && View::exists($message['view']))
+                                    @include($message['view'], ['data' => $message['tool_data']])
+                                @else
+                                    <p>{!! nl2br(e($message['text'])) !!}</p>
+                                @endif
                             </div>
                             <div class="chat-message-meta">
                                 <span>{{ $message['user'] }}</span>
@@ -113,5 +120,11 @@
         }
         .menu-list a.is-active { background-color: var(--primary); color: var(--primary-invert); }
         .menu-list a:hover { background-color: var(--primary-80); color: var(--primary-invert); }
+        .card { background-color: #1a1a1a; border-radius: 8px; color: #fff; }
+        .card-header-title { font-size: 1.25rem; font-weight: bold; color: #fff; }
+        .card-content p { margin-bottom: 0.5rem; }
+        .card-content table { width: 100%; border-collapse: collapse; }
+        .card-content th, .card-content td { padding: 8px; border: 1px solid #4a4a4a; }
+        .card-content th { background-color: #2a2a2a; }
     </style>
 @endpush

@@ -33,12 +33,24 @@ class WeatherTool
 
                 if (isset($data['current_weather'])) {
                     $condition = $this->weatherCodeToDescription($data['current_weather']['weathercode']);
-                    Log::debug("Weather data for $city: {$data['current_weather']['temperature']}°C, $condition, Wind: {$data['current_weather']['windspeed']} m/s from {$data['current_weather']['winddirection']}°, Time: {$data['current_weather']['time']}");
-                    return "Current weather in $city: {$data['current_weather']['temperature']}°C, $condition, Wind: {$data['current_weather']['windspeed']} m/s from {$data['current_weather']['winddirection']}°, Time: {$data['current_weather']['time']}";
+                    $result = [
+                        'type' => 'weather',
+                        'data' => [
+                            'city' => $city,
+                            'temperature' => $data['current_weather']['temperature'],
+                            'condition' => $condition,
+                            'windspeed' => $data['current_weather']['windspeed'],
+                            'winddirection' => $data['current_weather']['winddirection'],
+                            'time' => $data['current_weather']['time'],
+                        ],
+                        'view' => 'livewire.tools.weather',
+                    ];
+                    Log::debug("Weather data for $city: " . json_encode($result));
+                    return json_encode($result);
                 }
 
                 Log::debug("Error fetching weather data for $city: " . ($weatherResponse->failed() ? $weatherResponse->status() : 'No data'));
-                return "Error fetching weather data for $city: " . ($weatherResponse->failed() ? $weatherResponse->status() : 'No data');
+                return json_encode(['type' => 'error', 'data' => ['message' => "Error fetching weather data for $city: " . ($weatherResponse->failed() ? $weatherResponse->status() : 'No data')], 'view' => 'livewire.tools.error']);
             });
     }
 

@@ -21,13 +21,13 @@ class TempEmailTool
                 // Validate action
                 if (!in_array($action, ['generate', 'fetch', 'send'])) {
                     Log::debug("Invalid action provided: $action");
-                    return "Error: Action must be 'generate', 'fetch', or 'send'.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => "Action must be 'generate', 'fetch', or 'send'."], 'view' => 'livewire.tools.error']);
                 }
 
                 // Validate token for fetch and send actions
                 if (in_array($action, ['fetch', 'send']) && empty($token)) {
                     Log::debug("Missing token for $action action");
-                    return "Error: A valid token is required for $action action.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => "A valid token is required for $action action."], 'view' => 'livewire.tools.error']);
                 }
 
                 if ($action === 'generate') {
@@ -46,11 +46,19 @@ class TempEmailTool
                         $email = $data['address'];
                         $token = $data['token'];
                         Log::debug("Generated temporary email: $email, token: $token");
-                        return "Temporary email: <strong>$email</strong><br>Token: <strong>$token</strong> (Use this token to fetch or send emails. Inbox expires after 1 hour.)";
+                        return json_encode([
+                            'type' => 'tempemail',
+                            'data' => [
+                                'action' => 'generate',
+                                'email' => $email,
+                                'token' => $token,
+                            ],
+                            'view' => 'livewire.tools.tempemail',
+                        ]);
                     }
 
                     Log::debug("Error generating temporary email: " . ($response->failed() ? $response->status() : 'No data'));
-                    return "Error generating temporary email: " . ($response->failed() ? $response->status() : 'No data');
+                    return json_encode(['type' => 'error', 'data' => ['message' => "Error generating temporary email: " . ($response->failed() ? $response->status() : 'No data')], 'view' => 'livewire.tools.error']);
                 }
 
                 if ($action === 'fetch') {
@@ -60,38 +68,35 @@ class TempEmailTool
                     Log::debug("TempMail.lol fetch response for token $token: " . json_encode($data));
 
                     if ($response->successful() && isset($data['emails']) && !empty($data['emails'])) {
-                        $output = "<table border='1'>";
-                        $output .= "<tr><th>Sender</th><th>Subject</th><th>Date</th></tr>";
-                        foreach ($data['emails'] as $emailItem) {
-                            $sender = htmlspecialchars($emailItem['from'] ?? 'Unknown');
-                            $subject = htmlspecialchars($emailItem['subject'] ?? 'No subject');
-                            $date = htmlspecialchars($emailItem['date'] ?? 'N/A');
-                            $output .= "<tr><td>$sender</td><td>$subject</td><td>$date</td></tr>";
-                        }
-                        $output .= "</table>";
-                        Log::debug("Fetched emails for token $token: $output");
-                        return $output;
+                        return json_encode([
+                            'type' => 'tempemail',
+                            'data' => [
+                                'action' => 'fetch',
+                                'emails' => $data['emails'],
+                            ],
+                            'view' => 'livewire.tools.tempemail',
+                        ]);
                     }
 
                     Log::debug("No emails found or error fetching for token $token: " . ($response->failed() ? $response->status() : 'No data or inbox expired'));
-                    return "No emails found or error fetching for token $token: " . ($response->failed() ? $response->status() : 'No data or inbox may have expired');
+                    return json_encode(['type' => 'error', 'data' => ['message' => "No emails found or error fetching for token $token: " . ($response->failed() ? $response->status() : 'No data or inbox may have expired')], 'view' => 'livewire.tools.error']);
                 }
 
                 if ($action === 'send') {
                     // Validate send parameters
                     if (!filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
                         Log::debug("Invalid recipient email: $recipient");
-                        return "Error: Invalid recipient email address.";
+                        return json_encode(['type' => 'error', 'data' => ['message' => 'Invalid recipient email address.'], 'view' => 'livewire.tools.error']);
                     }
 
                     if (empty(trim($subject))) {
                         Log::debug("Subject cannot be empty for send action");
-                        return "Error: Subject cannot be empty.";
+                        return json_encode(['type' => 'error', 'data' => ['message' => 'Subject cannot be empty.'], 'view' => 'livewire.tools.error']);
                     }
 
                     if (empty(trim($body))) {
                         Log::debug("Body cannot be empty for send action");
-                        return "Error: Body cannot be empty.";
+                        return json_encode(['type' => 'error', 'data' => ['message' => 'Body cannot be empty.'], 'view' => 'livewire.tools.error']);
                     }
 
                     // Construct payload for sending email
@@ -111,11 +116,19 @@ class TempEmailTool
 
                     if ($response->successful() && isset($data['success']) && $data['success']) {
                         Log::debug("Email sent successfully to $recipient with token $token");
-                        return "Email sent to <strong>$recipient</strong> with subject '<strong>$subject</strong>' using token <strong>$token</strong>.";
+                        return json_encode([
+                            'type' => 'tempemail',
+                            'data' => [
+                                'action' => 'send',
+                                'recipient' => $recipient,
+                                'subject' => $subject,
+                            ],
+                            'view' => 'livewire.tools.tempemail',
+                        ]);
                     }
 
                     Log::debug("Error sending email to $recipient with token $token: " . ($response->failed() ? $response->status() : ($data['error'] ?? 'No success response')));
-                    return "Error sending email to $recipient: " . ($response->failed() ? $response->status() : ($data['error'] ?? 'No success response or invalid token'));
+                    return json_encode(['type' => 'error', 'data' => ['message' => "Error sending email to $recipient: " . ($response->failed() ? $response->status() : ($data['error'] ?? 'No success response or invalid token'))], 'view' => 'livewire.tools.error']);
                 }
             });
     }

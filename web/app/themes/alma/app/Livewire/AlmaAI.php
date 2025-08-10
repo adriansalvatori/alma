@@ -57,7 +57,7 @@ class AlmaAI extends Component
             ->with(['meta' => function ($query) {
                 $query->whereIn('meta_key', ['thread_id', 'agent_id', 'messages']);
             }])
-            ->orderBy('post_modified', 'desc'); // Changed from updated_at to post_modified
+            ->orderBy('post_modified', 'desc');
 
         if (!empty($this->searchQuery)) {
             $query->whereHas('meta', function ($metaQuery) {
@@ -76,7 +76,7 @@ class AlmaAI extends Component
                 'thread_id' => $meta['thread_id'] ?? '',
                 'agent_id' => $meta['agent_id'] ?? 'Unknown',
                 'preview' => $preview,
-                'updated_at' => $conversation->post_modified, // Use post_modified for timestamp
+                'updated_at' => $conversation->post_modified,
             ];
         })->toArray();
     }
@@ -171,14 +171,14 @@ class AlmaAI extends Component
         $user_identifier = $current_user->exists() ? $current_user->ID : request()->ip();
         $cacheKey = 'ai_chat_rate_' . md5($user_identifier . $this->threadId);
         if (Cache::store()->has($cacheKey)) {
-            $this->messages[] = ['user' => 'AI', 'text' => 'Slow down! Too many requests.'];
+            $this->messages[] = ['user' => 'AI', 'text' => 'Slow down! Too many requests.', 'tool_data' => null, 'tools_used' => [], 'view' => null];
             $this->saveMessages();
             $this->isProcessing = false;
             return;
         }
 
         Cache::store()->put($cacheKey, true, 10);
-        $this->messages[] = ['user' => 'You', 'text' => $prompt];
+        $this->messages[] = ['user' => 'You', 'text' => $prompt, 'tool_data' => null, 'tools_used' => [], 'view' => null];
         $this->input = '';
         $this->isTyping = true;
         $this->saveMessages();
@@ -226,20 +226,50 @@ class AlmaAI extends Component
                     if (!empty($chunk->toolCalls)) {
                         foreach ($chunk->toolCalls as $toolCall) {
                             $toolsUsed[] = $toolCall->name;
+                            Log::debug("Tool called: " . $toolCall->name);
                         }
                     }
                 }
 
-                return ['text' => $fullResponse, 'tools_used' => array_unique($toolsUsed)];
+                Log::debug("Full response from stream: " . $fullResponse);
+
+                // Attempt to parse JSON tool output
+                $toolData = null;
+                $view = null;
+                if ($toolsUsed) {
+                    $decoded = json_decode($fullResponse, true);
+                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                        $toolData = $decoded['data'] ?? null;
+                        $view = $decoded['view'] ?? null;
+                        Log::debug("Parsed tool data: " . json_encode($toolData) . ", View: " . $view);
+                    } else {
+                        Log::error("JSON decode failed for response: " . $fullResponse . ", Error: " . json_last_error_msg());
+                    }
+                }
+
+                return [
+                    'text' => $fullResponse,
+                    'tools_used' => array_unique($toolsUsed),
+                    'tool_data' => $toolData,
+                    'view' => $view,
+                ];
             } catch (\Exception $e) {
                 Log::error('Stream error', ['error' => $e->getMessage()]);
-                return ['text' => 'Oops, something went wrong! Try again.', 'tools_used' => []];
+                return ['text' => 'Oops, something went wrong! Try again.', 'tools_used' => [], 'tool_data' => null, 'view' => 'livewire.tools.error'];
             }
         });
 
         if ($cached['text'] && $cached['text'] !== 'Oops, something went wrong! Try again.') {
-            if (!in_array(['user' => 'AI', 'text' => $cached['text'], 'tools_used' => $cached['tools_used']], $this->messages)) {
-                $this->messages[] = ['user' => 'AI', 'text' => $cached['text'], 'tools_used' => $cached['tools_used']];
+            $message = [
+                'user' => 'AI',
+                'text' => $cached['text'],
+                'tools_used' => $cached['tools_used'],
+                'tool_data' => $cached['tool_data'],
+                'view' => $cached['view'],
+            ];
+            Log::debug("Message to be added: " . json_encode($message));
+            if (!in_array($message, $this->messages)) {
+                $this->messages[] = $message;
                 $this->saveMessages();
             }
         }

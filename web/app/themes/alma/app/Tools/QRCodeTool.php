@@ -17,13 +17,13 @@ class QRCodeTool
                 // Validate URL
                 if (!filter_var($url, FILTER_VALIDATE_URL)) {
                     Log::debug("Invalid URL provided for QR code: $url");
-                    return "Error: Invalid URL provided.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'Invalid URL provided.'], 'view' => 'livewire.tools.error']);
                 }
 
                 // Validate size format (e.g., 100x100)
                 if (!preg_match('/^\d+x\d+$/', $size)) {
                     Log::debug("Invalid size format for QR code: $size");
-                    return "Error: Invalid size format. Use format like '100x100'.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'Invalid size format. Use format like "100x100".'], 'view' => 'livewire.tools.error']);
                 }
 
                 // Construct QR code API URL
@@ -36,9 +36,16 @@ class QRCodeTool
                 $qrCodeUrl = $apiUrl . '?' . http_build_query($queryParams);
                 Log::debug("Generated QR code URL for $url with size $size: $qrCodeUrl");
 
-                // Return HTML img tag with QR code
-                $imgTag = "<img src=\"$qrCodeUrl\" alt=\"QR code for $url\" style=\"width: {$size}px; height: {$size}px;\">";
-                return $imgTag;
+                // Return structured JSON with view
+                return json_encode([
+                    'type' => 'qrcode',
+                    'data' => [
+                        'url' => $url,
+                        'image_url' => $qrCodeUrl,
+                        'size' => $size,
+                    ],
+                    'view' => 'livewire.tools.qrcode',
+                ]);
             });
     }
 }

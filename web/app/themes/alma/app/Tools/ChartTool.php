@@ -23,26 +23,26 @@ class ChartTool
 
                 if (empty($labelsArray) || empty($dataArray)) {
                     Log::debug("Invalid labels or data provided for chart: labels=$labels, data=$data");
-                    return "Error: Labels and data must not be empty.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'Labels and data must not be empty.'], 'view' => 'livewire.tools.error']);
                 }
 
                 if (count($labelsArray) !== count($dataArray)) {
                     Log::debug("Mismatched labels and data counts: labels=" . count($labelsArray) . ", data=" . count($dataArray));
-                    return "Error: The number of labels must match the number of data points.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'The number of labels must match the number of data points.'], 'view' => 'livewire.tools.error']);
                 }
 
                 // Validate data contains only numbers
                 foreach ($dataArray as $value) {
                     if (!is_numeric($value)) {
                         Log::debug("Invalid data value for chart: $value");
-                        return "Error: Data values must be numeric.";
+                        return json_encode(['type' => 'error', 'data' => ['message' => 'Data values must be numeric.'], 'view' => 'livewire.tools.error']);
                     }
                 }
 
                 // Validate size format (e.g., 500x300)
                 if (!preg_match('/^\d+x\d+$/', $size)) {
                     Log::debug("Invalid size format for chart: $size");
-                    return "Error: Invalid size format. Use format like '500x300'.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'Invalid size format. Use format like "500x300".'], 'view' => 'livewire.tools.error']);
                 }
 
                 // Construct chart configuration
@@ -63,7 +63,7 @@ class ChartTool
                 $chartConfigJson = json_encode($chartConfig);
                 if ($chartConfigJson === false) {
                     Log::debug("Failed to encode chart configuration: " . json_last_error_msg());
-                    return "Error: Failed to encode chart configuration.";
+                    return json_encode(['type' => 'error', 'data' => ['message' => 'Failed to encode chart configuration.'], 'view' => 'livewire.tools.error']);
                 }
 
                 // Construct QuickChart API URL
@@ -77,9 +77,16 @@ class ChartTool
                 $chartUrl = $apiUrl . '?' . http_build_query($queryParams);
                 Log::debug("Generated chart URL for type=$type, labels=$labels, data=$data, size=$size: $chartUrl");
 
-                // Return HTML img tag with chart
-                $imgTag = "<img src=\"$chartUrl\" alt=\"Chart of $dataset_label\" style=\"width: {$size}px; height: {$size}px;\">";
-                return $imgTag;
+                // Return structured JSON with view
+                return json_encode([
+                    'type' => 'chart',
+                    'data' => [
+                        'dataset_label' => $dataset_label,
+                        'image_url' => $chartUrl,
+                        'size' => $size,
+                    ],
+                    'view' => 'livewire.tools.chart',
+                ]);
             });
     }
 }
