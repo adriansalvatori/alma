@@ -58,7 +58,7 @@
                     x-data="{ scrollToBottom() { this.$el.scrollTop = this.$el.scrollHeight; } }" x-init="scrollToBottom()" @scroll-down.window="scrollToBottom()">
                     @foreach ($messages as $message)
                         <div class="chat-message {{ $message['user'] === 'You' ? 'is-from-me' : 'is-from-ai is-from-ai-' . $selectedAgent }}">
-                            <pre>
+                            <pre class="is-hidden">
                                 {{ print_r($message) }}
                             </pre>
                             <div class="chat-message-content">

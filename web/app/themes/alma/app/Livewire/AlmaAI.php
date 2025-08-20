@@ -54,9 +54,11 @@ class AlmaAI extends Component
         $query = AiConversation::whereHas('meta', function ($query) use ($user_id) {
             $query->where('meta_key', 'user_id')->where('meta_value', $user_id);
         })
-            ->with(['meta' => function ($query) {
-                $query->whereIn('meta_key', ['thread_id', 'agent_id', 'messages']);
-            }])
+            ->with([
+                'meta' => function ($query) {
+                    $query->whereIn('meta_key', ['thread_id', 'agent_id', 'messages']);
+                }
+            ])
             ->orderBy('post_modified', 'desc');
 
         if (!empty($this->searchQuery)) {
@@ -101,7 +103,7 @@ class AlmaAI extends Component
 
         $conversation = AiConversation::whereHas('meta', function ($query) use ($threadId, $user_id) {
             $query->where('meta_key', 'thread_id')->where('meta_value', $threadId)
-                  ->where('meta_key', 'user_id')->where('meta_value', $user_id);
+                ->where('meta_key', 'user_id')->where('meta_value', $user_id);
         })->first();
 
         if ($conversation) {
@@ -162,7 +164,8 @@ class AlmaAI extends Component
 
     public function send()
     {
-        if ($this->isProcessing || empty(trim($this->input))) return;
+        if ($this->isProcessing || empty(trim($this->input)))
+            return;
 
         $this->isProcessing = true;
         $prompt = sanitize_text_field(trim($this->input));
@@ -190,7 +193,8 @@ class AlmaAI extends Component
     #[On('getAiResponse')]
     public function getAIResponse($data)
     {
-        if ($this->isProcessing) return;
+        if ($this->isProcessing)
+            return;
         $this->isProcessing = true;
         $this->streamResponse($data['prompt'], $data['threadId']);
         $this->isProcessing = false;
@@ -227,23 +231,35 @@ class AlmaAI extends Component
                         foreach ($chunk->toolCalls as $toolCall) {
                             $toolsUsed[] = $toolCall->name;
                             Log::debug("Tool called: " . $toolCall->name);
+                            // Check if tool results are available in the chunk
+                            if (isset($toolCall->results) && !empty($toolCall->results)) {
+                                $toolOutput = $toolCall->results[0] ?? ''; // Assuming first result
+                                Log::debug("Tool result: " . $toolOutput);
+                                // Attempt to parse tool output as JSON
+                                $decoded = json_decode($toolOutput, true);
+                                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                    $fullResponse = $toolOutput; // Use tool output as the primary response
+                                    Log::debug("Parsed tool data from results: " . json_encode($decoded['data']) . ", View: " . ($decoded['view'] ?? 'null'));
+                                    break 2; // Exit both loops once tool result is found
+                                }
+                            }
                         }
                     }
                 }
 
                 Log::debug("Full response from stream: " . $fullResponse);
 
-                // Attempt to parse JSON tool output
+                // Fallback: Parse full response if no tool result was found
                 $toolData = null;
                 $view = null;
                 if ($toolsUsed) {
                     $decoded = json_decode($fullResponse, true);
-                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    if (json_last_error() !== JSON_ERROR_NONE) {
+                        Log::error("JSON decode failed for response: " . $fullResponse . ", Error: " . json_last_error_msg());
+                    } elseif (is_array($decoded)) {
                         $toolData = $decoded['data'] ?? null;
                         $view = $decoded['view'] ?? null;
-                        Log::debug("Parsed tool data: " . json_encode($toolData) . ", View: " . $view);
-                    } else {
-                        Log::error("JSON decode failed for response: " . $fullResponse . ", Error: " . json_last_error_msg());
+                        Log::debug("Parsed tool data from full response: " . json_encode($toolData) . ", View: " . $view);
                     }
                 }
 
