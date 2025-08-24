@@ -18,17 +18,5 @@
                 <x-product.card :product="$product"/>
             </div>
         @endposts
-        @posts
-            <div class="column is-3 carousel-item" data-width="28vw" data-cursor-text="Drag">
-                @set($product , get_the_ID())
-                <x-product.card :product="$product"/>
-            </div>
-        @endposts
-        @posts
-            <div class="column is-3 carousel-item" data-width="28vw" data-cursor-text="Drag">
-                @set($product , get_the_ID())
-                <x-product.card :product="$product"/>
-            </div>
-        @endposts
     </div>
 </div>

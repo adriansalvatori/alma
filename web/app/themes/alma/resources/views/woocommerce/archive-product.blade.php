@@ -9,58 +9,58 @@ maintain compatibility. We try to do this as little as possible, but it does
 happen. When this occurs the version of the template file will be bumped and
 the readme will list any important changes.
 
-@see https://docs.woocommerce.com/document/template-structure/
-@package WooCommerce/Templates
-@version 3.4.0
+@seehttps://docs.woocommerce.com/document/template-structure/
+@packageWooCommerce/Templates
+@version3.4.0
 --}}
 
 @extends('layouts.app')
 
 @section('content')
-  @php
-    do_action('get_header', 'shop');
-    do_action('woocommerce_before_main_content');
-  @endphp
+    <div class="container py-6">
+        @action('get_header', 'shop')
+        @action('woocommerce_before_main_content')
 
-  <header class="woocommerce-products-header">
-    @if (apply_filters('woocommerce_show_page_title', true))
-      <h1 class="woocommerce-products-header__title page-title">{!! woocommerce_page_title(false) !!}</h1>
-    @endif
-
-    @php
-      do_action('woocommerce_archive_description')
-    @endphp
-  </header>
-
-  @if (woocommerce_product_loop())
-    @php
-      do_action('woocommerce_before_shop_loop');
-      woocommerce_product_loop_start();
-    @endphp
-
-    @if (wc_get_loop_prop('total'))
-      @while (have_posts())
-        @php
-          the_post();
-          do_action('woocommerce_shop_loop');
-          wc_get_template_part('content', 'product');
-        @endphp
-      @endwhile
-    @endif
-
-    @php
-      woocommerce_product_loop_end();
-      do_action('woocommerce_after_shop_loop');
-    @endphp
-  @else
-    @php
-      do_action('woocommerce_no_products_found')
-    @endphp
-  @endif
-
-  @php
-    do_action('woocommerce_after_main_content');
-    do_action('get_sidebar', 'shop');
-    do_action('get_footer', 'shop');
-  @endphp
+        @if (woocommerce_product_loop())
+            @if (apply_filters('woocommerce_show_page_title', true))
+                <div class="columns">
+                    <div class="column is-half">
+                        <h1 data-inertia data-inertia-reveal class="title is-5">
+                            <span>{!! woocommerce_page_title(false) !!}</span>
+                        </h1>
+                    </div>
+                    <div class="column is-half is-flex is-justify-content-flex-end">
+                        @action('woocommerce_before_shop_loop')
+                        {{ woocommerce_product_loop_start() }}
+                    </div>
+                </div>
+            @endif
+            @if (wc_get_loop_prop('total'))
+                <div class="container" data-cursor-text="scroll">
+                    <div class="columns is-multiline">
+                        @while (have_posts())
+                            {{ the_post() }}
+                            @action('woocommerce_shop_loop')
+                            @global($product)
+                            @if ($product)
+                                <div class="column is-4">
+                                    <x-product.card :product="$product" />
+                                </div>
+                            @endif
+                        @endwhile
+                    </div>
+                </div>
+            @endif
+            {{ woocommerce_product_loop_end() }}
+            @action('woocommerce_after_shop_loop')
+        @else
+            @action('woocommerce_no_products_found')
+        @endif
+        @action('woocommerce_after_main_content')
+        @action('get_sidebar', 'shop')
+        @action('get_footer', 'shop')
+    </div>
+    <div class="container">
+        <x-product.featured-carousel />
+    </div>
 @endsection

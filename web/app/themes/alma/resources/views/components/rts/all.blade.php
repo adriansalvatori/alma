@@ -17,3 +17,5 @@
 @endif
 
 <x-rts.console />
+
+<x-rts.store />

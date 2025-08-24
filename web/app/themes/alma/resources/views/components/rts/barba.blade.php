@@ -24,6 +24,8 @@
         }) => {
             const matches = next.html.match(/<body.+?class="([^""]*)"/i);
             document.body.setAttribute('class', (matches && matches.at(1)) ?? '');
+
+            window.scrollTo(0, 0);
         },
         enter() {
             // animate loading screen away
@@ -41,7 +43,11 @@
 
     barba.init({
         cacheFirstPage: false,
-        cacheIgnore: ['/carrito/', '/cart', '/checkout/'],
+        cacheIgnore: [
+            (url) => url.includes('/carrito/'),
+            (url) => url.includes('/cart'),
+            (url) => url.includes('/checkout/'),
+        ],
         debug: {{ app()->environment('development') ? 'true' : 'false' }},
         logLevel: 'off',
         prefetchIgnore: false,

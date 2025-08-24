@@ -1,0 +1,1 @@
+@include('woocommerce.archive-product')

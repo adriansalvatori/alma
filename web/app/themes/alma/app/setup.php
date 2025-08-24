@@ -165,3 +165,4 @@ add_filter('doing_it_wrong_run', function ($function, $message, $version) {
     // error_log( "Doing it wrong: $function - $message (Version: $version)" );
     return false; // Suppress the notice
 }, 10, 3);
+

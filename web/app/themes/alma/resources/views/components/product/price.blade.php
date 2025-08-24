@@ -10,6 +10,6 @@
     @elseif($regularprice)
         <span class="has-text-dark">{!!$symbol!!}{{$regularprice}}</span>
     @else
-        <span class="has-text-dark">{{__('Price Unavailable', 'sage')}}</span>
+        <span class="has-text-dark">{{__('Price Unavailable', 'alma')}}</span>
     @endif
 </div>
