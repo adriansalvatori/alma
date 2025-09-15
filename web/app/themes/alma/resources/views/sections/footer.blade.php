@@ -3,6 +3,7 @@
     <div class="content has-text-centered">
       @php(dynamic_sidebar('sidebar-footer'))
     </div>
+    <livewire:contact-form />
   </div>
 </footer>
 
