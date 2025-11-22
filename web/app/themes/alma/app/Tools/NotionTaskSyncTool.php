@@ -14,12 +14,13 @@ class NotionTaskSyncTool
         return Tool::as('notiontasks')
             ->for('Sync and create tasks in a Notion board from a list of tasks')
             ->withStringParameter('action', 'Action to perform (fields, create, refresh)', true)
-            ->withStringParameter('database_id', 'The Notion database ID (your task board)', false)
             ->withStringParameter('tasks', 'Comma-separated list of tasks or JSON array of objects', false)
             ->using(function (string $action, ?string $database_id = null, ?string $tasks = null) {
 
+                Log::debug("NotionTaskSyncTool: action={$action}, database_id={$database_id}, tasks={$tasks}");
+
                 // Defaults from .env
-                $database_id = $database_id ?? env('NOTION_DEFAULT_DATABASE_ID');
+                $database_id = env('NOTION_DEFAULT_DATABASE_ID');
                 $token = env('NOTION_TOKEN');
                 $notionVersion = env('NOTION_VERSION', '2022-06-28');
                 $baseUrl = env('NOTION_API_BASE', 'https://api.notion.com/v1');
@@ -42,6 +43,7 @@ class NotionTaskSyncTool
 
                 // ACTION: refresh (force re-fetch schema)
                 if ($action === 'refresh') {
+                    Log::debug("Deleting cache: {$cachePath}");
                     Storage::delete($cachePath);
                     return $this->fetchAndCacheDatabase($baseUrl, $headers, $database_id, $cachePath);
                 }
@@ -50,6 +52,7 @@ class NotionTaskSyncTool
                 if ($action === 'fields') {
                     // Use cache if available
                     if (Storage::exists($cachePath)) {
+                        Log::debug("Using cached database: {$cachePath}");
                         $cached = json_decode(Storage::get($cachePath), true);
                         return json_encode([
                             'type' => 'notiontasks',
@@ -63,6 +66,7 @@ class NotionTaskSyncTool
                         ]);
                     }
 
+                    Log::debug("Fetching database schema from Notion...");
                     return $this->fetchAndCacheDatabase($baseUrl, $headers, $database_id, $cachePath);
                 }
 
@@ -75,6 +79,8 @@ class NotionTaskSyncTool
                             'view' => 'livewire.tools.error',
                         ]);
                     }
+
+                    Log::debug("Creating tasks in database: {$database_id}");
 
                     $parsedTasks = json_decode($tasks, true);
                     if (json_last_error() !== JSON_ERROR_NONE) {
@@ -136,6 +142,8 @@ class NotionTaskSyncTool
      */
     private function fetchAndCacheDatabase(string $baseUrl, array $headers, string $database_id, string $cachePath)
     {
+        Log::debug("Fetching database schema from Notion...");
+
         $response = Http::withHeaders($headers)->get("{$baseUrl}/databases/{$database_id}");
 
         if ($response->failed()) {
@@ -149,6 +157,8 @@ class NotionTaskSyncTool
 
         $data = $response->json();
         $fields = array_keys($data['properties'] ?? []);
+
+        Log::debug("Caching database schema to: {$cachePath}");
 
         Storage::put($cachePath, json_encode([
             'fields' => $fields,
@@ -168,3 +178,4 @@ class NotionTaskSyncTool
         ]);
     }
 }
+

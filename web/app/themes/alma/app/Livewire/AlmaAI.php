@@ -143,7 +143,7 @@ class AlmaAI extends Component
 
         $post_id = $existing_post ? wp_update_post(array_merge(['ID' => $existing_post[0]->ID], $post_data)) : wp_insert_post($post_data, true);
         if (is_wp_error($post_id)) {
-            Log::error('WP Post Error', ['error' => $post_id->get_error_message()]);
+            //Log::error('WP Post Error', ['error' => $post_id->get_error_message()]);
             return;
         }
 
@@ -230,16 +230,16 @@ class AlmaAI extends Component
                     if (!empty($chunk->toolCalls)) {
                         foreach ($chunk->toolCalls as $toolCall) {
                             $toolsUsed[] = $toolCall->name;
-                            Log::debug("Tool called: " . $toolCall->name);
+                            //Log::debug("Tool called: " . $toolCall->name);
                             // Check if tool results are available in the chunk
                             if (isset($toolCall->results) && !empty($toolCall->results)) {
                                 $toolOutput = $toolCall->results[0] ?? ''; // Assuming first result
-                                Log::debug("Tool result: " . $toolOutput);
+                                //Log::debug("Tool result: " . $toolOutput);
                                 // Attempt to parse tool output as JSON
                                 $decoded = json_decode($toolOutput, true);
                                 if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
                                     $fullResponse = $toolOutput; // Use tool output as the primary response
-                                    Log::debug("Parsed tool data from results: " . json_encode($decoded['data']) . ", View: " . ($decoded['view'] ?? 'null'));
+                                    //Log::debug("Parsed tool data from results: " . json_encode($decoded['data']) . ", View: " . ($decoded['view'] ?? 'null'));
                                     break 2; // Exit both loops once tool result is found
                                 }
                             }
@@ -247,7 +247,7 @@ class AlmaAI extends Component
                     }
                 }
 
-                Log::debug("Full response from stream: " . $fullResponse);
+                //Log::debug("Full response from stream: " . $fullResponse);
 
                 // Fallback: Parse full response if no tool result was found
                 $toolData = null;
@@ -255,11 +255,11 @@ class AlmaAI extends Component
                 if ($toolsUsed) {
                     $decoded = json_decode($fullResponse, true);
                     if (json_last_error() !== JSON_ERROR_NONE) {
-                        Log::error("JSON decode failed for response: " . $fullResponse . ", Error: " . json_last_error_msg());
+                        //Log::error("JSON decode failed for response: " . $fullResponse . ", Error: " . json_last_error_msg());
                     } elseif (is_array($decoded)) {
                         $toolData = $decoded['data'] ?? null;
                         $view = $decoded['view'] ?? null;
-                        Log::debug("Parsed tool data from full response: " . json_encode($toolData) . ", View: " . $view);
+                        //Log::debug("Parsed tool data from full response: " . json_encode($toolData) . ", View: " . $view);
                     }
                 }
 
@@ -270,7 +270,7 @@ class AlmaAI extends Component
                     'view' => $view,
                 ];
             } catch (\Exception $e) {
-                Log::error('Stream error', ['error' => $e->getMessage()]);
+                //Log::error('Stream error', ['error' => $e->getMessage()]);
                 return ['text' => 'Oops, something went wrong! Try again.', 'tools_used' => [], 'tool_data' => null, 'view' => 'livewire.tools.error'];
             }
         });
@@ -283,7 +283,7 @@ class AlmaAI extends Component
                 'tool_data' => $cached['tool_data'],
                 'view' => $cached['view'],
             ];
-            Log::debug("Message to be added: " . json_encode($message));
+            //Log::debug("Message to be added: " . json_encode($message));
             if (!in_array($message, $this->messages)) {
                 $this->messages[] = $message;
                 $this->saveMessages();

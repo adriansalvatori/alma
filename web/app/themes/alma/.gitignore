@@ -1,6 +1,10 @@
 /node_modules
 /vendor
 /public/*
+/storage/framework/cache/*
+/storage/framework/views/*
+/storage/framework/sessions/*
 !/public/.gitkeep
 .env
 npm-debug.log
+.DS_Store
