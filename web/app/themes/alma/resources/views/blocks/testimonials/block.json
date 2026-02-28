@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "alma/testimonials",
+    "title": "Testimonials",
+    "category": "alma",
+    "icon": "star-filled",
+    "description": "A section displaying user reviews.",
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "default": "Review Section"
+        },
+        "description": {
+            "type": "string",
+            "default": "Let happy users convince the rest."
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "html": false,
+        "jsx": true
+    },
+    "textdomain": "alma"
+}

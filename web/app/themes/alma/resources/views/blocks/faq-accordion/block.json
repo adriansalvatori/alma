@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "alma/faq-accordion",
+    "title": "FAQ Accordion",
+    "category": "alma",
+    "icon": "editor-help",
+    "description": "A frequently asked questions accordion.",
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "default": "FAQ Section"
+        },
+        "description": {
+            "type": "string",
+            "default": "Reduce hesitation with smart answers."
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "html": false,
+        "jsx": true
+    },
+    "textdomain": "alma"
+}

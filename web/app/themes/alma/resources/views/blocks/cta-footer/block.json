@@ -1,23 +1,19 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-    "name": "alma/hero",
-    "title": "Hero",
+    "name": "alma/cta-footer",
+    "title": "CTA Footer",
     "category": "alma",
-    "icon": "superhero",
-    "description": "A highly customizable hero section.",
+    "icon": "megaphone",
+    "description": "A call to action section designed for the bottom of pages.",
     "attributes": {
-        "badge": {
-            "type": "string",
-            "default": "Achievement - Rated No.1 App of 2025"
-        },
         "title": {
             "type": "string",
-            "default": "High Converting Heading Comes Here"
+            "default": "CTA Heading"
         },
-        "subtitle": {
+        "description": {
             "type": "string",
-            "default": "Use a clear headline, value prop, and app store buttons — give them a reason to scroll or download right away."
+            "default": "Reinforce the download offer, repeat your app's value, and include the app buttons again for one final push."
         },
         "primaryButtonText": {
             "type": "string",
@@ -26,10 +22,6 @@
         "secondaryButtonText": {
             "type": "string",
             "default": "Download App"
-        },
-        "downloadsText": {
-            "type": "string",
-            "default": "200K+ Downloads"
         },
         "imageUrl": {
             "type": "string"

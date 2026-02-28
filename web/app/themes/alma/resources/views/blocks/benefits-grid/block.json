@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "alma/benefits-grid",
+    "title": "Benefits Grid",
+    "category": "alma",
+    "icon": "grid-view",
+    "description": "A four-column grid highlighting key benefits.",
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "default": "Why Choose Us Section"
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "html": false,
+        "jsx": true
+    },
+    "textdomain": "alma"
+}

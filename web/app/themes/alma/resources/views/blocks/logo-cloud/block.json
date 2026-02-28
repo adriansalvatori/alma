@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "alma/logo-cloud",
+    "title": "Logo Cloud",
+    "category": "alma",
+    "icon": "shield",
+    "description": "A section displaying partner or client logos.",
+    "attributes": {
+        "text": {
+            "type": "string",
+            "default": "WE ARE PARTNERED WITH MORE THAN 50+ COMPANIES AROUND THE GLOBE"
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "html": false,
+        "jsx": true
+    },
+    "textdomain": "alma"
+}
