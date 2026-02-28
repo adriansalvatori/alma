@@ -14,6 +14,10 @@ class ThemeServiceProvider extends SageServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->app->singleton(\App\Dashboard\WidgetManager::class, function () {
+            return new \App\Dashboard\WidgetManager();
+        });
     }
 
     /**

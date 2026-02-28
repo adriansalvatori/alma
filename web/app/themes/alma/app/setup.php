@@ -29,15 +29,15 @@ add_filter('block_editor_settings_all', function ($settings) {
  * @return void
  */
 add_action('admin_head', function () {
-    if (! get_current_screen()?->is_block_editor()) {
+    if (!get_current_screen()?->is_block_editor()) {
         return;
     }
 
-    if (! Vite::isRunningHot()) {
+    if (!Vite::isRunningHot()) {
         $dependencies = json_decode(Vite::content('editor.deps.json'));
 
         foreach ($dependencies as $dependency) {
-            if (! wp_script_is($dependency)) {
+            if (!wp_script_is($dependency)) {
                 wp_enqueue_script($dependency);
             }
         }
@@ -64,6 +64,22 @@ add_filter('theme_file_path', function ($path, $file) {
  * @link https://core.trac.wordpress.org/ticket/61965
  */
 add_filter('should_load_separate_core_block_assets', '__return_false');
+
+/**
+ * Register custom block category.
+ */
+add_filter('block_categories_all', function ($categories) {
+    return array_merge(
+        $categories,
+        [
+            [
+                'slug' => 'alma',
+                'title' => __('Alma Blocks', 'alma'),
+                'icon' => 'admin-site',
+            ],
+        ]
+    );
+});
 
 /**
  * Register the initial theme setup.
@@ -160,4 +176,45 @@ add_action('widgets_init', function () {
         'name' => __('Footer', 'sage'),
         'id' => 'sidebar-footer',
     ] + $config);
+});
+
+/**
+ * Handle initial theme setup upon activation.
+ */
+add_action('after_switch_theme', function () {
+    // 1. Create Default Roles
+    $roleService = app(\App\Services\RoleService::class);
+    $roleService->createRole('alma_admin', 'Alma Admin', [
+        'read' => true,
+        'edit_posts' => true,
+        'upload_files' => true,
+    ]);
+
+    // Helper to create page if it doesn't exist
+    $createPage = function ($title, $slug) {
+        $page = get_page_by_path($slug);
+        if (!$page) {
+            return wp_insert_post([
+                'post_type' => 'page',
+                'post_title' => $title,
+                'post_name' => $slug,
+                'post_status' => 'publish',
+                'post_content' => "<!-- wp:alma/hero {\"title\":\"{$title}\"} /-->",
+            ]);
+        }
+        return $page->ID;
+    };
+
+    // 2. Create Home page
+    $homeId = $createPage('Home', 'home');
+
+    // 3. Set front page
+    if ($homeId) {
+        update_option('show_on_front', 'page');
+        update_option('page_on_front', $homeId);
+    }
+
+    // 4. Set permalinks to postname
+    update_option('permalink_structure', '/%postname%/');
+    flush_rewrite_rules();
 });
