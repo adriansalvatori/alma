@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "substrate": {
+            "command": "php",
+            "args": [
+                "vendor/bin/acorn",
+                "substrate:mcp"
+            ]
+        }
+    }
+}

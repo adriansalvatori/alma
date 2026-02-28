@@ -1,98 +1,46 @@
-# alma – Development Execution Plan
+First: build a **solid Laravel-like starter kit on top of Bedrock + Sage + Acorn + Livewire**.
+Then, when everything is stable and modular, we layer FSE compatibility on top as a final integration phase.
+
+---
+
+# alma – Development Execution Plan (Reordered Architecture)
 
 **Context:** Bedrock + Sage + Acorn + Livewire 4 already installed
-**Goal:** Transform theme into a Laravel-like, FSE-compatible, block-first WordPress starter kit
+**Goal:** Build a Laravel-like, block-first WordPress starter kit.
+**FSE compatibility will be implemented at the end.**
 
 ---
 
 # GLOBAL RULES (Agent Must Enforce)
 
-0. Always use Roots guidelines (available in .ai/guidelines.md) and the substrate MCP. 
+0. Always use Roots guidelines (available in .ai/guidelines.md) and the substrate MCP.
 1. Do not place business logic inside Blade files.
 2. Do not call `wp_*` functions inside views.
 3. All domain logic must live in `app/`.
 4. All reusable UI must be implemented as WordPress blocks.
 5. Dynamic blocks must mount Livewire components.
-6. FSE compatibility is mandatory.
-7. Controllers must delegate logic to Services.
-8. Block registration must be auto-discovered.
-9. No duplicate asset loading.
-10. Code must be clean, modular, and testable.
+6. Controllers must delegate logic to Services.
+7. Block registration must be auto-discovered.
+8. No duplicate asset loading.
+9. Code must be clean, modular, and testable.
+10. FSE compatibility will be implemented in the final phase only.
+
+---
 
 # AGENT SKILLS
 
-1. fluxui-development (available in alma/.agents/skills/fluxui-development)
-2. livewire-development (available in alma/.agents/skills/livewire-development)
+1. fluxui-development (alma/.agents/skills/fluxui-development)
+2. livewire-development (alma/.agents/skills/livewire-development)
 
 ---
 
-# PHASE 1 – Convert Theme to Full Site Editing (FSE)
+# PHASE 1 – Establish Block Architecture
 
-### 1.1 Create Required FSE Files
-
-Ensure existence of:
-
-```
-theme.json
-templates/
-parts/
-```
-
-If missing, generate them.
+We begin with architecture, not editor rendering.
 
 ---
 
-### 1.2 Configure `theme.json`
-
-* Define color palette aligned with Flux UI tokens.
-* Define typography scale.
-* Define spacing scale.
-* Disable core color presets.
-* Enable appearance tools.
-* Ensure layout content width and wide width are defined.
-
-Do not hardcode Tailwind classes inside theme.json.
-
----
-
-### 1.3 Create Core Templates
-
-Create:
-
-```
-templates/index.html
-templates/front-page.html
-templates/page.html
-templates/single.html
-templates/archive.html
-```
-
-Each template must:
-
-* Use block markup
-* Include header and footer template parts
-* Avoid inline styling
-
----
-
-### 1.4 Create Template Parts
-
-Create:
-
-```
-parts/header.html
-parts/footer.html
-parts/navigation.html
-```
-
-Use core blocks where possible.
-Allow alma custom blocks inside templates.
-
----
-
-# PHASE 2 – Establish Block Architecture
-
-### 2.1 Create Block Base Interface
+### 1.1 Create Block Base Interface
 
 Create:
 
@@ -100,7 +48,7 @@ Create:
 app/Blocks/Contracts/Block.php
 ```
 
-Define required methods:
+Define:
 
 * name(): string
 * title(): string
@@ -111,7 +59,7 @@ Define required methods:
 
 ---
 
-### 2.2 Create Block Base Abstract Class
+### 1.2 Create Block Base Abstract Class
 
 Create:
 
@@ -125,23 +73,24 @@ Responsibilities:
 * Provide default authorize() = true
 * Register block type via WordPress API
 * Define render_callback
+* Map block.json automatically
 
 ---
 
-### 2.3 Implement Auto-Discovery
+### 1.3 Implement Auto-Discovery
 
 Inside `AlmaServiceProvider`:
 
 * Scan `app/Blocks`
 * Instantiate each block class
-* Call register() method
-* Ensure no manual block registration required
+* Call register()
+* Ensure zero manual block registration
 
 ---
 
-# PHASE 3 – Implement Core Blocks
+# PHASE 2 – Implement Core Blocks
 
-Create the following blocks:
+Create:
 
 ```
 HeroBlock
@@ -160,11 +109,17 @@ Each block must:
 * Use render callback
 * Mount Livewire component when dynamic
 
+Do not depend on FSE yet.
+
+Blocks must render correctly inside standard templates.
+
 ---
 
-# PHASE 4 – Livewire Integration Layer
+# PHASE 3 – Livewire Integration Layer
 
-### 4.1 Define Livewire Component Structure
+---
+
+### 3.1 Define Livewire Component Structure
 
 Create:
 
@@ -175,13 +130,13 @@ resources/livewire/profile/
 resources/livewire/security/
 ```
 
-All interactive UI must live here.
+All interactive UI lives here.
 
 ---
 
-### 4.2 Mount Livewire Inside Dynamic Blocks
+### 3.2 Mount Livewire Inside Dynamic Blocks
 
-In block render view:
+In:
 
 ```
 resources/views/blocks/{block-name}.blade.php
@@ -195,26 +150,29 @@ Mount:
 
 Ensure:
 
-* Works without breaking block editor
-* Does not load Livewire scripts inside admin editor
+* Works in frontend
+* Does not break block editor
+* Does not load Livewire scripts in admin
 
 ---
 
-### 4.3 Configure Livewire Asset Loading
+### 3.3 Configure Livewire Asset Loading
 
 Agent must:
 
 * Enqueue Livewire only on frontend
 * Ensure scripts load once
-* Prevent duplication in block preview
+* Prevent duplication in previews
 
 ---
 
-# PHASE 5 – Routing & Middleware Layer
+# PHASE 4 – Routing & Middleware Layer
 
-### 5.1 Define Routes
+---
 
-Inside `routes/web.php`, define:
+### 4.1 Define Routes
+
+Inside `routes/web.php`:
 
 * /
 * /login
@@ -223,13 +181,11 @@ Inside `routes/web.php`, define:
 * /settings
 * /two-factor-challenge
 
-Routes must use controllers.
-
 No closure routes.
 
 ---
 
-### 5.2 Create Controllers
+### 4.2 Create Controllers
 
 Create:
 
@@ -251,7 +207,7 @@ Controllers must:
 
 ---
 
-### 5.3 Implement Middleware
+### 4.3 Implement Middleware
 
 Create:
 
@@ -261,15 +217,17 @@ RedirectIfAuthenticated
 EnsureTwoFactorVerified
 ```
 
-Register aliases in service provider.
+Register aliases.
 
-Apply middleware to protected routes.
+Apply to protected routes.
 
 ---
 
-# PHASE 6 – Authentication Service Layer
+# PHASE 5 – Authentication Service Layer
 
-### 6.1 Create AuthService
+---
+
+### 5.1 Create AuthService
 
 Location:
 
@@ -285,21 +243,25 @@ Implement:
 * user()
 * check()
 
-Internally may use WordPress APIs.
-
-Controllers must never directly call wp_*.
+Controllers must never call wp_* directly.
 
 ---
 
-# PHASE 7 – Two-Factor Authentication
-
-### 7.1 Install and Use TOTP Library
-
-Use `pragmarx/google2fa`.
+# PHASE 6 – Two-Factor Authentication
 
 ---
 
-### 7.2 Create TwoFactorService
+### 6.1 Install TOTP Library
+
+Use:
+
+```
+pragmarx/google2fa
+```
+
+---
+
+### 6.2 Create TwoFactorService
 
 Location:
 
@@ -315,39 +277,39 @@ Implement:
 * enable()
 * disable()
 
-Store secret encrypted in user meta.
+Encrypt secret in user meta.
 
 ---
 
-### 7.3 Enforce 2FA Flow
+### 6.3 Enforce 2FA Flow
 
-After successful login:
+After login:
 
 * If 2FA enabled
 * Store pending session
-* Redirect to challenge route
+* Redirect to challenge
 * Validate TOTP
 * Complete login
 
-Middleware must block dashboard until verified.
+Middleware blocks dashboard until verified.
 
 ---
 
-# PHASE 8 – Dashboard System
-
-### 8.1 Make Dashboard Block-Based
-
-Create FSE template:
-
-```
-templates/page-dashboard.html
-```
-
-Insert alma dashboard blocks.
+# PHASE 7 – Dashboard System
 
 ---
 
-### 8.2 Implement Widget System
+### 7.1 Make Dashboard Block-Based
+
+Create standard Blade template for dashboard first.
+
+Do NOT depend on FSE yet.
+
+Blocks must render inside the Blade layout.
+
+---
+
+### 7.2 Implement Widget System
 
 Create:
 
@@ -355,15 +317,17 @@ Create:
 app/Dashboard/Contracts/Widget.php
 ```
 
-Allow blocks to register dashboard widgets.
+Allow blocks to register widgets.
 
 Render widgets dynamically inside DashboardStatsBlock.
 
 ---
 
-# PHASE 9 – Role & Capability Layer
+# PHASE 8 – Role & Capability Layer
 
-### 9.1 Create RoleService
+---
+
+### 8.1 Create RoleService
 
 Location:
 
@@ -380,26 +344,28 @@ Implement:
 
 ---
 
-### 9.2 Theme Activation Hook
+### 8.2 Theme Activation Hook
 
 On `after_switch_theme`:
 
 * Create default roles
 * Create Home page
 * Create Dashboard page
-* Assign page templates
+* Assign templates
 * Set front page
 * Set permalinks
 
-No manual admin configuration required.
+No manual admin setup required.
 
 ---
 
-# PHASE 10 – Editor Experience
+# PHASE 9 – Editor Experience (Non-FSE)
 
-### 10.1 Create Custom Block Category
+---
 
-Register category:
+### 9.1 Create Custom Block Category
+
+Register:
 
 ```
 alma
@@ -409,13 +375,85 @@ All custom blocks must belong to it.
 
 ---
 
-### 10.2 Editor Styling
+### 9.2 Editor Styling
 
 Ensure:
 
 * Editor loads theme styles
 * Flux UI renders correctly
-* Tailwind classes preserved in build
+* Tailwind preserved in build
+
+Do not implement FSE templates yet.
+
+---
+
+# PHASE 10 – Convert Theme to Full Site Editing (FINAL INTEGRATION)
+
+Only after all systems work correctly.
+
+---
+
+### 10.1 Create Required FSE Structure
+
+Ensure existence of:
+
+```
+theme.json
+templates/
+parts/
+```
+
+Generate if missing.
+
+---
+
+### 10.2 Configure theme.json
+
+* Define color palette aligned with Flux tokens
+* Define typography scale
+* Define spacing scale
+* Disable core presets
+* Enable appearance tools
+* Define layout content width + wide width
+
+No Tailwind classes inside theme.json.
+
+---
+
+### 10.3 Create Core Templates
+
+Create:
+
+```
+templates/index.html
+templates/front-page.html
+templates/page.html
+templates/single.html
+templates/archive.html
+templates/page-dashboard.html
+```
+
+Each must:
+
+* Use block markup
+* Include header + footer parts
+* Avoid inline styles
+* Allow alma blocks
+
+---
+
+### 10.4 Create Template Parts
+
+Create:
+
+```
+parts/header.html
+parts/footer.html
+parts/navigation.html
+```
+
+Use core blocks when possible.
+Allow alma custom blocks.
 
 ---
 
@@ -426,10 +464,11 @@ Agent must verify:
 * No wp_* in views
 * No business logic in block callbacks
 * Livewire scripts load once
-* Unauthorized users cannot access protected routes
-* Blocks hide if authorize() returns false
-* No duplicate registrations
-* No global state leakage
+* Middleware properly blocks unauthorized users
+* Blocks respect authorize()
+* No duplicate block registration
+* No asset duplication
+* FSE templates correctly render alma blocks
 
 ---
 
@@ -437,15 +476,16 @@ Agent must verify:
 
 After completion:
 
-* Theme fully FSE compatible
-* Blocks reusable across editor
-* Dynamic UI powered by Livewire
-* Authentication abstracted
-* 2FA enforced
+* Modular Laravel-like architecture
+* Block-first UI
+* Livewire-powered dynamic behavior
+* Auth + 2FA abstracted
 * Dashboard modular
+* Roles and permissions isolated
+* FSE compatibility layered cleanly at the end
 * WordPress reduced to infrastructure
 
-This is no longer “just a theme.”
-It is a structured application that happens to run on WordPress.
+Now it’s not chaos pretending to be structure.
+It’s structure pretending to be WordPress.
 
-If the agent deviates from these instructions, it’s wrong.
+And that’s exactly how it should be.
