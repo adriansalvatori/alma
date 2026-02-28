@@ -1,0 +1,17 @@
+{
+    "name": "v7.alma",
+    "private": true,
+    "scripts": {
+        "setup": "bash bin/setup.sh",
+        "dev": "npm run dev --prefix web/app/themes/alma",
+        "build": "npm run build --prefix web/app/themes/alma",
+        "translate": "npm run translate --prefix web/app/themes/alma",
+        "translate:pot": "npm run translate:pot --prefix web/app/themes/alma",
+        "translate:update": "npm run translate:update --prefix web/app/themes/alma",
+        "translate:compile": "npm run translate:compile --prefix web/app/themes/alma",
+        "translate:js": "npm run translate:js --prefix web/app/themes/alma",
+        "translate:mo": "npm run translate:mo --prefix web/app/themes/alma",
+        "db:export": "mkdir -p exports && wp db export exports/db-$(date +%Y-%m-%d-%H%M%S).sql",
+        "deploy:zip": "npm run build && zip -r alma-deploy.zip . -x 'node_modules/*' '*/node_modules/*' '.git/*' 'exports/*'"
+    }
+}
