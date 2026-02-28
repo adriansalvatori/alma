@@ -23,4 +23,9 @@ class ProfileSummaryBlock extends BaseBlock
     {
         return view('blocks.profile-summary.profile-summary', ['attributes' => $attributes])->render();
     }
+
+    public function authorize(): bool
+    {
+        return is_user_logged_in();
+    }
 }

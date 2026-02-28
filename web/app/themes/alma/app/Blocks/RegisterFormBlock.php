@@ -23,4 +23,9 @@ class RegisterFormBlock extends BaseBlock
     {
         return view('blocks.register-form.register-form', ['attributes' => $attributes])->render();
     }
+
+    public function authorize(): bool
+    {
+        return !is_user_logged_in();
+    }
 }

@@ -23,4 +23,9 @@ class SecurityPanelBlock extends BaseBlock
     {
         return view('blocks.security-panel.security-panel', ['attributes' => $attributes])->render();
     }
+
+    public function authorize(): bool
+    {
+        return is_user_logged_in();
+    }
 }

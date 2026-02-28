@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @php(do_action('get_header'))
     @php(wp_head())
-    @fluxAppearance
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body @php(body_class())>
@@ -35,9 +33,6 @@
 
     @php(do_action('get_footer'))
     @php(wp_footer())
-    @substrateJs
-    @livewireScripts
-    @fluxScripts
 </body>
 
 </html>

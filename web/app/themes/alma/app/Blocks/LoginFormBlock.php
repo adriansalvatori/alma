@@ -23,4 +23,9 @@ class LoginFormBlock extends BaseBlock
     {
         return view('blocks.login-form.login-form', ['attributes' => $attributes])->render();
     }
+
+    public function authorize(): bool
+    {
+        return !is_user_logged_in();
+    }
 }

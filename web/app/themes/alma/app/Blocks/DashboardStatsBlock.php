@@ -23,4 +23,9 @@ class DashboardStatsBlock extends BaseBlock
     {
         return view('blocks.dashboard-stats.dashboard-stats', ['attributes' => $attributes])->render();
     }
+
+    public function authorize(): bool
+    {
+        return is_user_logged_in();
+    }
 }

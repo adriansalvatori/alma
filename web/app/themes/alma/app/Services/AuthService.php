@@ -19,7 +19,9 @@ class AuthService
         $user = wp_authenticate($username, $credentials['password'] ?? '');
 
         if (is_wp_error($user)) {
-            return $user;
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'email' => $user->get_error_message(),
+            ]);
         }
 
         $is2faEnabled = get_user_meta($user->ID, 'two_factor_enabled', true);
@@ -67,6 +69,12 @@ class AuthService
             'user_email' => $data['email'] ?? '',
             'role' => 'subscriber',
         ]);
+
+        if (is_wp_error($userId)) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'email' => $userId->get_error_message(),
+            ]);
+        }
 
         return $userId;
     }

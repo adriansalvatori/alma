@@ -244,6 +244,7 @@ add_action('wp_head', function () {
 }, 5);
 
 add_action('wp_footer', function () {
+    echo \Illuminate\Support\Facades\Blade::render("@substrateJs");
     echo \Illuminate\Support\Facades\Blade::render("@livewireScripts");
     echo \Illuminate\Support\Facades\Blade::render("@fluxScripts");
 }, 5);

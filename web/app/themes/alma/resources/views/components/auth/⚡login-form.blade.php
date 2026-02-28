@@ -21,11 +21,6 @@ new class extends Component {
             'remember' => $this->remember,
         ]);
 
-        if (is_wp_error($result)) {
-            $this->addError('email', $result->get_error_message());
-            return;
-        }
-
         if ($result['requires_2fa']) {
             session([
                 'login.id' => $result['user_id'],
