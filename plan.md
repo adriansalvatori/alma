@@ -34,7 +34,7 @@ Then, when everything is stable and modular, we layer FSE compatibility on top a
 
 ---
 
-# PHASE 1 – Establish Block Architecture
+# PHASE 1 – Establish Block Architecture (Done)
 
 We begin with architecture, not editor rendering.
 
@@ -88,7 +88,7 @@ Inside `AlmaServiceProvider`:
 
 ---
 
-# PHASE 2 – Implement Core Blocks
+# PHASE 2 – Implement Core Blocks 
 
 Create:
 

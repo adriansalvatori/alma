@@ -25,6 +25,8 @@ class ThemeServiceProvider extends SageServiceProvider
     {
         parent::boot();
 
+        \Illuminate\Support\Facades\View::share('errors', new \Illuminate\Support\ViewErrorBag);
+
         $this->bootBlocks();
     }
 

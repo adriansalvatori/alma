@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "alma/hero",
+    "title": "Hero",
+    "category": "alma",
+    "icon": "superhero",
+    "description": "A highly customizable hero section.",
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Welcome to Alma"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "The next generation WordPress application toolkit."
+        }
+    },
+    "supports": {
+        "align": [
+            "wide",
+            "full"
+        ],
+        "html": false,
+        "jsx": true
+    },
+    "textdomain": "alma"
+}
