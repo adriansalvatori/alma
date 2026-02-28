@@ -6,7 +6,7 @@ This project uses:
 
 * WordPress
 * Bedrock
-* Acorn
+* Acorn (instead of Artisan - use `wp acorn`)
 * Alma (Blade-based theme)
 * Livewire 4 (Single File Components)
 * Flux UI
