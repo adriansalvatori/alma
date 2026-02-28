@@ -19,9 +19,9 @@ class ProfileSummaryBlock extends BaseBlock
         return __('A dynamic Livewire-powered user profile summary.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.profile-summary.profile-summary', ['attributes' => $attributes])->render();
+        return view('blocks.profile-summary.profile-summary', ['attributes' => $attributes, 'content' => $content])->render();
     }
 
     public function authorize(): bool

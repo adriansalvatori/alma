@@ -19,9 +19,9 @@ class LoginFormBlock extends BaseBlock
         return __('A dynamic Livewire-powered login form.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.login-form.login-form', ['attributes' => $attributes])->render();
+        return view('blocks.login-form.login-form', ['attributes' => $attributes, 'content' => $content])->render();
     }
 
     public function authorize(): bool

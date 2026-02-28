@@ -19,8 +19,8 @@ class CtaFooterBlock extends BaseBlock
         return __('A call to action section designed for the bottom of pages.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.cta-footer.cta-footer', ['attributes' => $attributes])->render();
+        return view('blocks.cta-footer.cta-footer', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

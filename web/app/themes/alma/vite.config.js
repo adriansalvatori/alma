@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite';
 import laravel from 'laravel-vite-plugin'
 import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
+import react from '@vitejs/plugin-react';
 
 // Set APP_URL if it doesn't exist for Laravel Vite plugin
 if (! process.env.APP_URL) {
@@ -9,6 +10,10 @@ if (! process.env.APP_URL) {
 }
 
 export default defineConfig({
+  esbuild: {
+    jsxFactory: 'window.wp.element.createElement',
+    jsxFragment: 'window.wp.element.Fragment',
+  },
   base: '/app/themes/sage/public/build/',
   plugins: [
     tailwindcss(),
@@ -20,6 +25,10 @@ export default defineConfig({
         'resources/js/editor.js',
       ],
       refresh: true,
+    }),
+
+    react({
+      jsxRuntime: 'classic',
     }),
 
     wordpressPlugin(),

@@ -40,8 +40,8 @@ class HeroBlock extends BaseBlock
      * @param array $attributes
      * @return string
      */
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.hero.hero', ['attributes' => $attributes])->render();
+        return view('blocks.hero.hero', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

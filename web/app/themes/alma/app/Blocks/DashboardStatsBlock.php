@@ -19,9 +19,9 @@ class DashboardStatsBlock extends BaseBlock
         return __('A dynamic Livewire-powered dashboard statistics panel.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.dashboard-stats.dashboard-stats', ['attributes' => $attributes])->render();
+        return view('blocks.dashboard-stats.dashboard-stats', ['attributes' => $attributes, 'content' => $content])->render();
     }
 
     public function authorize(): bool

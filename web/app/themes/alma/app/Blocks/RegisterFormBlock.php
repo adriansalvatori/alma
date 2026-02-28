@@ -19,9 +19,9 @@ class RegisterFormBlock extends BaseBlock
         return __('A dynamic Livewire-powered registration form.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.register-form.register-form', ['attributes' => $attributes])->render();
+        return view('blocks.register-form.register-form', ['attributes' => $attributes, 'content' => $content])->render();
     }
 
     public function authorize(): bool

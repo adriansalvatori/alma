@@ -117,14 +117,46 @@ JSON;
 </section>
 BLADE;
 
+        // 4. Create edit.jsx
+        $jsxContent = <<<JSX
+import { __ } from '@wordpress/i18n';
+import { useBlockProps, RichText, InnerBlocks } from '@wordpress/block-editor';
+
+export default function Edit({ attributes, setAttributes }) {
+    const blockProps = useBlockProps({
+        className: 'py-12'
+    });
+
+    return (
+        <section { ...blockProps }>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border border-dashed border-zinc-300 p-4 rounded-xl">
+                <RichText
+                    tagName="h2"
+                    className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl focus:outline-none"
+                    value={ attributes.title }
+                    onChange={ ( val ) => setAttributes( { title: val } ) }
+                    placeholder={ __('Enter {$titleName} title...', 'alma') }
+                />
+                
+                <div className="mt-4 p-4 bg-zinc-50 rounded-lg">
+                    <InnerBlocks />
+                </div>
+            </div>
+        </section>
+    );
+}
+JSX;
+
         file_put_contents($phpPath, $phpContent);
         file_put_contents("{$viewDir}/block.json", $jsonContent);
         file_put_contents("{$viewDir}/{$kebabName}.blade.php", $bladeContent);
+        file_put_contents("{$viewDir}/edit.jsx", $jsxContent);
 
         $this->info("Created {$name} successfully!");
         $this->line("- PHP Class: app/Blocks/{$name}.php");
-        $this->line("- Block JSON: resources/views/blocks/{$kebabName}/block.json");
-        $this->line("- Blade View: resources/views/blocks/{$kebabName}/{$kebabName}.blade.php");
-        $this->info("Don't forget to run `composer dump-autoload` if the new block class doesn't show up right away.");
+        $this->line("- JSON: resources/views/blocks/{$kebabName}/block.json");
+        $this->line("- Blade: resources/views/blocks/{$kebabName}/{$kebabName}.blade.php");
+        $this->line("- React: resources/views/blocks/{$kebabName}/edit.jsx");
+        $this->info("Remember to run `composer dump-autoload` if the class is not found, and `npm run build` to compile the JSX.");
     }
 }

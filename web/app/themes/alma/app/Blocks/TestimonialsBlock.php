@@ -19,8 +19,8 @@ class TestimonialsBlock extends BaseBlock
         return __('A section displaying user reviews.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.testimonials.testimonials', ['attributes' => $attributes])->render();
+        return view('blocks.testimonials.testimonials', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

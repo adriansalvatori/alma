@@ -19,8 +19,8 @@ class FaqAccordionBlock extends BaseBlock
         return __('A frequently asked questions accordion.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.faq-accordion.faq-accordion', ['attributes' => $attributes])->render();
+        return view('blocks.faq-accordion.faq-accordion', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

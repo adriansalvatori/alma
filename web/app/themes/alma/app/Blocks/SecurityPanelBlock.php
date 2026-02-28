@@ -19,9 +19,9 @@ class SecurityPanelBlock extends BaseBlock
         return __('A dynamic Livewire-powered security panel.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.security-panel.security-panel', ['attributes' => $attributes])->render();
+        return view('blocks.security-panel.security-panel', ['attributes' => $attributes, 'content' => $content])->render();
     }
 
     public function authorize(): bool

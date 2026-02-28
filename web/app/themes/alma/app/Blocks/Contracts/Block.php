@@ -31,7 +31,7 @@ interface Block
      * @param array $attributes
      * @return string
      */
-    public function render(array $attributes): string;
+    public function render(array $attributes, string $content = ''): string;
 
     /**
      * Get the supported features for the block.

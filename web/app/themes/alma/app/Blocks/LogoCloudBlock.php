@@ -19,8 +19,8 @@ class LogoCloudBlock extends BaseBlock
         return __('A section displaying partner or client logos.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.logo-cloud.logo-cloud', ['attributes' => $attributes])->render();
+        return view('blocks.logo-cloud.logo-cloud', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

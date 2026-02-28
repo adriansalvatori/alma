@@ -19,8 +19,8 @@ class FeaturesGridBlock extends BaseBlock
         return __('A bento-style grid of highlighted features.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.features-grid.features-grid', ['attributes' => $attributes])->render();
+        return view('blocks.features-grid.features-grid', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }

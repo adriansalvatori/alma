@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Vite;
  * @return array
  */
 add_filter('block_editor_settings_all', function ($settings) {
-    $style = Vite::asset('resources/css/editor.css');
+    try {
+        $editorCssUrl = Vite::asset('resources/css/editor.css');
 
-    $settings['styles'][] = [
-        'css' => "@import url('{$style}')",
-    ];
+        $settings['styles'][] = [
+            'css' => "@import url('{$editorCssUrl}'); .editor-styles-wrapper { background: transparent; }",
+        ];
+    } catch (\Throwable $e) {
+        // Build asset not found yet
+    }
 
     return $settings;
 });
@@ -64,6 +68,18 @@ add_filter('theme_file_path', function ($path, $file) {
  * @link https://core.trac.wordpress.org/ticket/61965
  */
 add_filter('should_load_separate_core_block_assets', '__return_false');
+
+/**
+ * Dequeue native WordPress block styles to prevent conflicts with Tailwind/Flux.
+ */
+$dequeue_block_styles = function () {
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('wp-block-library-theme');
+    wp_dequeue_style('wc-blocks-style');
+    wp_dequeue_style('global-styles'); // Added by theme.json
+};
+add_action('wp_enqueue_scripts', $dequeue_block_styles, 100);
+add_action('admin_enqueue_scripts', $dequeue_block_styles, 100);
 
 /**
  * Register custom block category.

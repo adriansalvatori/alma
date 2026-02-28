@@ -7,6 +7,14 @@ use App\Blocks\Contracts\Block;
 abstract class BaseBlock implements Block
 {
     /**
+     * Render the block.
+     *
+     * @param array $attributes
+     * @param string $content
+     * @return string
+     */
+    abstract public function render(array $attributes, string $content = ''): string;
+    /**
      * Get the supported features for the block.
      *
      * @return array
@@ -65,6 +73,6 @@ abstract class BaseBlock implements Block
             return '';
         }
 
-        return (string) $this->render($attributes);
+        return (string) $this->render($attributes, $content);
     }
 }

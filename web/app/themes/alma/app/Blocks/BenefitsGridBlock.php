@@ -19,8 +19,8 @@ class BenefitsGridBlock extends BaseBlock
         return __('A four-column grid highlighting key benefits.', 'alma');
     }
 
-    public function render(array $attributes): string
+    public function render(array $attributes, string $content = ""): string
     {
-        return view('blocks.benefits-grid.benefits-grid', ['attributes' => $attributes])->render();
+        return view('blocks.benefits-grid.benefits-grid', ['attributes' => $attributes, 'content' => $content])->render();
     }
 }
