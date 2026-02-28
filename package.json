@@ -3,6 +3,7 @@
     "private": true,
     "scripts": {
         "setup": "bash bin/setup.sh",
+        "postinstall": "npm install --prefix web/app/themes/alma",
         "dev": "npm run dev --prefix web/app/themes/alma",
         "build": "npm run build --prefix web/app/themes/alma",
         "translate": "npm run translate --prefix web/app/themes/alma",

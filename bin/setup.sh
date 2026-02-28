@@ -105,8 +105,7 @@ wp post delete 1 2 3 --force || true
 
 # Build theme assets
 echo "Installing NPM dependencies and building theme assets..."
-npm install --prefix web/app/themes/alma
-npm run build --prefix web/app/themes/alma
+(cd web/app/themes/alma && npm install && npm run build)
 
 # Run Acorn optimize
 echo "Clearing Acorn caches..."
