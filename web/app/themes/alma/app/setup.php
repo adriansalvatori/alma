@@ -88,10 +88,27 @@ add_filter('block_categories_all', function ($categories) {
  */
 add_action('after_setup_theme', function () {
     /**
-     * Disable full-site editing support.
-     * We are managing layouts dynamically via Blade.
+     * Enable hybrid full-site editing support.
      */
-    remove_theme_support('block-templates');
+    add_theme_support('block-templates');
+
+    /**
+     * Define default block templates for new posts and pages.
+     */
+    $page_type = get_post_type_object('page');
+    if ($page_type) {
+        $page_type->template = [
+            ['alma/hero', ['title' => 'New Page']],
+            ['core/paragraph', ['placeholder' => 'Add your content here...']],
+        ];
+    }
+
+    $post_type = get_post_type_object('post');
+    if ($post_type) {
+        $post_type->template = [
+            ['core/paragraph', ['placeholder' => 'Start writing...']],
+        ];
+    }
 
     /**
      * Register the navigation menus.
