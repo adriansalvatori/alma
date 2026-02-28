@@ -19,8 +19,6 @@ use App\Http\Controllers\TwoFactorController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

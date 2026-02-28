@@ -18,7 +18,8 @@
 
         @include('sections.header')
 
-        <main id="main" class="main wp-block-group alignfull px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
+        <main id="main"
+            class="main wp-block-group alignfull min-h-screen @if (!is_front_page()) px-4 sm:px-6 lg:px-8 py-12 @endif">
             @yield('content')
         </main>
 

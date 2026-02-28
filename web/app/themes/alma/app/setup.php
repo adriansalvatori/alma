@@ -264,3 +264,56 @@ add_action('wp_footer', function () {
     echo \Illuminate\Support\Facades\Blade::render("@livewireScripts");
     echo \Illuminate\Support\Facades\Blade::render("@fluxScripts");
 }, 5);
+
+/**
+ * Intercept Gutenberg Buttons container and format as a flex row with gap.
+ */
+add_filter('render_block_core/buttons', function ($block_content, $block) {
+    if (is_admin()) {
+        return $block_content;
+    }
+
+    return '<div class="flex flex-wrap items-center gap-3">' . $block_content . '</div>';
+}, 10, 2);
+
+/**
+ * Intercept Gutenberg Button block and convert to Flux component via Blade runtime.
+ */
+add_filter('render_block_core/button', function ($block_content, $block) {
+    if (is_admin()) {
+        return $block_content;
+    }
+
+    $href = '';
+    $text = '';
+    $variant = 'primary'; // Default Flux UI variant
+
+    // Determine variant from Gutenberg styles (e.g. is-style-outline)
+    if (isset($block['attrs']['className'])) {
+        if (str_contains($block['attrs']['className'], 'is-style-outline')) {
+            $variant = 'outline';
+        } elseif (str_contains($block['attrs']['className'], 'is-style-ghost')) {
+            $variant = 'ghost';
+        }
+    }
+
+    // Extract href and text from the raw block inner HTML using regex
+    if (preg_match('/href="([^"]+)"/', $block['innerHTML'], $hrefMatches)) {
+        $href = $hrefMatches[1];
+    }
+
+    if (preg_match('/<a[^>]*>(.*?)<\/a>/su', $block['innerHTML'], $textMatches)) {
+        $text = strip_tags($textMatches[1]);
+    } else {
+        // Fallback if no <a> tag
+        $text = strip_tags($block['innerHTML']);
+    }
+
+    // Default to # if no link
+    $href = $href ?: '#';
+
+    // Compile dynamic blade component string
+    $bladeString = "<flux:button href=\"{$href}\" variant=\"{$variant}\">{$text}</flux:button>";
+
+    return \Illuminate\Support\Facades\Blade::render($bladeString);
+}, 10, 2);

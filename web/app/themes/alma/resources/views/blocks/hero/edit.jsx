@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, RichText, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { useBlockProps, RichText, InnerBlocks, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { PanelBody, TextControl, Button } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
     const { badge, title, subtitle, downloadsText, imageUrl } = attributes;
@@ -25,11 +25,31 @@ export default function Edit({ attributes, setAttributes }) {
                         value={downloadsText}
                         onChange={(val) => setAttributes({ downloadsText: val })}
                     />
-                    <TextControl
-                        label={__('Image URL', 'alma')}
-                        value={imageUrl}
-                        onChange={(val) => setAttributes({ imageUrl: val })}
-                    />
+                    <div className="components-base-control mb-4">
+                        <label className="components-base-control__label block mb-2">{__('Image', 'alma')}</label>
+                        <MediaUploadCheck>
+                            <MediaUpload
+                                onSelect={(media) => setAttributes({ imageUrl: media.url })}
+                                allowedTypes={['image']}
+                                value={imageUrl}
+                                render={({ open }) => (
+                                    <Button isSecondary onClick={open} className="w-full justify-center">
+                                        {imageUrl ? __('Change Image', 'alma') : __('Select Image', 'alma')}
+                                    </Button>
+                                )}
+                            />
+                        </MediaUploadCheck>
+                        {imageUrl && (
+                            <Button
+                                isDestructive
+                                isLink
+                                className="mt-2 w-full text-center"
+                                onClick={() => setAttributes({ imageUrl: '' })}
+                            >
+                                {__('Remove Image', 'alma')}
+                            </Button>
+                        )}
+                    </div>
                 </PanelBody>
             </InspectorControls>
 
@@ -112,3 +132,5 @@ export default function Edit({ attributes, setAttributes }) {
         </section>
     );
 }
+
+export const save = () => <InnerBlocks.Content />;

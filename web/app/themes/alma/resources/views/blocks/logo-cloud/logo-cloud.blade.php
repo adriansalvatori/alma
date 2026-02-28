@@ -8,22 +8,28 @@
             </div>
             <div
                 class="md:w-2/3 grid grid-cols-2 gap-8 md:grid-cols-4 items-center opacity-60 grayscale hover:grayscale-0 transition duration-300">
-                <div class="col-span-1 flex justify-center md:justify-start">
-                    <img class="h-8 object-contain dark:invert"
-                        src="https://tailwindui.com/plus/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple">
-                </div>
-                <div class="col-span-1 flex justify-center md:justify-start">
-                    <img class="h-8 object-contain dark:invert"
-                        src="https://tailwindui.com/plus/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform">
-                </div>
-                <div class="col-span-1 flex justify-center md:justify-start">
-                    <img class="h-8 object-contain dark:invert"
-                        src="https://tailwindui.com/plus/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal">
-                </div>
-                <div class="col-span-1 flex justify-center md:justify-start">
-                    <img class="h-8 object-contain dark:invert"
-                        src="https://tailwindui.com/plus/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic">
-                </div>
+                @if (!empty(trim($content ?? '')))
+                    {!! $content !!}
+                @else
+                    <div class="col-span-1 flex justify-center md:justify-start">
+                        <img class="h-8 object-contain dark:invert"
+                            src="https://tailwindui.com/plus/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple">
+                    </div>
+                    <div class="col-span-1 flex justify-center md:justify-start">
+                        <img class="h-8 object-contain dark:invert"
+                            src="https://tailwindui.com/plus/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform">
+                    </div>
+                    <div class="col-span-1 flex justify-center md:justify-start">
+                        <img class="h-8 object-contain dark:invert"
+                            src="https://tailwindui.com/plus/img/logos/158x48/savvycal-logo-gray-900.svg"
+                            alt="SavvyCal">
+                    </div>
+                    <div class="col-span-1 flex justify-center md:justify-start">
+                        <img class="h-8 object-contain dark:invert"
+                            src="https://tailwindui.com/plus/img/logos/158x48/statamic-logo-gray-900.svg"
+                            alt="Statamic">
+                    </div>
+                @endif
             </div>
         </div>
     </div>

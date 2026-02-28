@@ -17,12 +17,16 @@
 
                     {{-- Buttons --}}
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                        <flux:button variant="primary" icon="apple">
-                            {{ $attributes['primaryButtonText'] ?? 'Download App' }}
-                        </flux:button>
-                        <flux:button variant="primary" icon="play">
-                            {{ $attributes['secondaryButtonText'] ?? 'Download App' }}
-                        </flux:button>
+                        @if (!empty(trim($content ?? '')))
+                            {!! $content !!}
+                        @else
+                            <flux:button variant="primary" icon="apple">
+                                {{ $attributes['primaryButtonText'] ?? 'Download App' }}
+                            </flux:button>
+                            <flux:button variant="primary" icon="play">
+                                {{ $attributes['secondaryButtonText'] ?? 'Download App' }}
+                            </flux:button>
+                        @endif
                     </div>
                 </div>
 
