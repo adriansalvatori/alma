@@ -89,8 +89,7 @@ add_filter('block_categories_all', function ($categories) {
 add_action('after_setup_theme', function () {
     /**
      * Disable full-site editing support.
-     *
-     * @link https://wptavern.com/gutenberg-10-5-embeds-pdfs-adds-verse-block-color-options-and-introduces-new-patterns
+     * We are managing layouts dynamically via Blade.
      */
     remove_theme_support('block-templates');
 
@@ -218,3 +217,16 @@ add_action('after_switch_theme', function () {
     update_option('permalink_structure', '/%postname%/');
     flush_rewrite_rules();
 });
+
+/**
+ * Enqueue frontend assets since FSE bypasses the standard Blade layout.
+ */
+add_action('wp_head', function () {
+    echo \Illuminate\Support\Facades\Blade::render("@vite(['resources/css/app.css', 'resources/js/app.js'])\n@livewireStyles");
+    echo \Illuminate\Support\Facades\Blade::render("@fluxAppearance");
+}, 5);
+
+add_action('wp_footer', function () {
+    echo \Illuminate\Support\Facades\Blade::render("@livewireScripts");
+    echo \Illuminate\Support\Facades\Blade::render("@fluxScripts");
+}, 5);

@@ -20,7 +20,7 @@
 
         @include('sections.header')
 
-        <main id="main" class="main">
+        <main id="main" class="main wp-block-group alignfull px-4 sm:px-6 lg:px-8 py-12 min-h-screen">
             @yield('content')
         </main>
 
