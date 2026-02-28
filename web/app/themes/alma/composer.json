@@ -40,7 +40,9 @@
   },
   "require": {
     "php": ">=8.2",
+    "bacon/bacon-qr-code": "^3.0",
     "livewire/flux": "^2.12",
+    "pragmarx/google2fa": "^9.0",
     "roots/acorn": "^5.0"
   },
   "require-dev": {

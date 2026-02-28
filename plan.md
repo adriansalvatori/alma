@@ -88,7 +88,7 @@ Inside `AlmaServiceProvider`:
 
 ---
 
-# PHASE 2 – Implement Core Blocks 
+# PHASE 2 – Implement Core Blocks (Done)
 
 Create:
 
@@ -115,7 +115,7 @@ Blocks must render correctly inside standard templates.
 
 ---
 
-# PHASE 3 – Livewire Integration Layer
+# PHASE 3 – Livewire Integration Layer (Done)
 
 ---
 

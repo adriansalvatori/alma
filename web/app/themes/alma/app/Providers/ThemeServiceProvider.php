@@ -21,9 +21,16 @@ class ThemeServiceProvider extends SageServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
+
+        $router = $this->app['router'];
+        $router->aliasMiddleware('auth', \App\Http\Middleware\Authenticate::class);
+        $router->aliasMiddleware('guest', \App\Http\Middleware\RedirectIfAuthenticated::class);
+        $router->aliasMiddleware('two-factor', \App\Http\Middleware\EnsureTwoFactorVerified::class);
+
+
 
         \Illuminate\Support\Facades\View::share('errors', new \Illuminate\Support\ViewErrorBag);
 
