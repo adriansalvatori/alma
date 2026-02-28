@@ -1,6 +1,6 @@
 <?php
 
-use Livewire\Volt\Component;
+use Livewire\Component;
 use App\Dashboard\WidgetManager;
 
 new class extends Component {
