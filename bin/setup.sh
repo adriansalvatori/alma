@@ -4,6 +4,14 @@ echo "=========================================="
 echo "    WP / Bedrock Installation Setup"
 echo "=========================================="
 
+# Get default folder name
+FOLDER_NAME=$(basename "$PWD")
+DEFAULT_WP_HOME="http://${FOLDER_NAME}.test"
+
+# Prompt for installation details
+read -p "WP Home URL [${DEFAULT_WP_HOME}]: " user_wp_home
+WP_HOME_URL=${user_wp_home:-$DEFAULT_WP_HOME}
+
 # Prompt for database credentials
 read -p "Database Name: " dbname
 read -p "MySQL User: " dbuser
@@ -17,12 +25,14 @@ if [ ! -f .env ]; then
 fi
 
 # Update .env
-echo "Updating .env file with database credentials..."
+echo "Updating .env file with configuration..."
 if [ "$(uname)" == "Darwin" ]; then
+    sed -i '' "s|^WP_HOME=.*|WP_HOME='${WP_HOME_URL}'|" .env
     sed -i '' "s/^DB_NAME=.*/DB_NAME='${dbname}'/" .env
     sed -i '' "s/^DB_USER=.*/DB_USER='${dbuser}'/" .env
     sed -i '' "s/^DB_PASSWORD=.*/DB_PASSWORD='${dbpass}'/" .env
 else
+    sed -i "s|^WP_HOME=.*|WP_HOME='${WP_HOME_URL}'|" .env
     sed -i "s/^DB_NAME=.*/DB_NAME='${dbname}'/" .env
     sed -i "s/^DB_USER=.*/DB_USER='${dbuser}'/" .env
     sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD='${dbpass}'/" .env
@@ -38,17 +48,14 @@ fi
 echo "Creating the database..."
 wp db create
 
-# Get WP_HOME from .env for the WP installation URL
-WP_HOME_URL=$(grep '^WP_HOME=' .env | cut -d '=' -f2 | tr -d "'\"")
-if [ -z "$WP_HOME_URL" ]; then
-    WP_HOME_URL="http://v7.alma.test"
-fi
+# Extract and set WP_HOME from .env if needed
+# (we already have it in WP_HOME_URL, but just in case we need to verify)
 
 # Install WordPress
 echo "Installing WordPress at ${WP_HOME_URL}..."
 wp core install \
   --url="${WP_HOME_URL}" \
-  --title="v7.alma" \
+  --title="${FOLDER_NAME}" \
   --admin_user="admin" \
   --admin_password="password" \
   --admin_email="admin@example.com" \
