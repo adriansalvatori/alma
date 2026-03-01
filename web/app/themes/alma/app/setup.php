@@ -198,6 +198,22 @@ add_action('after_setup_theme', function () {
 add_filter('woocommerce_has_block_template', '__return_false');
 
 /**
+ * Completely bypass FSE block templates on WooCommerce routes.
+ * This fixes the "Template part has been deleted or is unavailable: header" error on Category pages.
+ */
+add_action('wp', function () {
+    if (class_exists('WooCommerce') && (is_woocommerce() || is_cart() || is_checkout() || is_account_page())) {
+        remove_theme_support('block-templates');
+    }
+}, 10);
+
+/**
+ * Dequeue WooCommerce default CSS.
+ * We are styling the shop from scratch with Tailwind.
+ */
+add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+
+/**
  * Register the theme sidebars.
  *
  * @return void
