@@ -41,6 +41,7 @@
   "require": {
     "php": ">=8.2",
     "bacon/bacon-qr-code": "^3.0",
+    "generoi/sage-woocommerce": "^1.1",
     "livewire/flux": "^2.12",
     "log1x/acf-composer": "^3.4",
     "log1x/sage-directives": "^2.0",

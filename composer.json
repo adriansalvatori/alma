@@ -48,7 +48,9 @@
     "roots/bedrock-disallow-indexing": "^2.0",
     "roots/wordpress": "6.9.1",
     "roots/wp-config": "1.0.0",
-    "wpackagist-theme/twentytwentyfive": "^1.0"
+    "wpackagist-theme/twentytwentyfive": "^1.0",
+    "wpackagist-plugin/wompi-portal-de-pagos": "^2.0",
+    "wpackagist-plugin/woocommerce": "^10.5"
   },
   "require-dev": {
     "laravel/pint": "^1.18",

@@ -184,7 +184,18 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/reference/functions/add_theme_support/#customize-selective-refresh-widgets
      */
     add_theme_support('customize-selective-refresh-widgets');
+
+    /**
+     * Enable WooCommerce support.
+     */
+    add_theme_support('woocommerce');
 }, 20);
+
+/**
+ * Disable WooCommerce Block Templates.
+ * This forces WooCommerce to use standard PHP/Blade template hierarchy.
+ */
+add_filter('woocommerce_has_block_template', '__return_false');
 
 /**
  * Register the theme sidebars.

@@ -72,6 +72,8 @@ class HeroBlock extends Block
     public function with()
     {
         return [
+            'layout' => get_field('layout') ?: 'split_right_image',
+            'full_height' => get_field('full_height') ?: false,
             'badge' => get_field('badge') ?: '',
             'title' => get_field('title') ?: __('High Converting Heading Comes Here', 'alma'),
             'subtitle' => get_field('subtitle') ?: __('Use a clear headline, value prop, and app store buttons...', 'alma'),
@@ -90,6 +92,23 @@ class HeroBlock extends Block
         $hero = new FieldsBuilder('hero');
 
         $hero
+            ->addSelect('layout', [
+                'label' => 'Hero Layout Style',
+                'instructions' => 'Choose the visual presentation of this hero section.',
+                'choices' => [
+                    'split_right_image' => 'Split (Right Image)',
+                    'centered_dashboard' => 'Centered App Dashboard',
+                    'centered_glow' => 'Centered Modern Glow',
+                    'cinematic' => 'Cinematic Dark Focus',
+                ],
+                'default_value' => 'split_right_image',
+                'return_format' => 'value',
+            ])
+            ->addTrueFalse('full_height', [
+                'label' => 'Full Height',
+                'instructions' => 'Make the hero section take up the full height of the screen.',
+                'ui' => 1,
+            ])
             ->addText('badge', [
                 'label' => 'Badge Text',
                 'instructions' => 'Optional small badge above title.',
