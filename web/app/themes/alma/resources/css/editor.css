@@ -8,6 +8,11 @@
     
 }
 
+/* Force Native Gutenberg Fonts */
+.editor-styles-wrapper {
+    @apply font-sans antialiased text-zinc-900;
+}
+
 /* Force Native Gutenberg Buttons to look like Flux Buttons */
 .wp-block-button__link {
     @apply inline-flex items-center justify-center font-medium gap-2 whitespace-nowrap overflow-hidden text-base! md:text-sm! transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] duration-200 outline-none outline-offset-2 ring-1 rounded-lg shrink-0 h-10 px-4 ring-zinc-800/50 bg-zinc-800 text-white hover:bg-zinc-800/90 dark:bg-white dark:text-zinc-800;

@@ -15,6 +15,13 @@ class CtaFooterBlock extends Block
     public $name = 'CTA Footer';
 
     /**
+     * The block slug.
+     *
+     * @var string
+     */
+    public $slug = 'cta-footer';
+
+    /**
      * The block description.
      *
      * @var string
