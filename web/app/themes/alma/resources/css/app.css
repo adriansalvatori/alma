@@ -7,3 +7,12 @@
 @theme {
     
 }
+
+@layer base {
+    a {
+        text-decoration: none !important;
+    }
+    .wp-block-button__link {
+        text-decoration: none !important;
+    }
+}

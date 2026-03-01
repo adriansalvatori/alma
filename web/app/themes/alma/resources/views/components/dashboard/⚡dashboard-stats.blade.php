@@ -15,8 +15,7 @@ new class extends Component {
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     @forelse($widgets as $widget)
-        <div
-            class="bg-white dark:bg-zinc-800 overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
+        <div class="overflow-hidden shadow-sm sm:rounded-lg border border-zinc-200 dark:border-zinc-700">
             <div class="p-6">
                 <h3 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-4">{{ $widget->title() }}</h3>
                 <div class="text-zinc-600 dark:text-zinc-400">

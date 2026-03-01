@@ -42,5 +42,19 @@
       "defaultFontSizes": false,
       "customFontSize": false
     }
+  },
+  "styles": {
+    "elements": {
+      "button": {
+        "typography": {
+          "textDecoration": "none"
+        }
+      },
+      "link": {
+        "typography": {
+          "textDecoration": "none"
+        }
+      }
+    }
   }
 }

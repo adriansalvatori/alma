@@ -31,4 +31,5 @@ Route::middleware(['auth', 'two-factor'])->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/two-factor-challenge', [TwoFactorController::class, 'challenge'])->name('two-factor.challenge');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
