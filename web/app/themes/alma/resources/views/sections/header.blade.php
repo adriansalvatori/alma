@@ -42,6 +42,14 @@
 
                 <div class="w-px h-6 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
 
+                @if (class_exists('WooCommerce'))
+                    <livewire:commerce-search />
+                    <livewire:commerce-favorites />
+                    <livewire:commerce-cart />
+
+                    <div class="w-px h-6 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
+                @endif
+
                 @if (is_user_logged_in())
                     @php $current_user = wp_get_current_user(); @endphp
                     <flux:dropdown>
