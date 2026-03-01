@@ -1,4 +1,4 @@
-<section class="py-16 {{ $attributes['align'] ?? '' }}">
+<div class="{{ $block->classes }} py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div
@@ -9,31 +9,31 @@
                 <div class="p-10 sm:p-16 flex flex-col justify-center text-center lg:text-left">
                     <h2
                         class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-5xl mb-6">
-                        {{ $attributes['title'] ?? 'CTA Heading' }}
+                        {{ $title }}
                     </h2>
                     <p class="text-lg text-zinc-600 dark:text-zinc-400 mb-8 max-w-xl mx-auto lg:mx-0">
-                        {{ $attributes['description'] ?? 'Reinforce the download offer, repeat your app\'s value, and include the app buttons again for one final push.' }}
+                        {{ $description }}
                     </p>
 
                     {{-- Buttons --}}
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                        @if (!empty(trim($content ?? '')))
-                            {!! $content !!}
+                        @isset($block)
+                            {!! '<InnerBlocks />' !!}
                         @else
                             <flux:button variant="primary" icon="apple">
-                                {{ $attributes['primaryButtonText'] ?? 'Download App' }}
+                                Download App
                             </flux:button>
                             <flux:button variant="primary" icon="play">
-                                {{ $attributes['secondaryButtonText'] ?? 'Download App' }}
+                                Download App
                             </flux:button>
-                        @endif
+                        @endisset
                     </div>
                 </div>
 
                 {{-- Right Side: Illustration Placeholder --}}
                 <div class="hidden lg:flex items-center justify-center bg-zinc-200 dark:bg-zinc-700 p-12">
-                    @if (!empty($attributes['imageUrl']))
-                        <img src="{{ $attributes['imageUrl'] }}" alt="CTA Illustration"
+                    @if (!empty($imageUrl))
+                        <img src="{{ $imageUrl }}" alt="CTA Illustration"
                             class="w-full h-auto max-h-96 object-contain">
                     @else
                         <div class="text-zinc-400 dark:text-zinc-500 flex flex-col items-center">
@@ -47,4 +47,4 @@
         </div>
 
     </div>
-</section>
+</div>

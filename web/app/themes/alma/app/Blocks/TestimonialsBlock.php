@@ -2,25 +2,99 @@
 
 namespace App\Blocks;
 
-class TestimonialsBlock extends BaseBlock
+use Log1x\AcfComposer\Block;
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
+class TestimonialsBlock extends Block
 {
-    public function name(): string
+    /**
+     * The block name.
+     *
+     * @var string
+     */
+    public $name = 'Testimonials';
+
+    /**
+     * The block description.
+     *
+     * @var string
+     */
+    public $description = 'A grid of user reviews or testimonials.';
+
+    /**
+     * The block category.
+     *
+     * @var string
+     */
+    public $category = 'alma';
+
+    /**
+     * The block icon.
+     *
+     * @var string|array
+     */
+    public $icon = 'grid-view';
+
+    /**
+     * The block keywords.
+     *
+     * @var array
+     */
+    public $keywords = ['testimonials', 'reviews'];
+
+    /**
+     * The supported block features.
+     *
+     * @var array
+     */
+    public $supports = [
+        'align' => true,
+        'align_text' => false,
+        'align_content' => false,
+        'full_height' => false,
+        'anchor' => false,
+        'mode' => false,
+        'multiple' => true,
+        'jsx' => true,
+        'color' => [
+            'background' => true,
+            'text' => true,
+            'gradient' => true,
+        ],
+    ];
+
+    /**
+     * Data to be passed to the block before rendering.
+     *
+     * @return array
+     */
+    public function with()
     {
-        return 'testimonials';
+        return [
+            'sectionTitle' => get_field('sectionTitle') ?: __('Review Section', 'alma'),
+            'description' => get_field('description') ?: __('Let happy users convince the rest.', 'alma'),
+        ];
     }
 
-    public function title(): string
+    /**
+     * The block field group.
+     *
+     * @return array
+     */
+    public function fields()
     {
-        return __('Testimonials', 'alma');
-    }
+        $testimonials = new FieldsBuilder('testimonials');
 
-    public function description(): string
-    {
-        return __('A section displaying user reviews.', 'alma');
-    }
+        $testimonials
+            ->addText('sectionTitle', [
+                'label' => 'Section Title',
+                'default_value' => 'Review Section',
+            ])
+            ->addText('description', [
+                'label' => 'Description',
+                'default_value' => 'Let happy users convince the rest.',
+            ]);
 
-    public function render(array $attributes, string $content = ""): string
-    {
-        return view('blocks.testimonials.testimonials', ['attributes' => $attributes, 'content' => $content])->render();
+        return $testimonials->build();
     }
 }

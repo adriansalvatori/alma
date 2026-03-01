@@ -2,25 +2,94 @@
 
 namespace App\Blocks;
 
-class BenefitsGridBlock extends BaseBlock
+use Log1x\AcfComposer\Block;
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
+class BenefitsGridBlock extends Block
 {
-    public function name(): string
+    /**
+     * The block name.
+     *
+     * @var string
+     */
+    public $name = 'Benefits Grid';
+
+    /**
+     * The block description.
+     *
+     * @var string
+     */
+    public $description = 'A grid highlighting the main benefits.';
+
+    /**
+     * The block category.
+     *
+     * @var string
+     */
+    public $category = 'alma';
+
+    /**
+     * The block icon.
+     *
+     * @var string|array
+     */
+    public $icon = 'grid-view';
+
+    /**
+     * The block keywords.
+     *
+     * @var array
+     */
+    public $keywords = ['benefits', 'grid'];
+
+    /**
+     * The supported block features.
+     *
+     * @var array
+     */
+    public $supports = [
+        'align' => true,
+        'align_text' => false,
+        'align_content' => false,
+        'full_height' => false,
+        'anchor' => false,
+        'mode' => false,
+        'multiple' => true,
+        'jsx' => true,
+        'color' => [
+            'background' => true,
+            'text' => true,
+            'gradient' => true,
+        ],
+    ];
+
+    /**
+     * Data to be passed to the block before rendering.
+     *
+     * @return array
+     */
+    public function with()
     {
-        return 'benefits-grid';
+        return [
+            'sectionTitle' => get_field('sectionTitle') ?: __('Why Choose Us Section', 'alma'),
+        ];
     }
 
-    public function title(): string
+    /**
+     * The block field group.
+     *
+     * @return array
+     */
+    public function fields()
     {
-        return __('Benefits Grid', 'alma');
-    }
+        $benefitsGrid = new FieldsBuilder('benefits_grid');
 
-    public function description(): string
-    {
-        return __('A four-column grid highlighting key benefits.', 'alma');
-    }
+        $benefitsGrid
+            ->addText('sectionTitle', [
+                'label' => 'Section Title',
+                'default_value' => 'Why Choose Us Section',
+            ]);
 
-    public function render(array $attributes, string $content = ""): string
-    {
-        return view('blocks.benefits-grid.benefits-grid', ['attributes' => $attributes, 'content' => $content])->render();
+        return $benefitsGrid->build();
     }
 }

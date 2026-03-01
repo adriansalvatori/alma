@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "327279cb94e507630579be815d8a59a3",
+    "content-hash": "366c5a6aa8d170170b8104df25d86aa0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3144,6 +3144,133 @@
             "time": "2026-02-26T04:18:25+00:00"
         },
         {
+            "name": "log1x/acf-composer",
+            "version": "v3.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Log1x/acf-composer.git",
+                "reference": "9d116b282131b70f900f8935085ec7774ba68baa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Log1x/acf-composer/zipball/9d116b282131b70f900f8935085ec7774ba68baa",
+                "reference": "9d116b282131b70f900f8935085ec7774ba68baa",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/prompts": "*",
+                "php": "^8.0",
+                "stoutlogic/acf-builder": "^1.11"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.14",
+                "roots/acorn": "^3.0|^4.0"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Log1x\\AcfComposer\\Providers\\AcfComposerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Log1x\\AcfComposer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brandon Nifong",
+                    "email": "brandon@tendency.me"
+                }
+            ],
+            "description": "Create fields, blocks, option pages, and widgets using ACF Builder and Sage 10",
+            "support": {
+                "issues": "https://github.com/Log1x/acf-composer/issues",
+                "source": "https://github.com/Log1x/acf-composer/tree/v3.4.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Log1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-06-10T08:02:49+00:00"
+        },
+        {
+            "name": "log1x/sage-directives",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Log1x/sage-directives.git",
+                "reference": "92c14bdcb8fc0c1469a99d205a1e23d9856802d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Log1x/sage-directives/zipball/92c14bdcb8fc0c1469a99d205a1e23d9856802d6",
+                "reference": "92c14bdcb8fc0c1469a99d205a1e23d9856802d6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "pestphp/pest": "^2.9",
+                "roots/acorn": "*"
+            },
+            "type": "package",
+            "extra": {
+                "acorn": {
+                    "providers": [
+                        "Log1x\\SageDirectives\\SageDirectivesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Log1x\\SageDirectives\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brandon Nifong",
+                    "email": "brandon@tendency.me"
+                }
+            ],
+            "description": "A set of Blade directives for use with Roots Sage.",
+            "homepage": "https://github.com/log1x/sage-directives",
+            "keywords": [
+                "acorn",
+                "blade",
+                "blade-directives",
+                "directives",
+                "roots",
+                "sage",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/log1x/sage-directives/issues",
+                "source": "https://github.com/Log1x/sage-directives/tree/v2.0.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Log1x",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-20T11:01:55+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.10.0",
             "source": {
@@ -4408,6 +4535,52 @@
                 }
             ],
             "time": "2024-05-08T21:05:03+00:00"
+        },
+        {
+            "name": "stoutlogic/acf-builder",
+            "version": "v1.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/StoutLogic/acf-builder.git",
+                "reference": "e63ab87233ea3675cd519f1dd6b6d4230b3cef97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/StoutLogic/acf-builder/zipball/e63ab87233ea3675cd519f1dd6b6d4230b3cef97",
+                "reference": "e63ab87233ea3675cd519f1dd6b6d4230b3cef97",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "^1.1|^2.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpdocumentor/reflection-docblock": "2.*",
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "^2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StoutLogic\\AcfBuilder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Pfisterer",
+                    "email": "steve@stoutlogic.com"
+                }
+            ],
+            "description": "An Advanced Custom Field Configuration Builder",
+            "support": {
+                "issues": "https://github.com/StoutLogic/acf-builder/issues",
+                "source": "https://github.com/StoutLogic/acf-builder/tree/v1.12.0"
+            },
+            "time": "2021-09-17T17:32:44+00:00"
         },
         {
             "name": "symfony/clock",

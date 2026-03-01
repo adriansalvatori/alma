@@ -1,19 +1,19 @@
-<section class="py-24 bg-zinc-50 dark:bg-zinc-900/50 {{ $attributes['align'] ?? '' }}">
+<div class="{{ $block->classes }} py-24 bg-zinc-50 dark:bg-zinc-900/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16">
             <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-                {{ $attributes['sectionTitle'] ?? 'Review Section' }}
+                {{ $sectionTitle }}
             </h2>
             <p class="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-                {{ $attributes['description'] ?? 'Let happy users convince the rest.' }}
+                {{ $description }}
             </p>
             <div class="mt-6 h-1 w-20 bg-indigo-500 mx-auto rounded"></div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @if (!empty(trim($content ?? '')))
-                {!! $content !!}
+            @isset($block)
+                {!! '<InnerBlocks />' !!}
             @else
                 {{-- Review 1 --}}
                 <div
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endisset
         </div>
     </div>
-</section>
+</div>

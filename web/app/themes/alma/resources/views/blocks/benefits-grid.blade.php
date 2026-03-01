@@ -1,16 +1,16 @@
-<section class="py-16 {{ $attributes['align'] ?? '' }}">
+<div class="{{ $block->classes }} py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16">
             <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-                {{ $attributes['sectionTitle'] ?? 'Why Choose Us Section' }}
+                {{ $sectionTitle }}
             </h2>
             <div class="mt-4 h-1 w-20 bg-indigo-500 mx-auto rounded"></div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center items-start">
-            @if (!empty(trim($content ?? '')))
-                {!! $content !!}
+            @isset($block)
+                {!! '<InnerBlocks />' !!}
             @else
                 {{-- Benefit 1 --}}
                 <div class="flex flex-col items-center">
@@ -59,7 +59,7 @@
                         Use icons, brief titles, and benefit-led text to explain why users should pick your app.
                     </p>
                 </div>
-            @endif
+            @endisset
         </div>
     </div>
-</section>
+</div>

@@ -2,25 +2,94 @@
 
 namespace App\Blocks;
 
-class LogoCloudBlock extends BaseBlock
+use Log1x\AcfComposer\Block;
+use StoutLogic\AcfBuilder\FieldsBuilder;
+
+class LogoCloudBlock extends Block
 {
-    public function name(): string
+    /**
+     * The block name.
+     *
+     * @var string
+     */
+    public $name = 'Logo Cloud';
+
+    /**
+     * The block description.
+     *
+     * @var string
+     */
+    public $description = 'A grid of partner or client logos.';
+
+    /**
+     * The block category.
+     *
+     * @var string
+     */
+    public $category = 'alma';
+
+    /**
+     * The block icon.
+     *
+     * @var string|array
+     */
+    public $icon = 'grid-view';
+
+    /**
+     * The block keywords.
+     *
+     * @var array
+     */
+    public $keywords = ['logo', 'cloud', 'partners'];
+
+    /**
+     * The supported block features.
+     *
+     * @var array
+     */
+    public $supports = [
+        'align' => true,
+        'align_text' => false,
+        'align_content' => false,
+        'full_height' => false,
+        'anchor' => false,
+        'mode' => false,
+        'multiple' => true,
+        'jsx' => true,
+        'color' => [
+            'background' => true,
+            'text' => true,
+            'gradient' => true,
+        ],
+    ];
+
+    /**
+     * Data to be passed to the block before rendering.
+     *
+     * @return array
+     */
+    public function with()
     {
-        return 'logo-cloud';
+        return [
+            'text' => get_field('text') ?: __('WE ARE PARTNERED WITH MORE THAN 50+ COMPANIES AROUND THE GLOBE', 'alma'),
+        ];
     }
 
-    public function title(): string
+    /**
+     * The block field group.
+     *
+     * @return array
+     */
+    public function fields()
     {
-        return __('Logo Cloud', 'alma');
-    }
+        $logoCloud = new FieldsBuilder('logo_cloud');
 
-    public function description(): string
-    {
-        return __('A section displaying partner or client logos.', 'alma');
-    }
+        $logoCloud
+            ->addText('text', [
+                'label' => 'Heading Text',
+                'default_value' => 'WE ARE PARTNERED WITH MORE THAN 50+ COMPANIES AROUND THE GLOBE',
+            ]);
 
-    public function render(array $attributes, string $content = ""): string
-    {
-        return view('blocks.logo-cloud.logo-cloud', ['attributes' => $attributes, 'content' => $content])->render();
+        return $logoCloud->build();
     }
 }
