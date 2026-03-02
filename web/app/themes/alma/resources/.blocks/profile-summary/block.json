@@ -1,0 +1,13 @@
+{
+  "name": "alma/profile-summary",
+  "title": "Profile Summary",
+  "description": "A summary of the user profile.",
+  "category": "alma",
+  "icon": "admin-users",
+  "supports": {
+    "align": true,
+    "multiple": true
+  },
+  "attributes": {},
+  "render": "file:../../views/blocks/profile-summary.blade.php"
+}

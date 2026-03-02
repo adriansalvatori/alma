@@ -1,4 +1,111 @@
-<div class="{{ $block->classes }} relative w-full overflow-hidden">
+{{--
+{
+    "name": "alma/hero",
+    "title": "Hero",
+    "category": "alma",
+    "icon": "cover-image",
+    "supports": {
+        "align": true,
+        "multiple": true,
+        "jsx": true,
+        "color": {
+            "background": true,
+            "text": true,
+            "gradient": true
+        }
+    },
+    "attributes": {
+        "layout": {
+            "type": "string",
+            "control": "SelectControl",
+            "label": "Hero Layout Style",
+            "options": [
+                { "label": "Split (Right Image)", "value": "split_right_image" },
+                { "label": "Centered App Dashboard", "value": "centered_dashboard" },
+                { "label": "Centered Modern Glow", "value": "centered_glow" },
+                { "label": "Cinematic Dark Focus", "value": "cinematic" }
+            ],
+            "default": "split_right_image"
+        },
+        "full_height": {
+            "type": "boolean",
+            "control": "ToggleControl",
+            "label": "Full Height",
+            "default": false
+        },
+        "badge": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Badge Text"
+        },
+        "title": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Title",
+            "default": "High Converting Heading Comes Here"
+        },
+        "subtitle": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Subtitle",
+            "default": "Use a clear headline, value prop, and app store buttons..."
+        },
+        "button1_text": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Primary Button Text",
+            "default": "Download App"
+        },
+        "button1_url": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Primary Button Link",
+            "default": "#"
+        },
+        "button2_text": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Secondary Button Text",
+            "default": "Learn More"
+        },
+        "button2_url": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Secondary Button Link",
+            "default": "#"
+        },
+        "image_url": {
+            "type": "string",
+            "control": "ImageControl",
+            "label": "Image URL"
+        },
+        "downloads_text": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Downloads Text",
+            "default": "200K+ Downloads"
+        }
+    }
+}
+--}}
+
+@php
+    $layout = $attributes['layout'] ?? 'split_right_image';
+    $full_height = $attributes['full_height'] ?? false;
+    $badge = $attributes['badge'] ?? '';
+    $title = $attributes['title'] ?? 'High Converting Heading Comes Here';
+    $subtitle = $attributes['subtitle'] ?? 'Use a clear headline, value prop, and app store buttons...';
+
+    $button1_text = $attributes['button1_text'] ?? 'Download App';
+    $button1_url = $attributes['button1_url'] ?? '#';
+    $button2_text = $attributes['button2_text'] ?? 'Learn More';
+    $button2_url = $attributes['button2_url'] ?? '#';
+
+    $imageUrl = $attributes['image_url'] ?? '';
+    $downloadsText = $attributes['downloads_text'] ?? '200K+ Downloads';
+@endphp
+
+<div class="{{ $block->classes ?? 'wp-block-alma-hero' }} relative w-full overflow-hidden">
     @switch($layout)
         @case('centered_dashboard')
             {{-- Centered Dashboard Layout --}}
@@ -21,9 +128,13 @@
                         {{ $subtitle }}
                     </p>
 
-                    <div
-                        class="mt-10 flex flex-wrap items-center justify-center gap-4 [&_.block-editor-block-list__layout]:flex [&_.block-editor-block-list__layout]:flex-wrap [&_.block-editor-block-list__layout]:items-center [&_.block-editor-block-list__layout]:justify-center [&_.block-editor-block-list__layout]:gap-4">
-                        {!! '<InnerBlocks />' !!}
+                    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                        @if ($button1_text)
+                            <flux:button href="{{ $button1_url }}" variant="primary">{{ $button1_text }}</flux:button>
+                        @endif
+                        @if ($button2_text)
+                            <flux:button href="{{ $button2_url }}" variant="outline">{{ $button2_text }}</flux:button>
+                        @endif
                     </div>
 
                     {{-- Image Mockup --}}
@@ -89,9 +200,13 @@
                         {{ $subtitle }}
                     </p>
 
-                    <div
-                        class="mt-10 flex flex-wrap items-center justify-center gap-4 [&_.block-editor-block-list__layout]:flex [&_.block-editor-block-list__layout]:flex-wrap [&_.block-editor-block-list__layout]:items-center [&_.block-editor-block-list__layout]:justify-center [&_.block-editor-block-list__layout]:gap-4">
-                        {!! '<InnerBlocks />' !!}
+                    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                        @if ($button1_text)
+                            <flux:button href="{{ $button1_url }}" variant="primary">{{ $button1_text }}</flux:button>
+                        @endif
+                        @if ($button2_text)
+                            <flux:button href="{{ $button2_url }}" variant="outline">{{ $button2_text }}</flux:button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -134,9 +249,13 @@
                             {{ $subtitle }}
                         </p>
 
-                        <div
-                            class="mt-10 flex flex-wrap items-center gap-4 [&_.block-editor-block-list__layout]:flex [&_.block-editor-block-list__layout]:flex-wrap [&_.block-editor-block-list__layout]:items-center [&_.block-editor-block-list__layout]:gap-4">
-                            {!! '<InnerBlocks />' !!}
+                        <div class="mt-10 flex flex-wrap items-center gap-4">
+                            @if ($button1_text)
+                                <flux:button href="{{ $button1_url }}" variant="primary">{{ $button1_text }}</flux:button>
+                            @endif
+                            @if ($button2_text)
+                                <flux:button href="{{ $button2_url }}" variant="outline">{{ $button2_text }}</flux:button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -168,9 +287,15 @@
                                 {{ $subtitle }}
                             </p>
 
-                            <div
-                                class="flex flex-wrap items-center gap-4 pt-2 w-full [&_.block-editor-block-list__layout]:flex [&_.block-editor-block-list__layout]:flex-wrap [&_.block-editor-block-list__layout]:items-center [&_.block-editor-block-list__layout]:gap-4">
-                                {!! '<InnerBlocks />' !!}
+                            <div class="flex flex-wrap items-center gap-4 pt-2 w-full">
+                                @if ($button1_text)
+                                    <flux:button href="{{ $button1_url }}" variant="primary">{{ $button1_text }}
+                                    </flux:button>
+                                @endif
+                                @if ($button2_text)
+                                    <flux:button href="{{ $button2_url }}" variant="outline">{{ $button2_text }}
+                                    </flux:button>
+                                @endif
                             </div>
 
                             <div class="flex items-center space-x-4 pt-4">

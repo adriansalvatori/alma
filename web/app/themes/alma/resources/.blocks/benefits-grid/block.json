@@ -1,0 +1,26 @@
+{
+  "name": "alma/benefits-grid",
+  "title": "Benefits Grid",
+  "description": "A grid highlighting the main benefits.",
+  "category": "alma",
+  "icon": "grid-view",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Section Title",
+      "default": "Why Choose Us Section"
+    }
+  },
+  "render": "file:../../views/blocks/benefits-grid.blade.php"
+}

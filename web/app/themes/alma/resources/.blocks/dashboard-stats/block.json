@@ -1,0 +1,14 @@
+{
+  "name": "alma/dashboard-stats",
+  "title": "Dashboard Stats",
+  "description": "Dynamic Livewire dashboard statistics.",
+  "category": "alma",
+  "icon": "dashboard",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true
+  },
+  "attributes": {},
+  "render": "file:../../views/blocks/dashboard-stats.blade.php"
+}

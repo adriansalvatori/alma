@@ -1,4 +1,62 @@
-<div class="{{ $block->classes }} py-24">
+{{--
+{
+    "name": "alma/faq-accordion",
+    "title": "Faq Accordion",
+    "description": "An accordion list of frequently asked questions.",
+    "category": "alma",
+    "icon": "editor-help",
+    "supports": {
+        "align": true,
+        "multiple": true,
+        "jsx": true,
+        "color": {
+            "background": true,
+            "text": true,
+            "gradient": true
+        }
+    },
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Section Title",
+            "default": "FAQ Section"
+        },
+        "description": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Description",
+            "default": "Reduce hesitation with smart answers. Use collapsible questions to address common concerns without overwhelming the layout."
+        },
+        "q1": { "type": "string", "control": "TextControl", "label": "Question 1", "default": "Is this app free to use?" },
+        "a1": { "type": "string", "control": "TextareaControl", "label": "Answer 1", "default": "Yes, there is a comprehensive free tier available for all new users. Premium features can be unlocked via the Pro subscription." },
+        "q2": { "type": "string", "control": "TextControl", "label": "Question 2", "default": "How does the 30-day money back guarantee work?" },
+        "a2": { "type": "string", "control": "TextareaControl", "label": "Answer 2", "default": "If you're not completely satisfied with our service within the first 30 days, simply contact our support team to receive a full refund, no questions asked." },
+        "q3": { "type": "string", "control": "TextControl", "label": "Question 3", "default": "What platforms do you support?" },
+        "a3": { "type": "string", "control": "TextareaControl", "label": "Answer 3", "default": "Our application is fully supported on iOS, Android, macOS, Windows, and modern web browsers." },
+        "q4": { "type": "string", "control": "TextControl", "label": "Question 4", "default": "Can I cancel my subscription anytime?" },
+        "a4": { "type": "string", "control": "TextareaControl", "label": "Answer 4", "default": "Absolutely. You can cancel or pause your membership directly from your account dashboard with zero hidden fees." },
+        "q5": { "type": "string", "control": "TextControl", "label": "Question 5" },
+        "a5": { "type": "string", "control": "TextareaControl", "label": "Answer 5" }
+    }
+}
+--}}
+
+@php
+    $sectionTitle = $attributes['sectionTitle'] ?? 'FAQ Section';
+    $description = $attributes['description'] ?? 'Reduce hesitation...';
+
+    $faqs = [];
+    for ($i = 1; $i <= 5; $i++) {
+        $q = $attributes["q{$i}"] ?? '';
+        $a = $attributes["a{$i}"] ?? '';
+        if ($q && $a) {
+            $faqs[] = ['question' => $q, 'answer' => $a];
+        }
+    }
+@endphp
+
+<div class="{{ $block->classes ?? 'wp-block-alma-faq-accordion' }} py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="lg:grid lg:grid-cols-3 lg:gap-12">
 
@@ -10,11 +68,7 @@
                     {{ $description }}
                 </p>
                 <div class="mt-8">
-                    @isset($block)
-                        {!! '<InnerBlocks />' !!}
-                    @else
-                        <flux:button variant="subtle">Contact Support</flux:button>
-                    @endisset
+                    <flux:button variant="subtle" href="#">Contact Support</flux:button>
                 </div>
             </div>
 

@@ -1,0 +1,101 @@
+{
+  "name": "alma/hero",
+  "title": "Hero",
+  "category": "alma",
+  "icon": "cover-image",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "layout": {
+      "type": "string",
+      "control": "SelectControl",
+      "label": "Hero Layout Style",
+      "options": [
+        {
+          "label": "Split (Right Image)",
+          "value": "split_right_image"
+        },
+        {
+          "label": "Centered App Dashboard",
+          "value": "centered_dashboard"
+        },
+        {
+          "label": "Centered Modern Glow",
+          "value": "centered_glow"
+        },
+        {
+          "label": "Cinematic Dark Focus",
+          "value": "cinematic"
+        }
+      ],
+      "default": "split_right_image"
+    },
+    "full_height": {
+      "type": "boolean",
+      "control": "ToggleControl",
+      "label": "Full Height",
+      "default": false
+    },
+    "badge": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Badge Text"
+    },
+    "title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Title",
+      "default": "High Converting Heading Comes Here"
+    },
+    "subtitle": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Subtitle",
+      "default": "Use a clear headline, value prop, and app store buttons..."
+    },
+    "button1_text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Primary Button Text",
+      "default": "Download App"
+    },
+    "button1_url": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Primary Button Link",
+      "default": "#"
+    },
+    "button2_text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Secondary Button Text",
+      "default": "Learn More"
+    },
+    "button2_url": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Secondary Button Link",
+      "default": "#"
+    },
+    "image_url": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Image URL"
+    },
+    "downloads_text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Downloads Text",
+      "default": "200K+ Downloads"
+    }
+  },
+  "render": "file:../../views/blocks/hero.blade.php"
+}

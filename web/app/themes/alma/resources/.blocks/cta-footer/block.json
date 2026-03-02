@@ -1,0 +1,61 @@
+{
+  "name": "alma/cta-footer",
+  "title": "CTA Footer",
+  "description": "A strong call to action block typically placed above the footer.",
+  "category": "alma",
+  "icon": "megaphone",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Title",
+      "default": "CTA Heading"
+    },
+    "description": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Description",
+      "default": "Reinforce the download offer, repeat your app's value, and include the app buttons again for one final push."
+    },
+    "image_url": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Image"
+    },
+    "button1_text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Button 1 Text",
+      "default": "Download App"
+    },
+    "button1_url": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Button 1 Link",
+      "default": "#"
+    },
+    "button2_text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Button 2 Text",
+      "default": "Download App"
+    },
+    "button2_url": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Button 2 Link",
+      "default": "#"
+    }
+  },
+  "render": "file:../../views/blocks/cta-footer.blade.php"
+}

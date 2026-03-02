@@ -1,4 +1,78 @@
-<div class="{{ $block->classes }} py-16 bg-zinc-50 dark:bg-zinc-900/50">
+{{--
+{
+    "name": "alma/features-grid",
+    "title": "Features Grid",
+    "description": "A bento box style grid highlighting 3 main features.",
+    "category": "alma",
+    "icon": "grid-view",
+    "supports": {
+        "align": true,
+        "multiple": true,
+        "jsx": true,
+        "color": {
+            "background": true,
+            "text": true,
+            "gradient": true
+        }
+    },
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Section Title",
+            "default": "Features Section"
+        },
+        "feature1Title": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Feature 1 Title",
+            "default": "Highlighted Feature 1"
+        },
+        "feature1Desc": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Feature 1 Description",
+            "default": "Use main feature cards with supporting visuals to quickly show how your app solves real problems."
+        },
+        "feature2Title": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Feature 2 Title",
+            "default": "Highlighted Feature 2"
+        },
+        "feature2Desc": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Feature 2 Description",
+            "default": "Brief explanation of the secondary feature."
+        },
+        "feature3Title": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Feature 3 Title",
+            "default": "Highlighted Feature 3"
+        },
+        "feature3Desc": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Feature 3 Description",
+            "default": "Brief explanation of the tertiary feature."
+        }
+    }
+}
+--}}
+
+@php
+    $sectionTitle = $attributes['sectionTitle'] ?? 'Features Section';
+    $feature1Title = $attributes['feature1Title'] ?? 'Highlighted Feature 1';
+    $feature1Desc = $attributes['feature1Desc'] ?? 'Use main feature cards...';
+    $feature2Title = $attributes['feature2Title'] ?? 'Highlighted Feature 2';
+    $feature2Desc = $attributes['feature2Desc'] ?? 'Brief explanation...';
+    $feature3Title = $attributes['feature3Title'] ?? 'Highlighted Feature 3';
+    $feature3Desc = $attributes['feature3Desc'] ?? 'Brief explanation...';
+@endphp
+
+<div class="{{ $block->classes ?? 'wp-block-alma-features-grid' }} py-16 bg-zinc-50 dark:bg-zinc-900/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-12">

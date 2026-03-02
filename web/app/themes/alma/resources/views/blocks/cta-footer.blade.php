@@ -1,4 +1,77 @@
-<div class="{{ $block->classes }} py-16">
+{{--
+{
+    "name": "alma/cta-footer",
+    "title": "CTA Footer",
+    "description": "A strong call to action block typically placed above the footer.",
+    "category": "alma",
+    "icon": "megaphone",
+    "supports": {
+        "align": true,
+        "multiple": true,
+        "jsx": true,
+        "color": {
+            "background": true,
+            "text": true,
+            "gradient": true
+        }
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Title",
+            "default": "CTA Heading"
+        },
+        "description": {
+            "type": "string",
+            "control": "TextareaControl",
+            "label": "Description",
+            "default": "Reinforce the download offer, repeat your app's value, and include the app buttons again for one final push."
+        },
+        "image_url": {
+            "type": "string",
+            "control": "ImageControl",
+            "label": "Image"
+        },
+        "button1_text": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Button 1 Text",
+            "default": "Download App"
+        },
+        "button1_url": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Button 1 Link",
+            "default": "#"
+        },
+        "button2_text": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Button 2 Text",
+            "default": "Download App"
+        },
+        "button2_url": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Button 2 Link",
+            "default": "#"
+        }
+    }
+}
+--}}
+
+@php
+    $title = $attributes['title'] ?? 'CTA Heading';
+    $description = $attributes['description'] ?? 'Reinforce the download offer...';
+    $imageUrl = $attributes['image_url'] ?? '';
+    $button1_text = $attributes['button1_text'] ?? 'Download App';
+    $button1_url = $attributes['button1_url'] ?? '#';
+    $button2_text = $attributes['button2_text'] ?? 'Download App';
+    $button2_url = $attributes['button2_url'] ?? '#';
+@endphp
+
+<div class="{{ $block->classes ?? 'wp-block-alma-cta-footer' }} py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div
@@ -17,16 +90,16 @@
 
                     {{-- Buttons --}}
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
-                        @isset($block)
-                            {!! '<InnerBlocks />' !!}
-                        @else
-                            <flux:button variant="primary" icon="apple">
-                                Download App
+                        @if ($button1_text)
+                            <flux:button href="{{ $button1_url }}" variant="primary" icon="apple">
+                                {{ $button1_text }}
                             </flux:button>
-                            <flux:button variant="primary" icon="play">
-                                Download App
+                        @endif
+                        @if ($button2_text)
+                            <flux:button href="{{ $button2_url }}" variant="primary" icon="play">
+                                {{ $button2_text }}
                             </flux:button>
-                        @endisset
+                        @endif
                     </div>
                 </div>
 

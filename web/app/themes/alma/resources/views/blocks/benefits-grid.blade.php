@@ -1,4 +1,36 @@
-<div class="{{ $block->classes }} py-16">
+{{--
+{
+    "name": "alma/benefits-grid",
+    "title": "Benefits Grid",
+    "description": "A grid highlighting the main benefits.",
+    "category": "alma",
+    "icon": "grid-view",
+    "supports": {
+        "align": true,
+        "multiple": true,
+        "jsx": true,
+        "color": {
+            "background": true,
+            "text": true,
+            "gradient": true
+        }
+    },
+    "attributes": {
+        "sectionTitle": {
+            "type": "string",
+            "control": "TextControl",
+            "label": "Section Title",
+            "default": "Why Choose Us Section"
+        }
+    }
+}
+--}}
+
+@php
+    $sectionTitle = $attributes['sectionTitle'] ?? 'Why Choose Us Section';
+@endphp
+
+<div class="{{ $block->classes ?? 'wp-block-alma-benefits-grid' }} py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="text-center mb-16">

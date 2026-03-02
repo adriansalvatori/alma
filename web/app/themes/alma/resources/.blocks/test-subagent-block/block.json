@@ -1,0 +1,26 @@
+{
+  "name": "alma/test-subagent-block",
+  "title": "Test Subagent Block",
+  "description": "A custom Test Subagent Block block.",
+  "category": "alma",
+  "icon": "block-default",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Title",
+      "default": "Test Subagent Block"
+    }
+  },
+  "render": "file:../../views/blocks/test-subagent-block.blade.php"
+}

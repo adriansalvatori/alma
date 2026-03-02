@@ -1,0 +1,13 @@
+{
+  "name": "alma/login-form",
+  "title": "Login Form",
+  "description": "Native login form for Alma.",
+  "category": "alma",
+  "icon": "lock",
+  "supports": {
+    "align": true,
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:../../views/blocks/login-form.blade.php"
+}

@@ -1,0 +1,56 @@
+{
+  "name": "alma/logo-cloud",
+  "title": "Logo Cloud",
+  "description": "A grid of partner or client logos.",
+  "category": "alma",
+  "icon": "grid-view",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "text": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Heading Text",
+      "default": "WE ARE PARTNERED WITH MORE THAN 50+ COMPANIES AROUND THE GLOBE"
+    },
+    "logo1": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 1"
+    },
+    "logo2": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 2"
+    },
+    "logo3": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 3"
+    },
+    "logo4": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 4"
+    },
+    "logo5": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 5"
+    },
+    "logo6": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Logo 6"
+    }
+  },
+  "render": "file:../../views/blocks/logo-cloud.blade.php"
+}

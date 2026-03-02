@@ -1,0 +1,13 @@
+{
+  "name": "alma/security-panel",
+  "title": "Security Panel",
+  "description": "Security settings and status panel.",
+  "category": "alma",
+  "icon": "shield",
+  "supports": {
+    "align": true,
+    "multiple": true
+  },
+  "attributes": {},
+  "render": "file:../../views/blocks/security-panel.blade.php"
+}

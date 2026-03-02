@@ -1,0 +1,240 @@
+{
+  "name": "alma/testimonials",
+  "title": "Testimonials",
+  "description": "A grid of user reviews or testimonials.",
+  "category": "alma",
+  "icon": "grid-view",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Section Title",
+      "default": "Review Section"
+    },
+    "description": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Description",
+      "default": "Let happy users convince the rest."
+    },
+    "r1_name": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 1 Name",
+      "default": "Alex Johnson"
+    },
+    "r1_loc": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 1 Location",
+      "default": "United States"
+    },
+    "r1_rating": {
+      "type": "number",
+      "control": "SelectControl",
+      "label": "Reviewer 1 Rating",
+      "default": 5,
+      "options": [
+        {
+          "label": "5 Stars",
+          "value": 5
+        },
+        {
+          "label": "4 Stars",
+          "value": 4
+        },
+        {
+          "label": "3 Stars",
+          "value": 3
+        },
+        {
+          "label": "2 Stars",
+          "value": 2
+        },
+        {
+          "label": "1 Star",
+          "value": 1
+        }
+      ]
+    },
+    "r1_comment": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Reviewer 1 Comment",
+      "default": "Testimonials with names, ratings, and short blurbs help build authenticity and trust."
+    },
+    "r1_avatar": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Reviewer 1 Avatar",
+      "default": "https://i.pravatar.cc/150?u=a042581f4e29026024d"
+    },
+    "r2_name": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 2 Name",
+      "default": "Maria Garcia"
+    },
+    "r2_loc": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 2 Location",
+      "default": "Spain"
+    },
+    "r2_rating": {
+      "type": "number",
+      "control": "SelectControl",
+      "label": "Reviewer 2 Rating",
+      "default": 5,
+      "options": [
+        {
+          "label": "5 Stars",
+          "value": 5
+        },
+        {
+          "label": "4 Stars",
+          "value": 4
+        },
+        {
+          "label": "3 Stars",
+          "value": 3
+        },
+        {
+          "label": "2 Stars",
+          "value": 2
+        },
+        {
+          "label": "1 Star",
+          "value": 1
+        }
+      ]
+    },
+    "r2_comment": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Reviewer 2 Comment",
+      "default": "Incredibly fast and beautifully designed."
+    },
+    "r2_avatar": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Reviewer 2 Avatar",
+      "default": "https://i.pravatar.cc/150?u=a04258a2462d826712d"
+    },
+    "r3_name": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 3 Name",
+      "default": "David Chen"
+    },
+    "r3_loc": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 3 Location",
+      "default": "Canada"
+    },
+    "r3_rating": {
+      "type": "number",
+      "control": "SelectControl",
+      "label": "Reviewer 3 Rating",
+      "default": 4,
+      "options": [
+        {
+          "label": "5 Stars",
+          "value": 5
+        },
+        {
+          "label": "4 Stars",
+          "value": 4
+        },
+        {
+          "label": "3 Stars",
+          "value": 3
+        },
+        {
+          "label": "2 Stars",
+          "value": 2
+        },
+        {
+          "label": "1 Star",
+          "value": 1
+        }
+      ]
+    },
+    "r3_comment": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Reviewer 3 Comment",
+      "default": "We integrated this into our daily operations and saw a 40% increase in productivity."
+    },
+    "r3_avatar": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Reviewer 3 Avatar",
+      "default": "https://i.pravatar.cc/150?u=a04258114e29026702d"
+    },
+    "r4_name": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 4 Name",
+      "default": "Sarah Williams"
+    },
+    "r4_loc": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Reviewer 4 Location",
+      "default": "UK"
+    },
+    "r4_rating": {
+      "type": "number",
+      "control": "SelectControl",
+      "label": "Reviewer 4 Rating",
+      "default": 5,
+      "options": [
+        {
+          "label": "5 Stars",
+          "value": 5
+        },
+        {
+          "label": "4 Stars",
+          "value": 4
+        },
+        {
+          "label": "3 Stars",
+          "value": 3
+        },
+        {
+          "label": "2 Stars",
+          "value": 2
+        },
+        {
+          "label": "1 Star",
+          "value": 1
+        }
+      ]
+    },
+    "r4_comment": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Reviewer 4 Comment",
+      "default": "The support is fantastic and the features exactly match what we need."
+    },
+    "r4_avatar": {
+      "type": "string",
+      "control": "ImageControl",
+      "label": "Reviewer 4 Avatar",
+      "default": "https://i.pravatar.cc/150?u=a048581f4e29026701d"
+    }
+  },
+  "render": "file:../../views/blocks/testimonials.blade.php"
+}

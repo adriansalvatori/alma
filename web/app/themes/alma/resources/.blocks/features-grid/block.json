@@ -1,0 +1,62 @@
+{
+  "name": "alma/features-grid",
+  "title": "Features Grid",
+  "description": "A bento box style grid highlighting 3 main features.",
+  "category": "alma",
+  "icon": "grid-view",
+  "supports": {
+    "align": true,
+    "multiple": true,
+    "jsx": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradient": true
+    }
+  },
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Section Title",
+      "default": "Features Section"
+    },
+    "feature1Title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Feature 1 Title",
+      "default": "Highlighted Feature 1"
+    },
+    "feature1Desc": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Feature 1 Description",
+      "default": "Use main feature cards with supporting visuals to quickly show how your app solves real problems."
+    },
+    "feature2Title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Feature 2 Title",
+      "default": "Highlighted Feature 2"
+    },
+    "feature2Desc": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Feature 2 Description",
+      "default": "Brief explanation of the secondary feature."
+    },
+    "feature3Title": {
+      "type": "string",
+      "control": "TextControl",
+      "label": "Feature 3 Title",
+      "default": "Highlighted Feature 3"
+    },
+    "feature3Desc": {
+      "type": "string",
+      "control": "TextareaControl",
+      "label": "Feature 3 Description",
+      "default": "Brief explanation of the tertiary feature."
+    }
+  },
+  "render": "file:../../views/blocks/features-grid.blade.php"
+}

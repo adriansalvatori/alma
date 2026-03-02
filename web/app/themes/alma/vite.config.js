@@ -9,6 +9,8 @@ if (! process.env.APP_URL) {
   process.env.APP_URL = 'http://example.test';
 }
 
+import bladeBlocksPlugin from './vite-plugin-blade-blocks.js';
+
 export default defineConfig({
   esbuild: {
     jsxFactory: 'window.wp.element.createElement',
@@ -16,6 +18,7 @@ export default defineConfig({
   },
   base: '/app/themes/sage/public/build/',
   plugins: [
+    bladeBlocksPlugin(),
     tailwindcss(),
     laravel({
       input: [

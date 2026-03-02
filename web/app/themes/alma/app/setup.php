@@ -344,3 +344,41 @@ add_filter('render_block_core/button', function ($block_content, $block) {
 
     return \Illuminate\Support\Facades\Blade::render($bladeString);
 }, 10, 2);
+
+/**
+ * Filter to allow rendering blocks using Acorn's Blade integration
+ * It checks the 'render' property (which translates to render_callback) for a .blade.php file.
+ */
+add_filter('register_block_type_args', function (array $args, string $name): array {
+    if (empty($args['render_callback']) || !($args['render_callback'] instanceof \Closure)) {
+        return $args;
+    }
+    $reflector = new \ReflectionFunction($args['render_callback']);
+    $renderCallbackVariables = $reflector->getStaticVariables();
+    if (array_key_exists('template_path', $renderCallbackVariables) && str_ends_with($renderCallbackVariables['template_path'], '.blade.php')) {
+        $args['render_callback'] = function ($attributes, $content, $block) use ($renderCallbackVariables) {
+            return view()
+                ->file($renderCallbackVariables['template_path'], compact('attributes', 'content', 'block'))
+                ->render();
+        };
+    }
+    return $args;
+}, 1, 2);
+
+/**
+ * Dynamically register all compiled native blocks.
+ */
+add_action('init', function () {
+    // Look for our Vite plugin compiled block.jsons
+    $blocksDir = locate_template('resources/.blocks');
+    if (!$blocksDir)
+        return;
+
+    // Use glob to find all block.json files in subdirectories
+    $blockJsonFiles = glob($blocksDir . '/*/block.json');
+    if ($blockJsonFiles) {
+        foreach ($blockJsonFiles as $jsonFile) {
+            register_block_type(dirname($jsonFile));
+        }
+    }
+});

@@ -19,8 +19,19 @@
 - 🎨 Out of the box support for Tailwind CSS
 - 🚀 Harness the power of Laravel with [Acorn integration](https://github.com/roots/acorn)
 - 📦 Block editor support built-in
+- 🧩 **Native Single-File Blocks**: Author Gutenberg blocks entirely within a single `.blade.php` file using JSON frontmatter. No ACF Pro required.
 
 Sage brings proper PHP templating and modern JavaScript tooling to WordPress themes. Write organized, component-based code using Laravel Blade, enjoy instant builds and CSS hot-reloading with Vite, and leverage Laravel's robust feature set through Acorn.
+
+### 🛠 Custom Blocks
+
+This theme features a high-performance native block compiler. To create a new block:
+
+```bash
+wp acorn make:block MyNewBlock
+```
+
+See [.ai/guidelines.md](file:///Users/adriansalvatori/Documents/initiatives/v7.alma/web/app/themes/alma/.ai/guidelines.md) for detailed documentation.
 
 [Read the docs to get started](https://roots.io/sage/docs/installation/)
 

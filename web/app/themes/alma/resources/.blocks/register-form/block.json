@@ -1,0 +1,13 @@
+{
+  "name": "alma/register-form",
+  "title": "Register Form",
+  "description": "Native registration form for Alma.",
+  "category": "alma",
+  "icon": "admin-users",
+  "supports": {
+    "align": true,
+    "multiple": false
+  },
+  "attributes": {},
+  "render": "file:../../views/blocks/register-form.blade.php"
+}
