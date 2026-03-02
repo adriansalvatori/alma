@@ -82,13 +82,16 @@ new class extends Component {
 };
 ?>
 
-<div class="contents">
-    <flux:modal.trigger name="commerce-search" kbd="cmd+k">
-        <flux:button variant="subtle" aria-label="Search" class="px-2!">
-            <flux:icon.magnifying-glass
-                class="w-5 h-5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors" />
-        </flux:button>
-    </flux:modal.trigger>
+<div class="contents" x-data @keydown.window.prevent.cmd.k="$el.querySelector('button').click()"
+    @keydown.window.prevent.ctrl.k="$el.querySelector('button').click()">
+    <flux:tooltip content="Search (⌘K)" position="top">
+        <flux:modal.trigger name="commerce-search">
+            <flux:button variant="subtle" aria-label="Search" class="px-2!">
+                <flux:icon.magnifying-glass
+                    class="w-5 h-5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors" />
+            </flux:button>
+        </flux:modal.trigger>
+    </flux:tooltip>
 
     <flux:modal name="commerce-search" class="w-full max-w-2xl p-0!" variant="bare">
         <div

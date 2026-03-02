@@ -55,7 +55,7 @@
                             ? wc_stock_amount(wp_unslash($_POST['quantity']))
                             : $product->get_min_purchase_quantity(), // WPCS: CSRF ok, input var ok.
                         'classes' =>
-                            'block w-full rounded-lg border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg p-2.5',
+                            'block w-full rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-center sm:text-lg h-[52px]',
                     ]);
 
                     do_action('woocommerce_after_add_to_cart_quantity');
@@ -69,10 +69,22 @@
 
                 {{-- Visible Flux Button --}}
                 <flux:button type="submit" variant="primary"
-                    class="single_add_to_cart_button button alt w-full text-lg h-[52px]">
+                    class="single_add_to_cart_button button alt w-full text-lg h-[52px] shadow-lg hover:shadow-xl transition-shadow">
                     <flux:icon.shopping-cart class="w-5 h-5 mr-2" />
                     {{ esc_html($product->single_add_to_cart_text()) }}
                 </flux:button>
+            </div>
+        </div>
+
+        {{-- Payment Options Trust Signal --}}
+        <div
+            class="mt-6 flex flex-col items-center gap-3 bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-100 dark:border-zinc-800">
+            <span class="text-xs font-medium tracking-wide text-zinc-500 uppercase">Guaranteed Safe Checkout</span>
+            <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-600">
+                <flux:icon.credit-card class="w-8 h-8" />
+                <flux:icon.banknotes class="w-8 h-8" />
+                <flux:icon.currency-dollar class="w-8 h-8" />
+                <flux:icon.shield-check class="w-8 h-8" />
             </div>
         </div>
 

@@ -31,27 +31,29 @@
     <div
         class="relative w-full aspect-square bg-zinc-100 dark:bg-zinc-800/50 rounded-3xl overflow-hidden mb-5 p-8 flex items-center justify-center">
 
-        {{-- Sale Badge (Left) --}}
-        @if ($product->is_on_sale())
-            <div class="absolute top-4 left-4 z-10">
+        {{-- Badges (Top Left) --}}
+        <div class="absolute top-4 left-4 z-10 flex flex-col items-start gap-2">
+            @if ($product->is_on_sale())
                 <flux:badge color="red" size="sm" class="font-semibold shadow-sm">
-                    {{ apply_filters('woocommerce_sale_flash', '<span class="onsale">' . esc_html__('Sale!', 'woocommerce') . '</span>', $post, $product) }}
+                    {!! apply_filters(
+                        'woocommerce_sale_flash',
+                        '<span class="onsale">' . esc_html__('Sale!', 'woocommerce') . '</span>',
+                        $post,
+                        $product,
+                    ) !!}
                 </flux:badge>
-            </div>
-        @endif
+            @endif
 
-        {{-- Category Pill (Right) --}}
-        @php
-            $categories = wc_get_product_category_list($product->get_id(), ', ');
-        @endphp
-        @if ($categories)
-            <div class="absolute top-4 right-4 z-10">
+            @php
+                $categories = wc_get_product_category_list($product->get_id(), ', ');
+            @endphp
+            @if ($categories)
                 <div
                     class="bg-white dark:bg-zinc-700 text-zinc-600 dark:text-zinc-200 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm">
                     {!! strip_tags($categories) !!}
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
 
         {{-- Favorite Toggle (Top Right) --}}
         <livewire:favorite-toggle :productId="$product->get_id()" />

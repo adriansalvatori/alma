@@ -133,10 +133,11 @@ public function updatedSearch(PostService $posts): void
 Rules:
 
 * Services contain business rules
-* SFCs contain UI state
+* SFCs contain UI state and isolated component logic
 * Blade handles presentation
 * WordPress handles content
 * Flux handles UI components
+* **Reactivity:** Use Livewire global events (`#[On('event-name')]` attributes and `$this->dispatch('event-name')`) to communicate between isolated Livewire components (e.g., Cart and Add to Cart buttons).
 
 Separation of concerns is mandatory.
 
@@ -193,16 +194,39 @@ Flux UI is the required UI layer.
 Example:
 
 ```blade
-<x-flux::button wire:click="save">
+<flux:button variant="primary" wire:click="save">
+    <flux:icon.check class="w-5 h-5 mr-2" />
     Save
-</x-flux::button>
+</flux:button>
 ```
 
 Never downgrade to plain `<button>` if a Flux equivalent exists.
 
 ---
 
-# 8. WordPress Integration Rules
+# 8. WooCommerce Integration Rules
+
+When overriding WooCommerce templates or interacting with Woo data:
+
+* **Overrides:** Place template overrides inside `web/app/themes/alma/resources/views/woocommerce/` (e.g. `archive-product.blade.php`, `content-single-product.blade.php`).
+* **Design Integration:** WooCommerce outputs raw, unstyled HTML by default. You MUST wrap WooCommerce hooks (like `do_action('woocommerce_before_shop_loop')`) in Tailwind Flex/Grid containers to prevent floating elements from breaking the layout (e.g. overlapping product cards).
+* **Native Functions:** Be cautious with native function arguments (e.g. `woocommerce_output_related_products()`). Check if they accept arguments or if they rely purely on filters.
+* **Forms & Inputs:** If forced to use native WooCommerce forms (like the checkout or product reviews form), intercept their classes via hooks or replace the template entirely to apply Tailwind CSS forms and Flux UI aesthetics.
+
+---
+
+# 9. Front-End Styling & Tailwind CSS
+
+* **Aesthetics:** The project demands a *premium, beautiful, and elegant* design. Always pay attention to typography, generous whitespace (padding/margins), and structural balance.
+* **Component Stacking:** Prevent visual overlaps. If multiple absolute positioned elements exist (like a sale badge and a favorite toggle), group them inside dedicated flex containers or position them in opposite corners (e.g. `top-left` vs `top-right`).
+* **Linting/Modern Tailwind:** Use modern, un-aliased Tailwind utility classes. For example:
+  * Use `shrink-0` instead of `flex-shrink-0`.
+  * Avoid conflicting margin utilities (e.g., `-mx-2` vs `mx-auto` on the same element).
+* **Alpine.js:** Use Alpine for simple frontend interactions that don't require server roundtrips (e.g. global keyboard shortcuts like `@keydown.window="cmdK = true"` to open a search modal).
+
+---
+
+# 10. WordPress Integration Rules
 
 * Register CPTs inside Service Providers
 * Sanitize all input
@@ -214,7 +238,17 @@ Never downgrade to plain `<button>` if a Flux equivalent exists.
 
 ---
 
-# 9. Performance Rules
+# 11. Gutenberg Block Architecture (Acorn/Sage)
+
+* **Composer:** Use `Log1x\AcfComposer\Block` to create blocks.
+* **Fields:** Use `StoutLogic\AcfBuilder\FieldsBuilder` to define ACF interfaces programmatically.
+* **Location:** Blocks must live in `web/app/themes/alma/app/Blocks/` and their views in `web/app/themes/alma/resources/views/blocks/`.
+* **State Mapping:** Always map data in the `with()` array to prevent crashing Blade loops if `get_field` returns blank.
+* **Nested Blocks:** Set `'jsx' => true` in `$supports` to allow an `<InnerBlocks />` component to render inside the view.
+
+---
+
+# 12. Performance Rules
 
 * Cache expensive WordPress queries
 * Avoid heavy logic in reactive lifecycle hooks
@@ -224,7 +258,7 @@ Never downgrade to plain `<button>` if a Flux equivalent exists.
 
 ---
 
-# 10. Security Rules
+# 12. Security Rules
 
 * Validate all Livewire input
 * Sanitize before persistence
@@ -234,7 +268,7 @@ Never downgrade to plain `<button>` if a Flux equivalent exists.
 
 ---
 
-# 11. Prohibited Patterns
+# 13. Prohibited Patterns
 
 The agent must NOT:
 
@@ -247,7 +281,7 @@ The agent must NOT:
 
 ---
 
-# 12. Architectural Philosophy
+# 14. Architectural Philosophy
 
 The system must feel like:
 

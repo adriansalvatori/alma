@@ -110,6 +110,7 @@ These things changed in Livewire 4, but may not have been updated in this applic
 
 - `wire:sort`, `wire:intersect`, `wire:ref`, `.renderless`, `.preserve-scroll` are available for use.
 - `data-loading` attribute automatically added to elements triggering network requests.
+- **Events:** In Livewire 4, listen for global events using PHP Attributes (`#[On('event-name')]`) above methods instead of the `$listeners` array. Dispatch them instantly with `$this->dispatch('event-name')`.
 
 | Directive | Purpose |
 |-----------|---------|

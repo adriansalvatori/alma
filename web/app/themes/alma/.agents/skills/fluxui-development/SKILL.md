@@ -80,9 +80,17 @@ php artisan flux:icon crown grip-vertical github
 2. Test interactive states
 3. Verify mobile responsiveness
 
+## WooCommerce Integration
+
+When styling WooCommerce templates (like single product or archives):
+- Override the default WooCommerce templates by copying them to `resources/views/woocommerce/`.
+- Replace native unstyled HTML inputs/buttons with their Flux UI equivalents (e.g., `<flux:button>` for Add to Cart).
+- Use Tailwind CSS and Flux wrappers (like `flux:field`) to gracefully handle raw WooCommerce outputs.
+
 ## Common Pitfalls
 
 - Trying to use Pro-only components in the free edition
 - Not checking if a Flux component exists before creating custom implementations
 - Forgetting to use the `search-docs` tool for component-specific documentation
 - Not following existing project patterns for Flux usage
+- Forgetting to wrap floating/absolute WooCommerce elements in flexible Tailwind containers to prevent overlap

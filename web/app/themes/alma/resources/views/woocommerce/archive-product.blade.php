@@ -207,8 +207,13 @@ the readme will list any important changes.
                 </header>
 
                 @if (woocommerce_product_loop())
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                        @php
+                            do_action('woocommerce_before_shop_loop');
+                        @endphp
+                    </div>
+
                     @php
-                        do_action('woocommerce_before_shop_loop');
                         woocommerce_product_loop_start();
                     @endphp
 

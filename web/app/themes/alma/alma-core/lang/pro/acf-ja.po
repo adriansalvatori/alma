@@ -1,0 +1,682 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Custom Fields PRO\n"
+"Report-Msgid-Bugs-To: https://support.advancedcustomfields.com\n"
+"POT-Creation-Date: 2025-09-10 00:29+0000\n"
+"PO-Revision-Date: 2025-09-23 13:09+0100\n"
+"Last-Translator: WP Engine <support@advancedcustomfields.com>\n"
+"Language-Team: WP Engine <support@advancedcustomfields.com>\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: acf.php\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: pro/acf-pro.php:214, pro/admin/views/html-settings-updates.php:115
+msgid "Manage License"
+msgstr "ライセンス管理"
+
+#: pro/options-page.php:43,
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:237
+msgid "Options"
+msgstr "オプション"
+
+#: pro/options-page.php:73, pro/fields/class-acf-field-gallery.php:483,
+#: pro/post-types/acf-ui-options-page.php:173,
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:165
+msgid "Update"
+msgstr "更新"
+
+#: pro/options-page.php:74, pro/post-types/acf-ui-options-page.php:174
+msgid "Options Updated"
+msgstr "オプションを更新しました"
+
+#: pro/updates.php:155
+msgid "An error occurred when connecting to activation server"
+msgstr "<b>エラー</b> ライセンスサーバーに接続できません"
+
+#: pro/updates.php:246
+msgid "check again"
+msgstr "再確認"
+
+#: pro/updates.php:344
+msgid "Check again"
+msgstr "再確認"
+
+#: pro/updates.php:659
+msgid "Could not connect to the activation server"
+msgstr "<b>エラー</b> ライセンスサーバーに接続できません"
+
+#: pro/admin/admin-options-page.php:159
+msgid "Publish"
+msgstr "公開"
+
+#: pro/admin/admin-options-page.php:162
+msgid ""
+"No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
+"Custom Field Group</a>"
+msgstr ""
+"このオプションページにカスタムフィールドグループがありません. <a "
+"href=\"%s\">カスタムフィールドグループを作成</a>"
+
+#: pro/admin/admin-options-page.php:258
+msgid "Edit field group"
+msgstr "フィールドグループを編集"
+
+#: pro/admin/admin-updates.php:52
+msgid "<strong>Error</strong>. Could not connect to the update server"
+msgstr "<b>エラー</b> 更新サーバーに接続できません"
+
+#: pro/admin/admin-updates.php:117,
+#: pro/admin/views/html-settings-updates.php:133
+msgid "Updates"
+msgstr "アップデート"
+
+#: pro/fields/class-acf-field-clone.php:728,
+#: pro/fields/class-acf-field-flexible-content.php:84
+msgid "Fields"
+msgstr "フィールド"
+
+#: pro/fields/class-acf-field-clone.php:749
+msgid "Display"
+msgstr "表示"
+
+#: pro/fields/class-acf-field-clone.php:765,
+#: pro/fields/class-acf-field-flexible-content.php:345,
+#: pro/fields/class-acf-field-flexible-content.php:408,
+#: pro/fields/class-acf-field-repeater.php:180
+msgid "Layout"
+msgstr "レイアウト"
+
+#: pro/fields/class-acf-field-clone.php:771,
+#: pro/fields/class-acf-field-flexible-content.php:421,
+#: pro/fields/class-acf-field-repeater.php:188,
+#: pro/locations/class-acf-location-block.php:22
+msgid "Block"
+msgstr "ブロック"
+
+#: pro/fields/class-acf-field-clone.php:772,
+#: pro/fields/class-acf-field-flexible-content.php:420,
+#: pro/fields/class-acf-field-repeater.php:187
+msgid "Table"
+msgstr "表"
+
+#: pro/fields/class-acf-field-clone.php:773,
+#: pro/fields/class-acf-field-flexible-content.php:422,
+#: pro/fields/class-acf-field-repeater.php:189
+msgid "Row"
+msgstr "行"
+
+#: pro/fields/class-acf-field-clone.php:900
+msgid "(no title)"
+msgstr "（無題）"
+
+#: pro/fields/class-acf-field-flexible-content.php:38
+msgid "Flexible Content"
+msgstr "柔軟コンテンツ"
+
+#: pro/fields/class-acf-field-flexible-content.php:50,
+#: pro/fields/class-acf-field-repeater.php:104,
+#: pro/fields/class-acf-field-repeater.php:300
+msgid "Add Row"
+msgstr "行を追加"
+
+#: pro/fields/class-acf-field-flexible-content.php:82,
+#: pro/fields/class-acf-field-flexible-content.php:748,
+#: pro/fields/class-acf-field-flexible-content.php:834
+msgid "layout"
+msgid_plural "layouts"
+msgstr[0] "レイアウト"
+
+#: pro/fields/class-acf-field-flexible-content.php:83
+msgid "layouts"
+msgstr "レイアウト"
+
+#: pro/fields/class-acf-field-flexible-content.php:87,
+#: src/pro/Fields/FlexibleContent/Layout.php:247
+msgid "Duplicate"
+msgstr "複製"
+
+#: pro/fields/class-acf-field-flexible-content.php:88,
+#: src/pro/Fields/FlexibleContent/Layout.php:248
+msgid "Delete"
+msgstr "削除"
+
+#: pro/fields/class-acf-field-flexible-content.php:89,
+#: pro/fields/class-acf-field-flexible-content.php:353
+msgid "Delete Layout"
+msgstr "レイアウトを削除"
+
+#. translators: %s - Name of the Flexible content layout
+#: pro/fields/class-acf-field-flexible-content.php:91
+msgid "Delete %s"
+msgstr "%s を削除"
+
+#: pro/fields/class-acf-field-flexible-content.php:97
+msgid "Rename Layout"
+msgstr "レイアウトの名前を変更"
+
+#: pro/fields/class-acf-field-flexible-content.php:98,
+#: src/pro/Fields/FlexibleContent/Render.php:252
+msgid "Rename"
+msgstr "名前の変更"
+
+#: pro/fields/class-acf-field-flexible-content.php:99
+msgid "New Label"
+msgstr "新しいラベル"
+
+#: pro/fields/class-acf-field-flexible-content.php:103,
+#: pro/fields/class-acf-field-flexible-content.php:747,
+#: pro/fields/class-acf-field-flexible-content.php:833
+msgid "This field requires at least {min} {label} {identifier}"
+msgstr "{identifier}に{label}は最低{min}個必要です"
+
+#: pro/fields/class-acf-field-flexible-content.php:105
+msgid "Maximum rows reached ({max})"
+msgstr "最大行数に達しました（{max}）"
+
+#: pro/fields/class-acf-field-flexible-content.php:109
+msgid "{available} {label} {identifier} available (max {max})"
+msgstr ""
+"あと{available}個 {identifier}には {label} を利用できます（最大 {max}）"
+
+#: pro/fields/class-acf-field-flexible-content.php:110
+msgid "{required} {label} {identifier} required (min {min})"
+msgstr ""
+"あと{required}個 {identifier}には {label} を利用する必要があります（最小 "
+"{min}）"
+
+#: pro/fields/class-acf-field-flexible-content.php:113
+msgid "Flexible Content requires at least 1 layout"
+msgstr "柔軟コンテンツは少なくとも1個のレイアウトが必要です"
+
+#: pro/fields/class-acf-field-flexible-content.php:354
+msgid "Duplicate Layout"
+msgstr "レイアウトを複製"
+
+#: pro/fields/class-acf-field-flexible-content.php:355
+msgid "Add New Layout"
+msgstr "新しいレイアウトを追加"
+
+#: pro/fields/class-acf-field-flexible-content.php:355
+msgid "Add Layout"
+msgstr "レイアウトを追加"
+
+#: pro/fields/class-acf-field-flexible-content.php:384
+msgid "Label"
+msgstr "ラベル"
+
+#: pro/fields/class-acf-field-flexible-content.php:401
+msgid "Name"
+msgstr "名前"
+
+#: pro/fields/class-acf-field-flexible-content.php:439
+msgid "Min"
+msgstr "最小数"
+
+#: pro/fields/class-acf-field-flexible-content.php:454
+msgid "Max"
+msgstr "最大数"
+
+#: pro/fields/class-acf-field-flexible-content.php:495
+msgid "Minimum Layouts"
+msgstr "レイアウトの最小数"
+
+#: pro/fields/class-acf-field-flexible-content.php:506
+msgid "Maximum Layouts"
+msgstr "レイアウトの最大数"
+
+#: pro/fields/class-acf-field-flexible-content.php:517,
+#: pro/fields/class-acf-field-repeater.php:296
+msgid "Button Label"
+msgstr "ボタンのラベル"
+
+#: pro/fields/class-acf-field-gallery.php:22
+msgid "Gallery"
+msgstr "ギャラリー"
+
+#: pro/fields/class-acf-field-gallery.php:72
+msgid "Add Image to Gallery"
+msgstr "ギャラリーに画像を追加"
+
+#: pro/fields/class-acf-field-gallery.php:73
+msgid "Maximum selection reached"
+msgstr "選択の最大数に到達しました"
+
+#: pro/fields/class-acf-field-gallery.php:282
+msgid "Length"
+msgstr "長さ"
+
+#: pro/fields/class-acf-field-gallery.php:297
+msgid "Edit"
+msgstr "編集"
+
+#: pro/fields/class-acf-field-gallery.php:298,
+#: pro/fields/class-acf-field-gallery.php:451
+msgid "Remove"
+msgstr "取り除く"
+
+#: pro/fields/class-acf-field-gallery.php:314
+msgid "Title"
+msgstr "タイトル"
+
+#: pro/fields/class-acf-field-gallery.php:350,
+#: pro/admin/post-types/admin-ui-options-pages.php:113,
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:153
+msgid "Description"
+msgstr "説明"
+
+#: pro/fields/class-acf-field-gallery.php:460
+msgid "Add to gallery"
+msgstr "ギャラリーを追加"
+
+#: pro/fields/class-acf-field-gallery.php:464
+msgid "Bulk actions"
+msgstr "一括操作"
+
+#: pro/fields/class-acf-field-gallery.php:465
+msgid "Sort by date uploaded"
+msgstr "アップロード日で並べ替え"
+
+#: pro/fields/class-acf-field-gallery.php:466
+msgid "Sort by date modified"
+msgstr "変更日で並び替え"
+
+#: pro/fields/class-acf-field-gallery.php:467
+msgid "Sort by title"
+msgstr "タイトルで並び替え"
+
+#: pro/fields/class-acf-field-gallery.php:468
+msgid "Reverse current order"
+msgstr "並び順を逆にする"
+
+#: pro/fields/class-acf-field-gallery.php:480
+msgid "Close"
+msgstr "閉じる"
+
+#: pro/fields/class-acf-field-gallery.php:508
+msgid "Return Format"
+msgstr "返り値のフォーマット"
+
+#: pro/fields/class-acf-field-gallery.php:514
+msgid "Image Array"
+msgstr "画像 配列"
+
+#: pro/fields/class-acf-field-gallery.php:515
+msgid "Image URL"
+msgstr "画像 URL"
+
+#: pro/fields/class-acf-field-gallery.php:516
+msgid "Image ID"
+msgstr "画像 ID"
+
+#: pro/fields/class-acf-field-gallery.php:524
+msgid "Library"
+msgstr "ライブラリ"
+
+#: pro/fields/class-acf-field-gallery.php:525
+msgid "Limit the media library choice"
+msgstr "制限するメディアライブラリを選択"
+
+#: pro/fields/class-acf-field-gallery.php:530,
+#: pro/locations/class-acf-location-block.php:68
+msgid "All"
+msgstr "全て"
+
+#: pro/fields/class-acf-field-gallery.php:531
+msgid "Uploaded to post"
+msgstr "投稿にアップロードされる"
+
+#: pro/fields/class-acf-field-gallery.php:567
+msgid "Minimum Selection"
+msgstr "最小選択数"
+
+#: pro/fields/class-acf-field-gallery.php:577
+msgid "Maximum Selection"
+msgstr "最大選択数"
+
+#: pro/fields/class-acf-field-gallery.php:587
+msgid "Minimum"
+msgstr "最小"
+
+#: pro/fields/class-acf-field-gallery.php:588,
+#: pro/fields/class-acf-field-gallery.php:624
+msgid "Restrict which images can be uploaded"
+msgstr "アップロード可能な画像を制限"
+
+#: pro/fields/class-acf-field-gallery.php:591,
+#: pro/fields/class-acf-field-gallery.php:627
+msgid "Width"
+msgstr "幅"
+
+#: pro/fields/class-acf-field-gallery.php:602,
+#: pro/fields/class-acf-field-gallery.php:638
+msgid "Height"
+msgstr "高さ"
+
+#: pro/fields/class-acf-field-gallery.php:614,
+#: pro/fields/class-acf-field-gallery.php:650
+msgid "File size"
+msgstr "ファイルサイズ"
+
+#: pro/fields/class-acf-field-gallery.php:623
+msgid "Maximum"
+msgstr "最大"
+
+#: pro/fields/class-acf-field-gallery.php:659
+msgid "Allowed File Types"
+msgstr "許可するファイルタイプ"
+
+#: pro/fields/class-acf-field-gallery.php:660
+msgid "Comma separated list. Leave blank for all types"
+msgstr "カンマ区切りのリストで入力。全てのタイプを許可する場合は空白のままで"
+
+#: pro/fields/class-acf-field-gallery.php:693
+msgid "Preview Size"
+msgstr "プレビューサイズ"
+
+#: pro/fields/class-acf-field-repeater.php:29
+msgid "Repeater"
+msgstr "繰り返しフィールド"
+
+#: pro/fields/class-acf-field-repeater.php:67,
+#: pro/fields/class-acf-field-repeater.php:464
+msgid "Minimum rows not reached ({min} rows)"
+msgstr "最小行数に達しました（{min} 行）"
+
+#: pro/fields/class-acf-field-repeater.php:68
+msgid "Maximum rows reached ({max} rows)"
+msgstr "最大行数に達しました（{max} 行）"
+
+#: pro/fields/class-acf-field-repeater.php:165
+msgid "Sub Fields"
+msgstr "サブフィールド"
+
+#: pro/fields/class-acf-field-repeater.php:243
+msgid "Minimum Rows"
+msgstr "最小行数"
+
+#: pro/fields/class-acf-field-repeater.php:254
+msgid "Maximum Rows"
+msgstr "最大行数"
+
+#: pro/fields/class-acf-repeater-table.php:365,
+#: src/pro/Fields/FlexibleContent/Layout.php:234
+msgid "Drag to reorder"
+msgstr "ドラッグして並び替え"
+
+#: pro/fields/class-acf-repeater-table.php:368
+msgid "Click to reorder"
+msgstr "クリックして並び替え"
+
+#: pro/fields/class-acf-repeater-table.php:401
+msgid "Add row"
+msgstr "行を追加"
+
+#: pro/fields/class-acf-repeater-table.php:403
+msgid "Remove row"
+msgstr "行を削除"
+
+#: pro/fields/class-acf-repeater-table.php:455,
+#: pro/fields/class-acf-repeater-table.php:456
+msgid "First Page"
+msgstr "最初のページ"
+
+#: pro/fields/class-acf-repeater-table.php:459,
+#: pro/fields/class-acf-repeater-table.php:460
+msgid "Previous Page"
+msgstr "前のページ"
+
+#: pro/fields/class-acf-repeater-table.php:476,
+#: pro/fields/class-acf-repeater-table.php:477
+msgid "Next Page"
+msgstr "次のページ"
+
+#: pro/fields/class-acf-repeater-table.php:480,
+#: pro/fields/class-acf-repeater-table.php:481
+msgid "Last Page"
+msgstr "最後のページ"
+
+#: pro/locations/class-acf-location-options-page.php:22
+msgid "Options Page"
+msgstr "オプションページ"
+
+#: pro/locations/class-acf-location-options-page.php:74,
+#: pro/post-types/acf-ui-options-page.php:95,
+#: pro/admin/post-types/admin-ui-options-page.php:482
+msgid "Add New Options Page"
+msgstr "新しいオプションページを追加"
+
+#: pro/post-types/acf-ui-options-page.php:92,
+#: pro/post-types/acf-ui-options-page.php:93,
+#: pro/admin/post-types/admin-ui-options-pages.php:91,
+#: pro/admin/post-types/admin-ui-options-pages.php:91
+msgid "Options Pages"
+msgstr "オプションページ"
+
+#: pro/post-types/acf-ui-options-page.php:94
+msgid "Add New"
+msgstr "新規追加"
+
+#: pro/post-types/acf-ui-options-page.php:96
+msgid "Edit Options Page"
+msgstr "オプションページを編集"
+
+#: pro/post-types/acf-ui-options-page.php:97
+msgid "New Options Page"
+msgstr "新しいオプションページ"
+
+#: pro/post-types/acf-ui-options-page.php:98
+msgid "View Options Page"
+msgstr "オプションページを表示"
+
+#: pro/post-types/acf-ui-options-page.php:99
+msgid "Search Options Pages"
+msgstr "オプションページを検索"
+
+#: pro/post-types/acf-ui-options-page.php:100
+msgid "No Options Pages found"
+msgstr "オプションページが見つかりません"
+
+#: pro/post-types/acf-ui-options-page.php:101
+msgid "No Options Pages found in Trash"
+msgstr "ゴミ箱にオプションページはありません"
+
+#: pro/admin/post-types/admin-ui-options-page.php:56
+msgid "Options page deleted."
+msgstr "オプションを削除しました"
+
+#: pro/admin/post-types/admin-ui-options-page.php:57
+msgid "Options page updated."
+msgstr "オプションを更新しました"
+
+#: pro/admin/post-types/admin-ui-options-page.php:60
+msgid "Options page saved."
+msgstr "オプションページを保存しました"
+
+#: pro/admin/post-types/admin-ui-options-page.php:61
+msgid "Options page submitted."
+msgstr "オプションを更新しました"
+
+#: pro/admin/post-types/admin-ui-options-page.php:63
+msgid "Options page draft updated."
+msgstr "オプションのドラフトを更新しました"
+
+#. translators: %s options page name
+#: pro/admin/post-types/admin-ui-options-page.php:83
+msgid "%s options page updated"
+msgstr "%s のオプションを更新しました"
+
+#. translators: %s options page name
+#: pro/admin/post-types/admin-ui-options-page.php:89
+msgid "%s options page created"
+msgstr "%s のオプションページを作成しました"
+
+#: pro/admin/post-types/admin-ui-options-page.php:102
+msgid "Link existing field groups"
+msgstr "既存のフィールドグループをリンク"
+
+#: pro/admin/post-types/admin-ui-options-page.php:133
+msgid "Page"
+msgstr "ページ"
+
+#: pro/admin/post-types/admin-ui-options-pages.php:147
+msgid "No description"
+msgstr "説明がありません"
+
+#. translators: %s number of post types activated
+#: pro/admin/post-types/admin-ui-options-pages.php:175
+msgid "Options page activated."
+msgid_plural "%s options pages activated."
+msgstr[0] "%s のオプションページを有効しました"
+
+#. translators: %s number of post types deactivated
+#: pro/admin/post-types/admin-ui-options-pages.php:182
+msgid "Options page deactivated."
+msgid_plural "%s options pages deactivated."
+msgstr[0] "%s のオプションを無効しました"
+
+#: pro/admin/views/html-settings-updates.php:9
+msgid "Deactivate License"
+msgstr "ライセンスのアクティベートを解除"
+
+#: pro/admin/views/html-settings-updates.php:9
+msgid "Activate License"
+msgstr "ライセンスをアクティベート"
+
+#: pro/admin/views/html-settings-updates.php:46
+msgid "License Status"
+msgstr "ライセンスステータス"
+
+#: pro/admin/views/html-settings-updates.php:59
+msgid "License Type"
+msgstr "イセンスタイプ"
+
+#: pro/admin/views/html-settings-updates.php:172
+msgid "License Key"
+msgstr "ライセンスキー"
+
+#: pro/admin/views/html-settings-updates.php:194,
+#: pro/admin/views/html-settings-updates.php:158
+msgid "Recheck License"
+msgstr "ライセンスのアクティベートを再度確認"
+
+#: pro/admin/views/html-settings-updates.php:239
+msgid "Update Information"
+msgstr "情報を更新"
+
+#: pro/admin/views/html-settings-updates.php:246
+msgid "Current Version"
+msgstr "現在のバージョン"
+
+#: pro/admin/views/html-settings-updates.php:254
+msgid "Latest Version"
+msgstr "最新のバージョン"
+
+#: pro/admin/views/html-settings-updates.php:262
+msgid "Update Available"
+msgstr "利用可能なアップデート"
+
+#: pro/admin/views/html-settings-updates.php:269
+msgid "No"
+msgstr "いいえ"
+
+#: pro/admin/views/html-settings-updates.php:267
+msgid "Yes"
+msgstr "はい"
+
+#: pro/admin/views/html-settings-updates.php:276
+msgid "Upgrade Notice"
+msgstr "アップグレード通知"
+
+#: pro/admin/views/html-settings-updates.php:304
+msgid "Enter your license key to unlock updates"
+msgstr "アップデートのロックを解除するためにライセンスキーを入力してください"
+
+#: pro/admin/views/html-settings-updates.php:302
+msgid "Update Plugin"
+msgstr "プラグインをアップデート"
+
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:80
+msgid "Menu Title"
+msgstr "メニュータイトル"
+
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:163
+msgid "Update Button Label"
+msgstr "ボタンのラベルを更新"
+
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:178
+msgid "Updated Message"
+msgstr "メッセージを更新しました"
+
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:180
+msgid "Updated Options"
+msgstr "オプションを更新しました"
+
+#: pro/admin/views/acf-ui-options-page/advanced-settings.php:288
+msgid "Autoload Options"
+msgstr "オプションをオートロード"
+
+#: pro/admin/views/acf-ui-options-page/basic-settings.php:20,
+#: pro/admin/views/acf-ui-options-page/create-options-page-modal.php:16
+msgid "Page Title"
+msgstr "ページタイトル"
+
+#: pro/admin/views/acf-ui-options-page/basic-settings.php:52,
+#: pro/admin/views/acf-ui-options-page/create-options-page-modal.php:47
+msgid "Parent Page"
+msgstr "親ページ"
+
+#: pro/admin/views/acf-ui-options-page/basic-settings.php:72
+msgid "Advanced Configuration"
+msgstr "詳細設定"
+
+#: pro/admin/views/acf-ui-options-page/list-empty.php:30
+msgid "Add Your First Options Page"
+msgstr "最初のオプションページを追加"
+
+#: pro/admin/views/acf-ui-options-page/list-empty.php:40
+msgid "Add Options Page"
+msgstr "オプションページを追加"
+
+#: src/pro/Fields/FlexibleContent/Layout.php:243
+msgid "Disabled"
+msgstr "無効化"
+
+#: src/pro/Fields/FlexibleContent/Layout.php:249
+msgid "More layout actions..."
+msgstr "その他のアクション..."
+
+#: src/pro/Fields/FlexibleContent/Layout.php:251
+msgid "Toggle layout"
+msgstr "レイアウトを切り替え"
+
+#. translators: %s the button label used for adding a new layout.
+#: src/pro/Fields/FlexibleContent/Render.php:113
+msgid "Click the \"%s\" button below to start creating your layout"
+msgstr "下の \"%s\" ボタンをクリックしてレイアウトの作成を始めてください"
+
+#: src/pro/Fields/FlexibleContent/Render.php:192
+msgid "Expand All"
+msgstr "すべてを展開"
+
+#: src/pro/Fields/FlexibleContent/Render.php:195
+msgid "Collapse All"
+msgstr "すべてを折りたたむ"
+
+#: src/pro/Fields/FlexibleContent/Render.php:257
+msgid "Disable"
+msgstr "無効化"
+
+#: src/pro/Fields/FlexibleContent/Render.php:260
+msgid "Enable"
+msgstr "有効化"
