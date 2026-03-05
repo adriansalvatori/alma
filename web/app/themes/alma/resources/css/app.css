@@ -4,8 +4,35 @@
 @source "../../app/";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@view-transition {
+    navigation: none;
+}
+
+#app {
+    view-transition-name: page;
+}
+
 @theme {
-    
+    @keyframes fade {
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+    }
+}
+
+@layer base {
+    ::view-transition-old(page) {
+        animation: fade 0.2s linear forwards;
+    }
+
+    ::view-transition-new(page) {
+        animation: fade 0.3s linear reverse;
+    }
 }
 
 @layer base {

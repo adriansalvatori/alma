@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <!-- Brand & Description -->
             <div class="md:col-span-1">
-                <a href="{{ home_url('/') }}"
+                <a href="{{ home_url('/') }}" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                     class="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2 mb-4">
                     <flux:icon.rocket-launch class="w-6 h-6 text-indigo-500" />
                     <span>{!! $siteName !!}</span>
@@ -29,16 +29,16 @@
             <div>
                 <h3 class="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-4">Product</h3>
                 <ul class="space-y-3">
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Features</a>
                     </li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Integrations</a>
                     </li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Pricing</a>
                     </li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Changelog</a>
                     </li>
                 </ul>
@@ -48,16 +48,16 @@
             <div>
                 <h3 class="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-4">Company</h3>
                 <ul class="space-y-3">
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">About
                             Us</a></li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Careers</a>
                     </li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Blog</a>
                     </li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contact</a>
                     </li>
                 </ul>
@@ -67,13 +67,13 @@
             <div>
                 <h3 class="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-4">Legal</h3>
                 <ul class="space-y-3">
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Privacy
                             Policy</a></li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Terms
                             of Service</a></li>
-                    <li><a href="#"
+                    <li><a href="#" @if (env('WIRE_NAVIGATE')) wire:navigate.view-transition @endif
                             class="text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Cookie
                             Policy</a></li>
                 </ul>

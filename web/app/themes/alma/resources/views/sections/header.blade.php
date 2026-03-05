@@ -3,7 +3,7 @@
         <div class="flex h-16 items-center justify-between">
             <!-- Brand -->
             <div class="shrink-0 flex items-center">
-                <a href="{{ home_url('/') }}"
+                <a href="{{ home_url('/') }}" @if (env('WIRE_NAVIGATE')) wire:navigate @endif
                     class="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
                     <flux:icon.rocket-launch class="w-6 h-6 text-indigo-500" />
                     <span>{!! $siteName !!}</span>
@@ -21,7 +21,7 @@
                     @if ($menu_items)
                         @foreach ($menu_items as $item)
                             @if ($item->menu_item_parent == 0)
-                                <a href="{{ $item->url }}"
+                                <a href="{{ $item->url }}" @if (env('WIRE_NAVIGATE')) wire:navigate @endif
                                     class="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
                                     {{ $item->title }}
                                 </a>
@@ -57,17 +57,24 @@
                             {{ $current_user->display_name }}
                         </flux:button>
                         <flux:menu>
-                            <flux:menu.item icon="user" href="/profile">Profile</flux:menu.item>
-                            <flux:menu.item icon="cog-8-tooth" href="/settings">Settings</flux:menu.item>
-                            <flux:menu.item icon="heart" href="/wishlist">Wishlist</flux:menu.item>
+                            <flux:menu.item icon="user" href="/profile" :wire:navigate="env('WIRE_NAVIGATE')">Profile
+                            </flux:menu.item>
+                            <flux:menu.item icon="cog-8-tooth" href="/settings" :wire:navigate="env('WIRE_NAVIGATE')">
+                                Settings</flux:menu.item>
+                            <flux:menu.item icon="heart" href="/wishlist" :wire:navigate="env('WIRE_NAVIGATE')">
+                                Wishlist</flux:menu.item>
                             <flux:menu.separator />
-                            <flux:menu.item icon="arrow-right-start-on-rectangle" href="/logout">Log out
+                            <flux:menu.item icon="arrow-right-start-on-rectangle" href="/logout"
+                                :wire:navigate="env('WIRE_NAVIGATE')">Log out
                             </flux:menu.item>
                         </flux:menu>
                     </flux:dropdown>
                 @else
-                    <flux:button variant="ghost" href="/login">Log in</flux:button>
-                    <flux:button variant="primary" href="/register">Sign up</flux:button>
+                    <flux:button variant="ghost" href="/login" :wire:navigate="env('WIRE_NAVIGATE')">
+                        Log in
+                    </flux:button>
+                    <flux:button variant="primary" href="/register" :wire:navigate="env('WIRE_NAVIGATE')">Sign up
+                    </flux:button>
                 @endif
             </div>
 
@@ -93,6 +100,7 @@
                                     @foreach ($menu_items as $item)
                                         @if ($item->menu_item_parent == 0)
                                             <a href="{{ $item->url }}"
+                                                @if (env('WIRE_NAVIGATE')) wire:navigate @endif
                                                 class="text-base font-medium text-zinc-900 dark:text-white">
                                                 {{ $item->title }}
                                             </a>
@@ -127,8 +135,10 @@
                                 </div>
                             @else
                                 <div class="grid grid-cols-2 gap-4">
-                                    <flux:button variant="outline" href="/login">Log in</flux:button>
-                                    <flux:button variant="primary" href="/register">Sign up</flux:button>
+                                    <flux:button variant="outline" href="/login" :wire:navigate="env('WIRE_NAVIGATE')">
+                                        Log in</flux:button>
+                                    <flux:button variant="primary" href="/register"
+                                        :wire:navigate="env('WIRE_NAVIGATE')">Sign up</flux:button>
                                 </div>
                             @endif
                         </div>
