@@ -49,7 +49,9 @@
     "roots/acorn": "^5.0"
   },
   "require-dev": {
-    "laravel/pint": "^1.20"
+    "laravel/pint": "^1.20",
+    "pestphp/pest": "^3.0",
+    "brain/monkey": "^2.6"
   },
   "suggest": {
     "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0)."
@@ -64,6 +66,8 @@
   "scripts": {
     "post-autoload-dump": [
       "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
-    ]
+    ],
+    "test": "pest",
+    "test:coverage": "pest --coverage"
   }
 }

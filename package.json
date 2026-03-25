@@ -13,6 +13,9 @@
         "translate:js": "npm run translate:js --prefix web/app/themes/alma",
         "translate:mo": "npm run translate:mo --prefix web/app/themes/alma",
         "db:export": "mkdir -p exports && wp db export exports/db-$(date +%Y-%m-%d-%H%M%S).sql",
-        "deploy:zip": "npm run build && zip -r alma-deploy.zip . -x 'node_modules/*' '*/node_modules/*' '.git/*' 'exports/*'"
+        "deploy:zip": "npm run build && zip -r alma-deploy.zip . -x 'node_modules/*' '*/node_modules/*' '.git/*' 'exports/*'",
+        "test": "pest",
+        "test:coverage": "pest --coverage",
+        "test:watch": "pest --watch"
     }
 }

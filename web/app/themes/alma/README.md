@@ -1,44 +1,304 @@
-<p align="center">
-  <a href="https://roots.io/sage/"><img alt="Sage" src="https://cdn.roots.io/app/uploads/logo-sage.svg" height="100"></a>
-</p>
+# Alma Theme
 
-<p align="center">
-  <a href="https://packagist.org/packages/roots/sage"><img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/sage?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square"></a>
-  <a href="https://github.com/roots/sage/actions/workflows/main.yml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/sage/main.yml?branch=main&logo=github&label=CI&style=flat-square"></a>
-  <a href="https://bsky.app/profile/roots.dev"><img alt="Follow roots.dev on Bluesky" src="https://img.shields.io/badge/follow-@roots.dev-0085ff?logo=bluesky&style=flat-square"></a>
-  <a href="https://twitter.com/rootswp"><img alt="Follow Roots" src="https://img.shields.io/badge/follow%20@rootswp-1da1f2?logo=twitter&logoColor=ffffff&message=&style=flat-square"></a>
-  <a href="https://github.com/sponsors/roots"><img src="https://img.shields.io/badge/sponsor%20roots-525ddc?logo=github&style=flat-square&logoColor=ffffff&message=" alt="Sponsor Roots"></a>
-</p>
+Advanced hybrid WordPress theme with Laravel Blade, Livewire 4, and Flux UI.
 
-# Sage
+## Overview
 
-**Advanced hybrid WordPress starter theme with Laravel Blade and Tailwind CSS**
+Alma is a **Sage-based WordPress theme** that brings Laravel development patterns to WordPress:
 
-- 🔧 Clean, efficient theme templating with Laravel Blade
-- ⚡️ Modern front-end development workflow powered by Vite
-- 🎨 Out of the box support for Tailwind CSS
-- 🚀 Harness the power of Laravel with [Acorn integration](https://github.com/roots/acorn)
-- 📦 Block editor support built-in
-- 🧩 **Native Single-File Blocks**: Author Gutenberg blocks entirely within a single `.blade.php` file using JSON frontmatter. No ACF Pro required.
+- **Blade templating** - Clean, component-based views
+- **Livewire 4** - Reactive single-file components
+- **Flux UI** - Premium UI components
+- **Tailwind CSS 4** - Modern utility-first styling
+- **Acorn** - Laravel framework integration
+- **Native Blocks** - Single-file Gutenberg blocks
+- **WooCommerce** - Full e-commerce support
 
-Sage brings proper PHP templating and modern JavaScript tooling to WordPress themes. Write organized, component-based code using Laravel Blade, enjoy instant builds and CSS hot-reloading with Vite, and leverage Laravel's robust feature set through Acorn.
+## Features
 
-### 🛠 Custom Blocks
+### 🎨 Front-End
+- Blade template engine
+- Livewire reactive components
+- Flux UI component library
+- Tailwind CSS 4
+- Dark mode support
+- View transitions
+- Hot module replacement
 
-This theme features a high-performance native block compiler. To create a new block:
+### 🏗️ Architecture
+- Service-oriented design
+- Laravel MVC pattern
+- PSR-4 autoloading
+- Dependency injection
+- Middleware system
+- Route definitions
 
+### 🧩 Blocks
+- Native single-file blocks
+- JSON frontmatter configuration
+- No ACF Pro required
+- Auto-generated block.json
+- Custom block category
+
+### 🛍️ E-commerce
+- WooCommerce template overrides
+- Custom styling with Tailwind
+- Flux UI components
+- Cart integration
+- Checkout customization
+
+### 🔐 Authentication
+- User registration
+- Login/logout
+- 2FA support
+- Role management
+- Protected routes
+
+## Quick Start
+
+### Create Block
 ```bash
-wp acorn make:block MyNewBlock
+wp acorn make:block Hero
+npm run dev
 ```
 
-See [.ai/guidelines.md](file:///Users/adriansalvatori/Documents/initiatives/v7.alma/web/app/themes/alma/.ai/guidelines.md) for detailed documentation.
+### Create Component
+Create `resources/views/livewire/search.blade.php`:
+```blade
+<?php
 
-[Read the docs to get started](https://roots.io/sage/docs/installation/)
+use Livewire\Component;
 
-## Support us
+new class extends Component {
+    public string $query = '';
+};
+?>
 
-We're dedicated to pushing modern WordPress development forward through our open source projects, and we need your support to keep building. You can support our work by purchasing [Radicle](https://roots.io/radicle/), our recommended WordPress stack, or by [sponsoring us on GitHub](https://github.com/sponsors/roots). Every contribution directly helps us create better tools for the WordPress ecosystem.
+<div>
+    <input wire:model.live="query">
+</div>
+```
 
-### Sponsors
+### Create Service
+Create `app/Services/SearchService.php`:
+```php
+<?php
 
-<a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" width="120" height="90"></a> <a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" width="120" height="90"></a> <a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="Itineris" width="120" height="90"></a> <a href="https://kinsta.com/?kaid=OFDHAJIXUDIV"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" width="120" height="90"></a> <a href="https://40q.agency/"><img src="https://cdn.roots.io/app/uploads/40q.svg" alt="40Q" width="120" height="90"></a> <a href="https://bonsai.so/"><img src="https://cdn.roots.io/app/uploads/bonsai.svg" alt="Bonsai" width="120" height="90"></a>
+namespace App\Services;
+
+class SearchService
+{
+    public function search(string $query): array
+    {
+        return get_posts(['s' => $query]);
+    }
+}
+```
+
+## Directory Structure
+
+```
+alma/
+├── app/
+│   ├── Console/          # WP-CLI commands
+│   ├── Http/             # Controllers, Middleware
+│   ├── Providers/        # Service providers
+│   ├── Services/         # Business logic
+│   └── View/             # View composers
+├── resources/
+│   ├── .blocks/          # Compiled block metadata
+│   ├── css/              # Stylesheets
+│   ├── js/               # JavaScript
+│   └── views/
+│       ├── auth/         # Auth templates
+│       ├── blocks/       # Gutenberg blocks
+│       ├── components/   # Livewire SFCs
+│       ├── layouts/      # Layout templates
+│       ├── partials/     # Reusable partials
+│       ├── sections/     # Header/footer
+│       └── woocommerce/  # Woo overrides
+├── routes/               # Application routes
+└── public/               # Compiled assets
+```
+
+## Commands
+
+### Development
+```bash
+npm run dev          # Start Vite
+npm run build        # Production build
+```
+
+### Blocks
+```bash
+wp acorn make:block BlockName
+```
+
+### Testing
+```bash
+composer test        # Run tests
+composer test:coverage  # Coverage report
+```
+
+### Translation
+```bash
+npm run translate    # Generate translations
+```
+
+## Code Standards
+
+### PHP
+- Strict types
+- Type declarations
+- PSR-12 formatting
+- Dependency injection
+
+### Blade
+- No raw PHP in templates
+- Escape output
+- Use View Composers
+- Keep templates simple
+
+### Livewire
+- Single file components
+- Typed public properties
+- Delegate to Services
+- Use Flux UI
+
+### Tailwind
+- Utility classes
+- No inline styles
+- Follow design system
+
+## Services
+
+### AuthService
+User authentication, login, logout, registration
+
+### RoleService
+Role creation, assignment, capability checks
+
+### TwoFactorService
+2FA enable/disable/verification
+
+### FavoritesService
+Product favorites management
+
+## Middleware
+
+- `auth` - Require authentication
+- `guest` - Redirect if logged in
+- `two-factor` - Require 2FA verification
+
+## Routes
+
+Defined in `routes/web.php`:
+
+```php
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+});
+```
+
+## Blocks
+
+### Create
+```bash
+wp acorn make:block FeatureGrid
+```
+
+### Structure
+```blade
+{{--
+{
+    "name": "alma/feature-grid",
+    "title": "Feature Grid",
+    "attributes": {
+        "title": {"type": "string", "control": "TextControl"}
+    }
+}
+--}}
+
+@php
+    $title = $attributes['title'] ?? 'Features';
+@endphp
+
+<section>
+    <h2>{{ $title }}</h2>
+</section>
+```
+
+## Templates
+
+### Layout
+`resources/views/layouts/app.blade.php`
+
+### Templates
+- `front-page.blade.php` - Front page
+- `index.blade.php` - Blog index
+- `page.blade.php` - Pages
+- `single.blade.php` - Single posts
+- `archive.blade.php` - Archives
+
+### WooCommerce
+- `woocommerce/archive-product.blade.php`
+- `woocommerce/single-product.blade.php`
+- `woocommerce/cart.blade.php`
+- `woocommerce/checkout.blade.php`
+
+## Requirements
+
+- **PHP**: 8.2+
+- **WordPress**: 6.9+
+- **Node**: 20+
+- **Composer**: Latest
+
+## Dependencies
+
+- `roots/acorn` - Laravel integration
+- `livewire/flux` - UI components
+- `log1x/acf-composer` - ACF blocks
+- `log1x/sage-directives` - Blade directives
+- `generoi/sage-woocommerce` - Woo integration
+
+## Development
+
+### Setup
+```bash
+composer install
+npm install
+```
+
+### Watch
+```bash
+npm run dev
+```
+
+### Build
+```bash
+npm run build
+```
+
+### Test
+```bash
+composer test
+```
+
+## Deployment
+
+```bash
+npm run build
+npm run deploy:zip
+```
+
+## Resources
+
+- [Sage Documentation](https://roots.io/sage/docs/)
+- [Acorn Documentation](https://roots.io/acorn/)
+- [Livewire Documentation](https://livewire.laravel.com/)
+- [Flux UI](https://fluxui.xyz/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+## License
+
+MIT License © [Roots](https://roots.io/)

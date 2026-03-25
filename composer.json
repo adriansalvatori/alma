@@ -54,7 +54,9 @@
   },
   "require-dev": {
     "laravel/pint": "^1.18",
-    "digitalnodecom/substrate": "dev-main"
+    "digitalnodecom/substrate": "dev-main",
+    "pestphp/pest": "^3.0",
+    "brain/monkey": "^2.6"
   },
   "config": {
     "optimize-autoloader": true,
@@ -83,6 +85,9 @@
   "scripts": {
     "lint": "pint --test",
     "lint:fix": "pint",
+    "test": "pest",
+    "test:coverage": "pest --coverage",
+    "test:parallel": "pest --parallel",
     "post-create-project-cmd": [
       "bash bin/setup.sh"
     ]
