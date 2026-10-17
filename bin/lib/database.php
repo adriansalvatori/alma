@@ -9,7 +9,6 @@
  * Usage: php bin/lib/database.php create <path/to/.env>
  * Exit codes: 0 created or already present, 1 failure (message on stderr).
  */
-
 [$script, $command, $file] = array_pad($argv, 3, null);
 
 if ($command !== 'create' || $file === null || ! is_file($file)) {

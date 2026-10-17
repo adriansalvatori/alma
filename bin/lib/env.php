@@ -16,7 +16,6 @@
  * Needs only PHP. Uses vlucas/phpdotenv for parsing when the root vendor/ exists, so values read
  * exactly as Bedrock will read them.
  */
-
 const SALTS = ['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'];
 
 const PLACEHOLDERS = ['', 'generateme'];
