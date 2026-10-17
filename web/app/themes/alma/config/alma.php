@@ -4,6 +4,7 @@ use App\Domains\Account\AccountServiceProvider;
 use App\Domains\Commerce\CommerceServiceProvider;
 use App\Domains\Content\ContentServiceProvider;
 use App\Domains\Lead\LeadServiceProvider;
+use App\Domains\Payment\PaymentServiceProvider;
 use App\Domains\Seo\SeoServiceProvider;
 
 return [
@@ -18,7 +19,7 @@ return [
     | in ALMA_DISABLED_MODULES to switch it off per environment.
     |
     | Optional modules check their own prerequisites: Commerce only registers
-    | when WooCommerce is active, Payment only when a gateway is configured.
+    | when WooCommerce is active, Payment only when PAYMENTS_ENABLED=true.
     |
     */
 
@@ -28,6 +29,7 @@ return [
         'lead' => LeadServiceProvider::class,
         'account' => AccountServiceProvider::class,
         'commerce' => CommerceServiceProvider::class,
+        'payment' => PaymentServiceProvider::class,
     ],
 
     'disabled' => array_values(array_filter(array_map(

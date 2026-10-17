@@ -56,7 +56,7 @@
         </div>
 
         {{-- Favorite Toggle (Top Right) --}}
-        <livewire:favorite-toggle :productId="$product->get_id()" />
+        <livewire:commerce.favorite-toggle :product-id="$product->get_id()" :key="'fav-'.$product->get_id()" />
 
         <a href="{{ apply_filters('woocommerce_loop_product_link', get_the_permalink(), $product) }}"
             class="w-full h-full relative z-0 flex items-center justify-center">

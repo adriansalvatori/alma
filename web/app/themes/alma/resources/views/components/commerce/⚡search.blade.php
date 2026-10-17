@@ -1,16 +1,21 @@
 <?php
 
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 new class extends Component {
     public string $searchQuery = '';
+
+    // Results are rebuilt on the server from the query, so the browser can never inject its own.
+    #[Locked]
     public array $results = ['products' => [], 'categories' => [], 'posts' => []];
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->results = ['products' => [], 'categories' => [], 'posts' => []];
+        $this->searchQuery = mb_substr(sanitize_text_field($this->searchQuery), 0, 100);
 
-        if (strlen($this->searchQuery) < 2) {
+        if (mb_strlen($this->searchQuery) < 2 || ! function_exists('wc_get_product')) {
             return;
         }
 
@@ -68,14 +73,14 @@ new class extends Component {
                 $this->results['categories'][] = [
                     'id' => $category->term_id,
                     'name' => $category->name,
-                    'permalink' => get_term_link($category),
+                    'permalink' => (string) get_term_link($category),
                     'count' => $category->count,
                 ];
             }
         }
     }
 
-    public function getHasResultsProperty()
+    public function getHasResultsProperty(): bool
     {
         return !empty($this->results['products']) || !empty($this->results['categories']) || !empty($this->results['posts']);
     }
@@ -86,7 +91,7 @@ new class extends Component {
     @keydown.window.prevent.ctrl.k="$el.querySelector('button').click()">
     <flux:tooltip content="Search (⌘K)" position="top">
         <flux:modal.trigger name="commerce-search">
-            <flux:button variant="subtle" aria-label="Search" class="px-2!">
+            <flux:button variant="subtle" aria-label="{{ __('Search', 'alma') }}" class="px-2!">
                 <flux:icon.magnifying-glass
                     class="w-5 h-5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors" />
             </flux:button>
@@ -98,7 +103,7 @@ new class extends Component {
             class="flex flex-col h-[70vh] max-h-[700px] bg-white dark:bg-zinc-900 rounded-xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800 text-left">
             <div class="p-4 border-b border-zinc-200 dark:border-zinc-800 flex items-center">
                 <flux:input wire:model.live.debounce.300ms="searchQuery" icon="magnifying-glass"
-                    placeholder="Search products, posts, categories..."
+                    placeholder="{{ __('Search products, posts, categories...', 'alma') }}"
                     class="w-full border-none shadow-none focus-within:ring-0 text-lg!" />
                 <flux:modal.close>
                     <flux:button variant="subtle" icon="x-mark" class="px-2!" />

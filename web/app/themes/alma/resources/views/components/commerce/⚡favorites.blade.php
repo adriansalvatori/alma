@@ -1,39 +1,50 @@
 <?php
 
-use Livewire\Component;
-use Livewire\Attributes\On;
 use App\Domains\Commerce\Services\FavoritesService;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 new class extends Component {
     #[On('favorites-updated')]
-    public function renderFavorites()
+    public function refresh(): void
     {
-        // Force re-render when event is received
+        unset($this->favoritesData);
     }
 
-    public function removeFavorite($productId)
+    public function removeFavorite(int $productId, FavoritesService $favorites): void
     {
-        FavoritesService::removeFavorite($productId);
+        $favorites->remove($productId);
+        unset($this->favoritesData);
+
         $this->dispatch('favorites-updated');
     }
 
-    public function getFavoritesDataProperty()
+    /**
+     * Only products that still exist and are visible: a favorite can outlive its product.
+     *
+     * @return list<array{id: int, name: string, thumbnail: string, price: string, permalink: string}>
+     */
+    #[Computed]
+    public function favoritesData(): array
     {
-        $favorites = FavoritesService::getFavorites();
+        if (! function_exists('wc_get_product')) {
+            return [];
+        }
+
         $items = [];
 
-        if (class_exists('WooCommerce') && !empty($favorites)) {
-            foreach ($favorites as $id) {
-                $_product = wc_get_product($id);
-                if ($_product && $_product->exists() && $_product->is_visible()) {
-                    $items[] = [
-                        'id' => $_product->get_id(),
-                        'name' => $_product->get_name(),
-                        'thumbnail' => $_product->get_image(),
-                        'price' => $_product->get_price_html(),
-                        'permalink' => $_product->get_permalink(),
-                    ];
-                }
+        foreach (app(FavoritesService::class)->all() as $id) {
+            $product = wc_get_product($id);
+
+            if ($product && $product->exists() && $product->is_visible()) {
+                $items[] = [
+                    'id' => $product->get_id(),
+                    'name' => $product->get_name(),
+                    'thumbnail' => $product->get_image(),
+                    'price' => $product->get_price_html(),
+                    'permalink' => $product->get_permalink(),
+                ];
             }
         }
 
@@ -44,7 +55,7 @@ new class extends Component {
 
 <div class="contents">
     <flux:modal.trigger name="favorites-flyout">
-        <flux:button variant="subtle" aria-label="Favorites" class="px-2! relative">
+        <flux:button variant="subtle" aria-label="{{ __('Favorites', 'alma') }}" class="px-2! relative">
             <flux:icon.heart
                 class="w-5 h-5 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors" />
             @if (count($this->favoritesData) > 0)
@@ -59,14 +70,14 @@ new class extends Component {
     <flux:modal name="favorites-flyout" flyout variant="floating" class="w-full sm:w-96!">
         <div class="flex flex-col h-dvh">
             <div class="flex items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800">
-                <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Favorites</h2>
+                <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ __('Favorites', 'alma') }}</h2>
             </div>
 
             <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
                 @if (empty($this->favoritesData))
                     <div class="flex flex-col items-center justify-center h-full text-zinc-500 dark:text-zinc-400">
                         <flux:icon.heart class="w-12 h-12 mb-4 text-zinc-300 dark:text-zinc-600" />
-                        <p>No favorites yet.</p>
+                        <p>{{ __('No favorites yet.', 'alma') }}</p>
                     </div>
                 @else
                     @foreach ($this->favoritesData as $item)
@@ -85,7 +96,8 @@ new class extends Component {
                             </div>
                             <flux:button variant="subtle" icon="trash"
                                 class="px-2! text-red-500 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950"
-                                wire:click="removeFavorite({{ $item['id'] }})" />
+                                wire:click="removeFavorite({{ (int) $item['id'] }})"
+                                aria-label="{{ __('Remove from favorites', 'alma') }}" />
                         </div>
                     @endforeach
                 @endif

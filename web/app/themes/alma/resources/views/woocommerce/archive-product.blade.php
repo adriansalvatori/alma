@@ -103,7 +103,7 @@ the readme will list any important changes.
                                                 @endif
                                                 <span
                                                     class="text-sm font-medium text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
-                                                    {!! wp_specialchars_decode($cat->name) !!}
+                                                    {{ wp_specialchars_decode($cat->name) }}
                                                 </span>
                                             </div>
 
@@ -137,7 +137,7 @@ the readme will list any important changes.
                                                                 class="absolute -left-px top-1/2 -translate-y-1/2 w-3 h-px {{ $isSubActive ? 'bg-zinc-900 dark:bg-zinc-100' : 'bg-zinc-200 dark:bg-zinc-800' }} group-hover:bg-zinc-400 transition-colors">
                                                             </div>
 
-                                                            <span>{!! wp_specialchars_decode($sub->name) !!}</span>
+                                                            <span>{{ wp_specialchars_decode($sub->name) }}</span>
                                                             @if ($sub->count > 0)
                                                                 <span
                                                                     class="text-xs text-zinc-400">{{ $sub->count }}</span>
