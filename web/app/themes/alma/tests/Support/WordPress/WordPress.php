@@ -72,6 +72,13 @@ final class WordPress
     /** @var array<string, bool> */
     public static array $conditionals = [];
 
+    /**
+     * ACF field values, keyed by post ID (or 'option', or 'block'), then field name.
+     *
+     * @var array<int|string, array<string, mixed>>
+     */
+    public static array $acf = [];
+
     public static bool $isAdmin = false;
 
     public static bool $isSsl = true;
@@ -113,6 +120,7 @@ final class WordPress
         self::$cron = [];
         self::$blockPatterns = [];
         self::$conditionals = [];
+        self::$acf = [];
         self::$isAdmin = false;
         self::$isSsl = true;
         self::$environment = 'local';
