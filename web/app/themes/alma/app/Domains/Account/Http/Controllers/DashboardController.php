@@ -2,10 +2,18 @@
 
 namespace App\Domains\Account\Http\Controllers;
 
-class DashboardController extends Controller
+use App\Domains\Account\Services\TwoFactorService;
+use Illuminate\Contracts\View\View;
+
+class DashboardController
 {
-    public function index()
+    public function show(TwoFactorService $twoFactor): View
     {
-        return view('dashboard');
+        $user = wp_get_current_user();
+
+        return view('dashboard', [
+            'user' => $user,
+            'twoFactorEnabled' => $twoFactor->isEnabled($user->ID),
+        ]);
     }
 }

@@ -2,20 +2,29 @@
 
 namespace App\Domains\Account;
 
-use App\Domains\Account\Http\Middleware\Authenticate;
-use App\Domains\Account\Http\Middleware\EnsureTwoFactorVerified;
-use App\Domains\Account\Http\Middleware\RedirectIfAuthenticated;
+use App\Domains\Account\Hooks\TwoFactorGate;
+use App\Domains\Account\Support\Cookies;
 use App\Infrastructure\Providers\ModuleServiceProvider;
 
+/**
+ * Front-end accounts on top of WordPress users: login, registration, two-factor authentication
+ * and a small account area. WordPress stays the identity provider; see docs/account.md.
+ */
 class AccountServiceProvider extends ModuleServiceProvider
 {
-    public function boot(): void
-    {
-        parent::boot();
+    protected array $hooks = [
+        TwoFactorGate::class,
+    ];
 
-        $router = $this->app['router'];
-        $router->aliasMiddleware('auth', Authenticate::class);
-        $router->aliasMiddleware('guest', RedirectIfAuthenticated::class);
-        $router->aliasMiddleware('two-factor', EnsureTwoFactorVerified::class);
+    protected ?string $webRoutes = __DIR__.'/routes/web.php';
+
+    public function register(): void
+    {
+        parent::register();
+
+        // One instance per request: the gate's remember flag and the cookie log must be shared by
+        // every class that touches them.
+        $this->app->singleton(Cookies::class);
+        $this->app->singleton(TwoFactorGate::class);
     }
 }

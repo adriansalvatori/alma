@@ -7,12 +7,7 @@ use Illuminate\Http\Request;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @return mixed
-     */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): mixed
     {
         if (is_user_logged_in()) {
             return redirect()->route('dashboard');

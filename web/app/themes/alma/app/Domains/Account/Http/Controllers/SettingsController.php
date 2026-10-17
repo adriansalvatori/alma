@@ -2,9 +2,11 @@
 
 namespace App\Domains\Account\Http\Controllers;
 
-class SettingsController extends Controller
+use Illuminate\Contracts\View\View;
+
+class SettingsController
 {
-    public function index()
+    public function show(): View
     {
         return view('settings');
     }

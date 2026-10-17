@@ -2,20 +2,12 @@
 
 namespace App\Domains\Account\Http\Controllers\Auth;
 
-use App\Domains\Account\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
 
-class LoginController extends Controller
+class LoginController
 {
-    public function showLoginForm()
+    public function show(): View
     {
         return view('auth.login');
-    }
-
-    public function logout(Request $request)
-    {
-        wp_logout();
-
-        return redirect('/');
     }
 }

@@ -1,14 +1,14 @@
-@extends('index')
+@extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            <div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-zinc-900 dark:text-white">
-                    Create new account
-                </h2>
-            </div>
-            <livewire:auth.register-form />
-        </div>
-    </div>
+  <div class="mx-auto w-full max-w-md space-y-8 py-12">
+    <flux:heading size="xl" level="1" class="text-center">{{ __('Create your account', 'alma') }}</flux:heading>
+
+    <livewire:account.register-form />
+
+    <flux:text class="text-center">
+      {{ __('Already have an account?', 'alma') }}
+      <flux:link :href="route('login')">{{ __('Sign in', 'alma') }}</flux:link>
+    </flux:text>
+  </div>
 @endsection
