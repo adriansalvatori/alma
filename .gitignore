@@ -6,11 +6,11 @@ web/app/themes/twentytwentyfive/
 web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
+!web/app/uploads/.htaccess
 web/app/cache/*
 
-# WordPress
+# WordPress (web/.htaccess is versioned: it carries the security rules for shared hosting)
 web/wp
-web/.htaccess
 
 # Logs
 *.log
@@ -19,6 +19,7 @@ web/.htaccess
 .env
 .env.*
 !.env.example
+!.env.deploy.example
 
 # Composer
 /vendor
@@ -36,4 +37,8 @@ wp-cli.local.yml
 *.sql.gz
 /exports/
 /releases/
+/backups/
+
+# Written by the deploy (the release being served)
+/VERSION
 *.zip

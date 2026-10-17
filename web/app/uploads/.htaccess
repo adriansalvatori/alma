@@ -1,0 +1,6 @@
+# Uploads are data, never code. Nothing in this directory may run as a script,
+# even if an upload filter is bypassed. (web/.htaccess and web/app/.htaccess
+# block the same paths; this file covers hosts where uploads/ is a symlink.)
+<FilesMatch "\.(php[0-9]?|phtml|phar|pl|py|cgi|sh|shtml)$">
+    Require all denied
+</FilesMatch>

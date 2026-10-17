@@ -1,0 +1,99 @@
+# -----------------------------------------------------------------------------
+# Alma: Apache / LiteSpeed rules for shared hosting.
+#
+# The document root must be this web/ directory, never the project root: .env,
+# vendor/ and config/ live one level up precisely so they are not reachable.
+# Nginx ignores this file; port the deny rules if you deploy there.
+#
+# WordPress may rewrite the block between "BEGIN WordPress" and "END WordPress"
+# when permalinks are saved. Keep custom rules outside it.
+# -----------------------------------------------------------------------------
+
+Options -Indexes
+
+# --- Authorization header ----------------------------------------------------
+# Apache drops the Authorization header before PHP-FPM/CGI sees it, which
+# silently breaks Application Passwords (the MCP adapter, the REST API) and any
+# webhook that authenticates with it. These two rules restore it on every host
+# that allows .htaccess overrides.
+<IfModule mod_setenvif.c>
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+</IfModule>
+# If it still does not arrive, uncomment the next line. It needs Apache 2.4.13+
+# and AllowOverride AuthConfig; without those it is a 500 error, so it is off.
+# CGIPassAuth On
+
+# --- Files that must never be served -----------------------------------------
+<FilesMatch "(^\.|\.(log|sql|sql\.gz|bak|old|orig|swp|dist|neon|lock|sh)$|^(composer\.(json|lock)|package(-lock)?\.json|wp-config\.php|readme\.html|license\.txt|xmlrpc\.php)$)">
+    Require all denied
+</FilesMatch>
+
+# --- Security headers --------------------------------------------------------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(self)"
+    # Turn on once the site is fully on HTTPS (including subdomains if you add includeSubDomains):
+    # Header always set Strict-Transport-Security "max-age=31536000"
+
+    # Vite fingerprints build assets (app-3f2a1c.js), so they can be cached forever.
+    <IfModule mod_setenvif.c>
+        SetEnvIf Request_URI "^/app/themes/[^/]+/public/build/assets/" ALMA_IMMUTABLE_ASSET
+        Header set Cache-Control "public, max-age=31536000, immutable" env=ALMA_IMMUTABLE_ASSET
+    </IfModule>
+</IfModule>
+
+# --- Compression and browser caching -----------------------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript application/json image/svg+xml application/xhtml+xml font/ttf font/otf
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/avif "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Restore the Authorization header on hosts without mod_setenvif.
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # HTTPS: the theme already redirects page requests (App\Domains\Seo\Routing\HttpsRedirect).
+    # Doing it here is cheaper; uncomment when the host terminates TLS itself, or sets
+    # X-Forwarded-Proto behind a proxy.
+    # RewriteCond %{HTTPS} !=on
+    # RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Defence in depth for paths web/app/.htaccess also covers.
+    RewriteRule ^app/uploads/.*\.(php[0-9]?|phtml|phar|pl|py|cgi)$ - [F,L,NC]
+    RewriteRule ^app/cache/ - [F,L]
+</IfModule>
+
+# BEGIN WordPress
+# The directives (lines) between "BEGIN WordPress" and "END WordPress" are
+# dynamically generated, and should only be modified via WordPress filters.
+# Any changes to the directives between these markers will be overwritten.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+# END WordPress

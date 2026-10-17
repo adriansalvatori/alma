@@ -1,0 +1,27 @@
+# -----------------------------------------------------------------------------
+# The theme directory is inside the web root, but almost nothing in it is public.
+#
+# Only built assets (public/) and the files WordPress shows in Appearance → Themes
+# are served. vendor/ and tests/ are PHP, resources/views holds Blade templates
+# (also PHP), and composer.*, phpstan*, phpunit.xml and docs/ describe the stack
+# to anyone who asks. Everything else gets a 403.
+# -----------------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(public/|style\.css$|screenshot\.(png|jpe?g|webp)$) - [L]
+    RewriteRule ^ - [F]
+</IfModule>
+
+# Always, whatever else is loaded: the files that describe the stack. composer.json ships to
+# the server because Acorn reads it at runtime, so it must be denied here explicitly.
+<FilesMatch "^(composer\.(json|lock)|package(-lock)?\.json|phpunit\.xml|phpstan.*|pint\.json|vite\.config\.js|\.env.*)$">
+    Require all denied
+</FilesMatch>
+
+# Without mod_rewrite, at least never serve source and configuration.
+<IfModule !mod_rewrite.c>
+    <FilesMatch "\.(php|json|lock|neon|xml|dist|md|sh|ts|tsx|jsx|mjs|cjs|yml|yaml|env|sql|log)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>

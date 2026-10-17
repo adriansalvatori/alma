@@ -1,0 +1,25 @@
+# -----------------------------------------------------------------------------
+# web/app (Bedrock's content directory).
+#
+# A RewriteEngine in this file replaces the rewrite rules of web/.htaccess for
+# everything under /app, so the rules that matter here are repeated.
+# -----------------------------------------------------------------------------
+
+# Logs written by WordPress (debug.log) or anything else.
+<FilesMatch "\.(log|sql|sql\.gz|bak|old|swp)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Acorn's storage: compiled Blade views (PHP), sessions, and logs that can contain
+    # personal data. Nothing in it is meant for the web.
+    RewriteRule ^cache/ - [F,L]
+
+    # Uploads are data, never code.
+    RewriteRule ^uploads/.*\.(php[0-9]?|phtml|phar|pl|py|cgi)$ - [F,L,NC]
+
+    # Composer dependencies bundled inside plugins and themes are libraries, not entry points.
+    RewriteRule ^(plugins|mu-plugins|themes)/[^/]+/vendor/.*\.php$ - [F,L,NC]
+</IfModule>
