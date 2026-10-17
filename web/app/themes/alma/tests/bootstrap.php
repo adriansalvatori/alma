@@ -45,6 +45,14 @@ define('YEAR_IN_SECONDS', 31536000);
 require __DIR__.'/Support/WordPress/classes.php';
 require __DIR__.'/Support/WordPress/functions.php';
 
+// Module-specific fakes (tests/Support/WordPress/<module>.php). Guard each function with
+// function_exists(): a function defined twice is a fatal error for the whole suite.
+foreach (glob(__DIR__.'/Support/WordPress/*.php') as $fakes) {
+    if (! in_array(basename($fakes), ['classes.php', 'functions.php', 'WordPress.php'], true)) {
+        require $fakes;
+    }
+}
+
 $GLOBALS['wpdb'] = new wpdb;
 
 require dirname(__DIR__).'/vendor/autoload.php';

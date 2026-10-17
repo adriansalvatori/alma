@@ -5,6 +5,7 @@ namespace App\Infrastructure\Providers;
 use App\Infrastructure\Deploy\DeployTask;
 use App\Infrastructure\Queue\Deferred;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -22,6 +23,8 @@ use Illuminate\Support\ServiceProvider;
  * - $commands: wp acorn commands, registered only in the console.
  * - $deployTasks: steps contributed to `wp acorn alma:deploy`.
  * - $migrations: a migrations directory, picked up by `wp acorn migrate`.
+ * - $webRoutes / $apiRoutes: route files loaded with the "web" group, or the "api" group under
+ *   the /api prefix. Keep a module's routes in the module, not in the theme's routes/ files.
  *
  * A listener is a class name (its handle() method is called) or [class, method].
  */
@@ -43,6 +46,10 @@ abstract class ModuleServiceProvider extends ServiceProvider
     protected array $deployTasks = [];
 
     protected ?string $migrations = null;
+
+    protected ?string $webRoutes = null;
+
+    protected ?string $apiRoutes = null;
 
     /**
      * Whether the module's prerequisites are present. Checked before the provider is registered,
@@ -70,6 +77,8 @@ abstract class ModuleServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom($this->migrations);
         }
 
+        $this->loadModuleRoutes();
+
         foreach ($this->listen as $event => $listeners) {
             foreach ($listeners as $listener) {
                 Event::listen($event, $this->callable($listener));
@@ -86,6 +95,21 @@ abstract class ModuleServiceProvider extends ServiceProvider
 
         foreach ($this->hooks as $hook) {
             $this->app->make($hook)->register();
+        }
+    }
+
+    protected function loadModuleRoutes(): void
+    {
+        if (($this->webRoutes === null && $this->apiRoutes === null) || $this->app->routesAreCached()) {
+            return;
+        }
+
+        if ($this->webRoutes !== null) {
+            Route::middleware('web')->group($this->webRoutes);
+        }
+
+        if ($this->apiRoutes !== null) {
+            Route::middleware('api')->prefix('api')->group($this->apiRoutes);
         }
     }
 
