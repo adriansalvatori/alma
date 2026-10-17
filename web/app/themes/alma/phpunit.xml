@@ -16,7 +16,12 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <source>
+    <!--
+        Warnings, notices and deprecations count (failOnWarning) only when they come from our own
+        code. Livewire's compiler @unlink()s compiled views that may not exist yet, and PHPUnit
+        reports suppressed issues from vendor too; that is not ours to fail on.
+    -->
+    <source restrictWarnings="true" restrictNotices="true" restrictDeprecations="true">
         <include>
             <directory suffix=".php">./app</directory>
         </include>
@@ -51,6 +56,19 @@
         <env name="SENTRY_LARAVEL_DSN" value="" force="true"/>
         <server name="ACF_PRO_KEY" value=""/>
         <env name="ACF_PRO_KEY" value="" force="true"/>
+        <!-- Leads -->
+        <server name="LEAD_NOTIFICATION_RECIPIENTS" value=""/>
+        <env name="LEAD_NOTIFICATION_RECIPIENTS" value="" force="true"/>
+        <server name="LEAD_WEBHOOK_URL" value=""/>
+        <env name="LEAD_WEBHOOK_URL" value="" force="true"/>
+        <server name="LEAD_WEBHOOK_SECRET" value=""/>
+        <env name="LEAD_WEBHOOK_SECRET" value="" force="true"/>
+        <server name="LEAD_RETENTION_DAYS" value=""/>
+        <env name="LEAD_RETENTION_DAYS" value="" force="true"/>
+        <server name="LEAD_STORE_SPAM" value=""/>
+        <env name="LEAD_STORE_SPAM" value="" force="true"/>
+        <server name="LEAD_BLOCKLIST" value=""/>
+        <env name="LEAD_BLOCKLIST" value="" force="true"/>
         <!-- Payment -->
         <server name="PAYMENTS_ENABLED" value="false"/>
         <env name="PAYMENTS_ENABLED" value="false" force="true"/>
