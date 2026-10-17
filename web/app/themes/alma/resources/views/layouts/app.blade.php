@@ -1,43 +1,59 @@
+{{-- Base layout: every front-end page. The <head> order is deliberate (docs/design-system.md, "Performance"). --}}
 <!doctype html>
 <html @php(language_attributes())>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia(
-                '(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
-    @php(do_action('get_header'))
-    @php(wp_head())
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {{-- Sets the dark class before first paint, so a dark-mode visitor never sees a white flash. --}}
+  @fluxAppearance
+
+  {{-- 1. The render-blocking stylesheet, as early as possible. --}}
+  @vite(['resources/css/app.css'])
+
+  {{-- 2. The LCP image slot. A view that knows its largest image pushes one preload here:
+       @push('preload') <link rel="preload" as="image" href="..." fetchpriority="high"> @endpush
+       One URL, no media-query pairs: the preload scanner evaluates media against its default viewport. --}}
+  @stack('preload')
+
+  {{-- 3. Self-hosted fonts used above the fold on every page (config/content.php). --}}
+  @include('partials.font-preloads')
+
+  @livewireStyles
+
+  @php(do_action('get_header'))
+  @php(wp_head())
 </head>
 
 <body @php(body_class())>
-    @php(wp_body_open())
+  @php(wp_body_open())
 
-    <div id="app">
-        @include('sections.header')
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-zinc-900">
+    {{ __('Skip to content', 'alma') }}
+  </a>
 
-        <main id="main"
-            class="main wp-block-group alignfull min-h-screen @if (!is_front_page()) px-4 sm:px-6 lg:px-8 py-12 @endif">
-            @yield('content')
-        </main>
+  <div id="app">
+    @include('sections.header')
 
-        @hasSection('sidebar')
-            <aside class="sidebar">
-                @yield('sidebar')
-            </aside>
-        @endif
+    <main id="main" class="main min-h-[60vh]">
+      @yield('content')
+    </main>
 
-        @include('sections.footer')
-    </div>
+    @hasSection('sidebar')
+      <aside class="sidebar container-page">
+        @yield('sidebar')
+      </aside>
+    @endif
 
-    @php(do_action('get_footer'))
-    @php(wp_footer())
+    @include('sections.footer')
+  </div>
+
+  @php(do_action('get_footer'))
+
+  @livewireScripts
+  @fluxScripts
+  @vite(['resources/js/app.js'])
+
+  @php(wp_footer())
 </body>
-
 </html>

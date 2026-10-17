@@ -1,34 +1,30 @@
-@import "tailwindcss" theme(static);
-@import '../../vendor/livewire/flux/dist/flux.css';
-@source "../views/";
-@source "../../app/";
-@custom-variant dark (&:where(.dark, .dark *));
+/*
+ * The front-end styles, inside the block editor's canvas, so blocks preview as they render.
+ */
+@import "./app.css";
 
-@theme {
-    
-}
-
-/* Force Native Gutenberg Fonts */
 .editor-styles-wrapper {
-    @apply font-sans antialiased text-zinc-900;
+  @apply bg-white font-sans text-zinc-900 antialiased;
 }
 
-/* Force Native Gutenberg Buttons to look like Flux Buttons */
-.wp-block-button__link {
-    @apply inline-flex items-center justify-center font-medium gap-2 whitespace-nowrap overflow-hidden text-base! md:text-sm! transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] duration-200 outline-none outline-offset-2 ring-1 rounded-lg shrink-0 h-10 px-4 ring-zinc-800/50 bg-zinc-800 text-white hover:bg-zinc-800/90 dark:bg-white dark:text-zinc-800;
+/* Section blocks are full-bleed; give the canvas the page's real width to preview them at. */
+.editor-styles-wrapper .is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  max-width: var(--container-content);
 }
 
-.wp-block-button.is-style-outline .wp-block-button__link {
-    @apply bg-white! text-zinc-800! hover:bg-zinc-50! ring-zinc-800/20! shadow-sm!;
+.editor-styles-wrapper .is-root-container > .alignwide {
+  max-width: var(--container-page);
 }
 
-.wp-block-button.is-style-ghost .wp-block-button__link {
-    @apply bg-transparent! text-zinc-800! hover:bg-zinc-800/5! ring-transparent! shadow-none!;
+/* Core buttons look like Flux buttons in the editor (on the page they are rendered by Flux). */
+.editor-styles-wrapper .wp-block-button__link {
+  @apply inline-flex h-10 items-center justify-center rounded-lg bg-zinc-800 px-4 text-sm font-medium text-white;
 }
 
-/* Expand default Gutenberg container width for a true desktop preview */
-.block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
-    max-width: 1280px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+.editor-styles-wrapper .wp-block-button.is-style-outline .wp-block-button__link {
+  @apply bg-white text-zinc-800 shadow-sm ring-1 ring-zinc-800/20;
+}
+
+.editor-styles-wrapper .wp-block-button.is-style-ghost .wp-block-button__link {
+  @apply bg-transparent text-zinc-800 shadow-none;
 }

@@ -1,0 +1,12 @@
+{{-- DummyTitle: describe in one line what this block renders (the block inventory reads this). --}}
+<section {{ $attributes->class(['py-section']) }}>
+  <div class="container-page">
+    @include('partials.section-heading', ['heading' => $heading, 'intro' => $intro])
+
+    <ul class="grid gap-6 md:grid-cols-2">
+      @foreach ($items as $item)
+        <li class="rounded-2xl border border-zinc-200 p-6 dark:border-zinc-800">{{ $item['title'] }}</li>
+      @endforeach
+    </ul>
+  </div>
+</section>

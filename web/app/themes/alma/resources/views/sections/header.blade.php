@@ -1,150 +1,97 @@
-<header class="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-            <!-- Brand -->
-            <div class="shrink-0 flex items-center">
-                <a href="{{ home_url('/') }}" @if (env('WIRE_NAVIGATE')) wire:navigate @endif
-                    class="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
-                    <flux:icon.rocket-launch class="w-6 h-6 text-indigo-500" />
-                    <span>{!! $siteName !!}</span>
-                </a>
-            </div>
+{{-- Site header: brand, primary menu, commerce actions (when the Commerce module is on) and account links (when the Account module is on). --}}
+@php
+  $menu = [];
 
-            <!-- Primary Navigation (Desktop) -->
-            <nav class="hidden md:flex flex-1 justify-center space-x-8">
-                @if (has_nav_menu('primary_navigation'))
-                    @php
-                        $locations = get_nav_menu_locations();
-                        $menu_id = $locations['primary_navigation'] ?? null;
-                        $menu_items = $menu_id ? wp_get_nav_menu_items($menu_id) : [];
-                    @endphp
-                    @if ($menu_items)
-                        @foreach ($menu_items as $item)
-                            @if ($item->menu_item_parent == 0)
-                                <a href="{{ $item->url }}" @if (env('WIRE_NAVIGATE')) wire:navigate @endif
-                                    class="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
-                                    {{ $item->title }}
-                                </a>
-                            @endif
-                        @endforeach
-                    @endif
-                @endif
-            </nav>
+  if (has_nav_menu('primary_navigation')) {
+    $locations = get_nav_menu_locations();
+    $menu = array_values(array_filter(
+      wp_get_nav_menu_items($locations['primary_navigation'] ?? 0) ?: [],
+      fn ($item) => (int) $item->menu_item_parent === 0,
+    ));
+  }
 
-            <!-- Actions (Desktop) -->
-            <div class="hidden md:flex items-center gap-3">
-                <!-- Dark Mode Toggle -->
-                <flux:button variant="subtle" aria-label="Toggle dark mode" x-data
-                    x-on:click="$flux.dark = ! $flux.dark" class="px-2!">
-                    <flux:icon.moon class="w-5 h-5 dark:hidden" />
-                    <flux:icon.sun class="w-5 h-5 hidden dark:block" />
-                </flux:button>
+  $commerce = app()->providerIsLoaded(\App\Domains\Commerce\CommerceServiceProvider::class);
+  $account = \Illuminate\Support\Facades\Route::has('login');
+  $canRegister = \Illuminate\Support\Facades\Route::has('register') && get_option('users_can_register');
+  $user = is_user_logged_in() ? wp_get_current_user() : null;
+  $navigate = \App\Support\Navigate::attributes();
+@endphp
 
-                <div class="w-px h-6 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
+<header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80" x-data="{ open: false }">
+  <div class="container-page flex h-16 items-center justify-between gap-6">
+    <a href="{{ home_url('/') }}" @navigate class="flex items-center gap-2 text-xl font-bold text-zinc-900 dark:text-white">
+      <flux:icon.rocket-launch class="h-6 w-6 text-brand-500" />
+      <span>{!! $siteName !!}</span>
+    </a>
 
-                @if (class_exists('WooCommerce'))
-                    <livewire:commerce-search />
-                    <livewire:commerce-favorites />
-                    <livewire:commerce-cart />
+    <nav class="hidden flex-1 justify-center gap-8 md:flex" aria-label="{{ __('Primary', 'alma') }}">
+      @foreach ($menu as $item)
+        <a href="{{ $item->url }}" @navigate class="text-sm font-medium text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white">{{ $item->title }}</a>
+      @endforeach
+    </nav>
 
-                    <div class="w-px h-6 bg-zinc-200 dark:bg-zinc-700 mx-1"></div>
-                @endif
+    <div class="hidden items-center gap-3 md:flex">
+      <flux:button variant="subtle" class="px-2!" x-on:click="$flux.dark = ! $flux.dark" aria-label="{{ __('Toggle dark mode', 'alma') }}">
+        <flux:icon.moon class="h-5 w-5 dark:hidden" />
+        <flux:icon.sun class="hidden h-5 w-5 dark:block" />
+      </flux:button>
 
-                @if (is_user_logged_in())
-                    @php $current_user = wp_get_current_user(); @endphp
-                    <flux:dropdown>
-                        <flux:button variant="ghost" icon-trailing="chevron-down">
-                            {{ $current_user->display_name }}
-                        </flux:button>
-                        <flux:menu>
-                            <flux:menu.item icon="user" href="/profile" :wire:navigate="env('WIRE_NAVIGATE')">Profile
-                            </flux:menu.item>
-                            <flux:menu.item icon="cog-8-tooth" href="/settings" :wire:navigate="env('WIRE_NAVIGATE')">
-                                Settings</flux:menu.item>
-                            <flux:menu.item icon="heart" href="/wishlist" :wire:navigate="env('WIRE_NAVIGATE')">
-                                Wishlist</flux:menu.item>
-                            <flux:menu.separator />
-                            <flux:menu.item icon="arrow-right-start-on-rectangle" href="/logout"
-                                :wire:navigate="env('WIRE_NAVIGATE')">Log out
-                            </flux:menu.item>
-                        </flux:menu>
-                    </flux:dropdown>
-                @else
-                    <flux:button variant="ghost" href="/login" :wire:navigate="env('WIRE_NAVIGATE')">
-                        Log in
-                    </flux:button>
-                    <flux:button variant="primary" href="/register" :wire:navigate="env('WIRE_NAVIGATE')">Sign up
-                    </flux:button>
-                @endif
-            </div>
+      @if ($commerce)
+        <livewire:commerce.search />
+        <livewire:commerce.favorites />
+        <livewire:commerce.cart />
+      @endif
 
-            <!-- Mobile Menu Toggle -->
-            <div class="flex md:hidden items-center gap-2">
-                <!-- Mobile Dark Mode Toggle -->
-                <flux:button variant="subtle" aria-label="Toggle dark mode" x-data
-                    x-on:click="$flux.dark = ! $flux.dark" class="px-2!">
-                    <flux:icon.moon class="w-5 h-5 dark:hidden" />
-                    <flux:icon.sun class="w-5 h-5 hidden dark:block" />
-                </flux:button>
-
-                <div x-data="{ mobileMenuOpen: false }">
-                    <flux:button variant="ghost" icon="bars-3" @click="mobileMenuOpen = !mobileMenuOpen"
-                        aria-label="Toggle menu" />
-
-                    <!-- Simplified Mobile Menu (Alpine) -->
-                    <div x-show="mobileMenuOpen" x-cloak
-                        class="absolute top-16 left-0 right-0 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 p-4 shadow-lg text-left">
-                        <div class="flex flex-col space-y-4">
-                            @if (has_nav_menu('primary_navigation'))
-                                @if (isset($menu_items) && $menu_items)
-                                    @foreach ($menu_items as $item)
-                                        @if ($item->menu_item_parent == 0)
-                                            <a href="{{ $item->url }}"
-                                                @if (env('WIRE_NAVIGATE')) wire:navigate @endif
-                                                class="text-base font-medium text-zinc-900 dark:text-white">
-                                                {{ $item->title }}
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                @endif
-                            @endif
-                            <hr class="border-zinc-100 dark:border-zinc-800" />
-                            @if (is_user_logged_in())
-                                @php $current_user = wp_get_current_user(); @endphp
-                                <div class="px-2 pb-2">
-                                    <div class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-2">Signed in as
-                                        <span
-                                            class="text-zinc-900 dark:text-white">{{ $current_user->display_name }}</span>
-                                    </div>
-                                    <div class="flex flex-col space-y-2">
-                                        <a href="/profile"
-                                            class="text-base font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-                                            <flux:icon.user class="w-5 h-5 text-zinc-400" />Profile
-                                        </a>
-                                        <a href="/settings"
-                                            class="text-base font-medium text-zinc-900 dark:text-white flex items-center gap-2"><flux:icon.cog-8-tooth
-                                                class="w-5 h-5 text-zinc-400" />Settings</a>
-                                        <a href="/wishlist"
-                                            class="text-base font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-                                            <flux:icon.heart class="w-5 h-5 text-zinc-400" />Wishlist
-                                        </a>
-                                        <a href="/logout"
-                                            class="text-base font-medium text-red-600 dark:text-red-400 flex items-center gap-2 mt-2"><flux:icon.arrow-right-start-on-rectangle
-                                                class="w-5 h-5 text-red-400" />Log out</a>
-                                    </div>
-                                </div>
-                            @else
-                                <div class="grid grid-cols-2 gap-4">
-                                    <flux:button variant="outline" href="/login" :wire:navigate="env('WIRE_NAVIGATE')">
-                                        Log in</flux:button>
-                                    <flux:button variant="primary" href="/register"
-                                        :wire:navigate="env('WIRE_NAVIGATE')">Sign up</flux:button>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      @if ($account)
+        @if ($user)
+          <flux:dropdown>
+            <flux:button variant="ghost" icon-trailing="chevron-down">{{ $user->display_name }}</flux:button>
+            <flux:menu>
+              <flux:menu.item icon="squares-2x2" :href="route('dashboard')" :attributes="$navigate">{{ __('Dashboard', 'alma') }}</flux:menu.item>
+              <flux:menu.item icon="cog-8-tooth" :href="route('settings')" :attributes="$navigate">{{ __('Settings', 'alma') }}</flux:menu.item>
+              <flux:menu.separator />
+              <flux:menu.item icon="arrow-right-start-on-rectangle" :href="wp_logout_url(home_url('/'))">{{ __('Log out', 'alma') }}</flux:menu.item>
+            </flux:menu>
+          </flux:dropdown>
+        @else
+          <flux:button variant="ghost" :href="route('login')" :attributes="$navigate">{{ __('Log in', 'alma') }}</flux:button>
+          @if ($canRegister)
+            <flux:button variant="primary" :href="route('register')" :attributes="$navigate">{{ __('Sign up', 'alma') }}</flux:button>
+          @endif
+        @endif
+      @endif
     </div>
+
+    <div class="flex items-center gap-2 md:hidden">
+      <flux:button variant="subtle" class="px-2!" x-on:click="$flux.dark = ! $flux.dark" aria-label="{{ __('Toggle dark mode', 'alma') }}">
+        <flux:icon.moon class="h-5 w-5 dark:hidden" />
+        <flux:icon.sun class="hidden h-5 w-5 dark:block" />
+      </flux:button>
+      <flux:button variant="ghost" icon="bars-3" x-on:click="open = ! open" aria-label="{{ __('Toggle menu', 'alma') }}" />
+    </div>
+  </div>
+
+  <div x-show="open" x-cloak class="border-t border-zinc-200 bg-white p-4 shadow-lg md:hidden dark:border-zinc-800 dark:bg-zinc-900">
+    <nav class="flex flex-col gap-4" aria-label="{{ __('Mobile', 'alma') }}">
+      @foreach ($menu as $item)
+        <a href="{{ $item->url }}" @navigate class="text-base font-medium text-zinc-900 dark:text-white">{{ $item->title }}</a>
+      @endforeach
+
+      @if ($account)
+        <hr class="border-zinc-100 dark:border-zinc-800">
+        @if ($user)
+          <a href="{{ route('dashboard') }}" @navigate class="text-base font-medium text-zinc-900 dark:text-white">{{ __('Dashboard', 'alma') }}</a>
+          <a href="{{ route('settings') }}" @navigate class="text-base font-medium text-zinc-900 dark:text-white">{{ __('Settings', 'alma') }}</a>
+          <a href="{{ wp_logout_url(home_url('/')) }}" class="text-base font-medium text-red-600 dark:text-red-400">{{ __('Log out', 'alma') }}</a>
+        @else
+          <div class="grid grid-cols-2 gap-4">
+            <flux:button variant="outline" :href="route('login')" :attributes="$navigate">{{ __('Log in', 'alma') }}</flux:button>
+            @if ($canRegister)
+              <flux:button variant="primary" :href="route('register')" :attributes="$navigate">{{ __('Sign up', 'alma') }}</flux:button>
+            @endif
+          </div>
+        @endif
+      @endif
+    </nav>
+  </div>
 </header>

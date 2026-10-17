@@ -1,24 +1,17 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
-import laravel from 'laravel-vite-plugin'
-import { wordpressPlugin, wordpressThemeJson } from '@roots/vite-plugin';
-import react from '@vitejs/plugin-react';
+import laravel from 'laravel-vite-plugin';
+import { wordpressPlugin } from '@roots/vite-plugin';
+import themeImages from './vite/theme-images.js';
 
-// Set APP_URL if it doesn't exist for Laravel Vite plugin
+// laravel-vite-plugin wants an APP_URL; the dev server only uses it for its own links.
 if (! process.env.APP_URL) {
   process.env.APP_URL = 'http://example.test';
 }
 
-import bladeBlocksPlugin from './vite-plugin-blade-blocks.js';
-
 export default defineConfig({
-  esbuild: {
-    jsxFactory: 'window.wp.element.createElement',
-    jsxFragment: 'window.wp.element.Fragment',
-  },
   base: '/app/themes/alma/public/build/',
   plugins: [
-    bladeBlocksPlugin(),
     tailwindcss(),
     laravel({
       input: [
@@ -30,20 +23,17 @@ export default defineConfig({
       refresh: true,
     }),
 
-    react({
-      jsxRuntime: 'classic',
-    }),
-
+    // Maps @wordpress/* imports to the wp.* globals and writes editor.deps.json, which
+    // app/setup.php enqueues before the editor script.
     wordpressPlugin(),
 
-    // Generate the theme.json file in the public/build/assets directory
-    // based on the Tailwind config and the theme.json file from base theme folder
-    wordpressThemeJson({
-      disableTailwindColors: false,
-      disableTailwindFonts: false,
-      disableTailwindFontSizes: false,
-    }),
+    // resources/images/pages/** → public/images/** with filenames kept and .webp siblings.
+    themeImages(),
   ],
+  build: {
+    // Dynamic imports are fetched when used, not preloaded on every page.
+    modulePreload: false,
+  },
   resolve: {
     alias: {
       '@scripts': '/resources/js',
@@ -52,4 +42,4 @@ export default defineConfig({
       '@images': '/resources/images',
     },
   },
-})
+});

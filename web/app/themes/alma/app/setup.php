@@ -1,175 +1,75 @@
 <?php
 
 /**
- * Theme setup.
+ * Theme setup: supports, menus, sidebars and editor assets.
+ *
+ * Plain WordPress configuration only. Anything with behaviour lives in a class registered by a
+ * module provider (front-end assets are printed by layouts/app.blade.php in a deliberate order).
  */
 
 namespace App;
 
-use App\Domains\Account\Services\RoleService;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
 
 /**
- * Inject styles into the block editor.
- *
- * @return array
+ * Load the theme's styles inside the block editor, so blocks look as they will on the page.
  */
 add_filter('block_editor_settings_all', function ($settings) {
     try {
-        $editorCssUrl = Vite::asset('resources/css/editor.css');
-
-        $settings['styles'][] = [
-            'css' => "@import url('{$editorCssUrl}'); .editor-styles-wrapper { background: transparent; }",
-        ];
-    } catch (\Throwable $e) {
-        // Build asset not found yet
+        $style = Vite::asset('resources/css/editor.css');
+    } catch (\Throwable) {
+        // No build yet (fresh clone before `npm run build`): the editor still works, unstyled.
+        return $settings;
     }
+
+    $settings['styles'][] = [
+        'css' => "@import url('{$style}');",
+    ];
 
     return $settings;
 });
 
 /**
- * Inject scripts into the block editor.
- *
- * @return void
+ * Load the editor script, with the wp.* packages it imports (Vite writes them to
+ * editor.deps.json; @roots/vite-plugin maps @wordpress/* imports to the globals).
  */
 add_action('admin_head', function () {
     if (! get_current_screen()?->is_block_editor()) {
         return;
     }
 
-    if (! Vite::isRunningHot()) {
-        $dependencies = json_decode(Vite::content('editor.deps.json'));
-
-        foreach ($dependencies as $dependency) {
-            if (! wp_script_is($dependency)) {
-                wp_enqueue_script($dependency);
+    try {
+        if (! Vite::isRunningHot()) {
+            foreach (json_decode(Vite::content('editor.deps.json'), true) ?: [] as $dependency) {
+                if (! wp_script_is($dependency)) {
+                    wp_enqueue_script($dependency);
+                }
             }
         }
+
+        echo Vite::withEntryPoints(['resources/js/editor.js'])->toHtml();
+    } catch (\Throwable) {
+        // No build yet.
     }
-    echo Vite::withEntryPoints([
-        'resources/js/editor.js',
-    ])->toHtml();
 });
 
 /**
- * Use the generated theme.json file.
- *
- * @return string
- */
-add_filter('theme_file_path', function ($path, $file) {
-    return $file === 'theme.json'
-        ? public_path('build/assets/theme.json')
-        : $path;
-}, 10, 2);
-
-/**
- * Disable on-demand block asset loading.
- *
- * @link https://core.trac.wordpress.org/ticket/61965
- */
-add_filter('should_load_separate_core_block_assets', '__return_false');
-
-/**
- * Dequeue native WordPress block styles to prevent conflicts with Tailwind/Flux.
- */
-$dequeue_block_styles = function () {
-    wp_dequeue_style('wp-block-library');
-    wp_dequeue_style('wp-block-library-theme');
-    wp_dequeue_style('wc-blocks-style');
-    wp_dequeue_style('global-styles'); // Added by theme.json
-};
-add_action('wp_enqueue_scripts', $dequeue_block_styles, 100);
-add_action('admin_enqueue_scripts', $dequeue_block_styles, 100);
-
-/**
- * Register custom block category.
- */
-add_filter('block_categories_all', function ($categories) {
-    return array_merge(
-        $categories,
-        [
-            [
-                'slug' => 'alma',
-                'title' => __('Alma Blocks', 'alma'),
-                'icon' => 'admin-site',
-            ],
-        ],
-    );
-});
-
-/**
- * Register the initial theme setup.
- *
- * @return void
+ * Theme supports, menus and editor defaults.
  */
 add_action('after_setup_theme', function () {
-    /**
-     * Enable hybrid full-site editing support.
-     */
-    add_theme_support('block-templates');
-
-    /**
-     * Define default block templates for new posts and pages.
-     */
-    $page_type = get_post_type_object('page');
-    if ($page_type) {
-        $page_type->template = [
-            ['alma/hero', ['title' => 'New Page']],
-            ['core/paragraph', ['placeholder' => 'Add your content here...']],
-        ];
-    }
-
-    $post_type = get_post_type_object('post');
-    if ($post_type) {
-        $post_type->template = [
-            ['core/paragraph', ['placeholder' => 'Start writing...']],
-        ];
-    }
-
-    /**
-     * Register the navigation menus.
-     *
-     * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
-     */
     register_nav_menus([
         'primary_navigation' => __('Primary Navigation', 'alma'),
+        'footer_navigation' => __('Footer Navigation', 'alma'),
     ]);
 
-    /**
-     * Disable the default block patterns.
-     *
-     * @link https://developer.wordpress.org/block-editor/developers/themes/theme-support/#disabling-the-default-block-patterns
-     */
+    // Core's own patterns would sit next to the theme's in the inserter and invite layouts the
+    // design system does not cover.
     remove_theme_support('core-block-patterns');
 
-    /**
-     * Enable plugins to manage the document title.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
-     */
     add_theme_support('title-tag');
-
-    /**
-     * Enable post thumbnail support.
-     *
-     * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-     */
     add_theme_support('post-thumbnails');
-
-    /**
-     * Enable responsive embed support.
-     *
-     * @link https://developer.wordpress.org/block-editor/how-to-guides/themes/theme-support/#responsive-embedded-content
-     */
     add_theme_support('responsive-embeds');
-
-    /**
-     * Enable HTML5 markup support.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#html5
-     */
+    add_theme_support('editor-styles');
     add_theme_support('html5', [
         'caption',
         'comment-form',
@@ -179,46 +79,10 @@ add_action('after_setup_theme', function () {
         'script',
         'style',
     ]);
-
-    /**
-     * Enable selective refresh for widgets in customizer.
-     *
-     * @link https://developer.wordpress.org/reference/functions/add_theme_support/#customize-selective-refresh-widgets
-     */
-    add_theme_support('customize-selective-refresh-widgets');
-
-    /**
-     * Enable WooCommerce support.
-     */
-    add_theme_support('woocommerce');
 }, 20);
 
 /**
- * Disable WooCommerce Block Templates.
- * This forces WooCommerce to use standard PHP/Blade template hierarchy.
- */
-add_filter('woocommerce_has_block_template', '__return_false');
-
-/**
- * Completely bypass FSE block templates on WooCommerce routes.
- * This fixes the "Template part has been deleted or is unavailable: header" error on Category pages.
- */
-add_action('wp', function () {
-    if (class_exists('WooCommerce') && (is_woocommerce() || is_cart() || is_checkout() || is_account_page())) {
-        remove_theme_support('block-templates');
-    }
-}, 10);
-
-/**
- * Dequeue WooCommerce default CSS.
- * We are styling the shop from scratch with Tailwind.
- */
-add_filter('woocommerce_enqueue_styles', '__return_empty_array');
-
-/**
- * Register the theme sidebars.
- *
- * @return void
+ * Widget areas.
  */
 add_action('widgets_init', function () {
     $config = [
@@ -237,151 +101,4 @@ add_action('widgets_init', function () {
         'name' => __('Footer', 'alma'),
         'id' => 'sidebar-footer',
     ] + $config);
-});
-
-/**
- * Handle initial theme setup upon activation.
- */
-add_action('after_switch_theme', function () {
-    // 1. Create Default Roles
-    $roleService = app(RoleService::class);
-    $roleService->createRole('alma_admin', 'Alma Admin', [
-        'read' => true,
-        'edit_posts' => true,
-        'upload_files' => true,
-    ]);
-
-    // Helper to create page if it doesn't exist
-    $createPage = function ($title, $slug) {
-        $page = get_page_by_path($slug);
-        if (! $page) {
-            return wp_insert_post([
-                'post_type' => 'page',
-                'post_title' => $title,
-                'post_name' => $slug,
-                'post_status' => 'publish',
-                'post_content' => "<!-- wp:alma/hero {\"title\":\"{$title}\"} /-->",
-            ]);
-        }
-
-        return $page->ID;
-    };
-
-    // 2. Create Home page
-    $homeId = $createPage('Home', 'home');
-
-    // 3. Set front page
-    if ($homeId) {
-        update_option('show_on_front', 'page');
-        update_option('page_on_front', $homeId);
-    }
-
-    // 4. Set permalinks to postname
-    update_option('permalink_structure', '/%postname%/');
-    flush_rewrite_rules();
-});
-
-/**
- * Enqueue frontend assets since FSE bypasses the standard Blade layout.
- */
-add_action('wp_head', function () {
-    echo Blade::render("@vite(['resources/css/app.css', 'resources/js/app.js'])\n@livewireStyles");
-    echo Blade::render('@fluxAppearance');
-}, 5);
-
-add_action('wp_footer', function () {
-    echo Blade::render('@livewireScripts');
-    echo Blade::render('@fluxScripts');
-}, 5);
-
-/**
- * Intercept Gutenberg Buttons container and format as a flex row with gap.
- */
-add_filter('render_block_core/buttons', function ($block_content, $block) {
-    if (is_admin()) {
-        return $block_content;
-    }
-
-    return '<div class="flex flex-wrap items-center gap-3">'.$block_content.'</div>';
-}, 10, 2);
-
-/**
- * Intercept Gutenberg Button block and convert to Flux component via Blade runtime.
- */
-add_filter('render_block_core/button', function ($block_content, $block) {
-    if (is_admin()) {
-        return $block_content;
-    }
-
-    $href = '';
-    $text = '';
-    $variant = 'primary'; // Default Flux UI variant
-
-    // Determine variant from Gutenberg styles (e.g. is-style-outline)
-    if (isset($block['attrs']['className'])) {
-        if (str_contains($block['attrs']['className'], 'is-style-outline')) {
-            $variant = 'outline';
-        } elseif (str_contains($block['attrs']['className'], 'is-style-ghost')) {
-            $variant = 'ghost';
-        }
-    }
-
-    // Extract href and text from the raw block inner HTML using regex
-    if (preg_match('/href="([^"]+)"/', $block['innerHTML'], $hrefMatches)) {
-        $href = $hrefMatches[1];
-    }
-
-    if (preg_match('/<a[^>]*>(.*?)<\/a>/su', $block['innerHTML'], $textMatches)) {
-        $text = strip_tags($textMatches[1]);
-    } else {
-        // Fallback if no <a> tag
-        $text = strip_tags($block['innerHTML']);
-    }
-
-    // Editor content is data, never template source: compiling it as Blade would let anyone who
-    // can edit a post run PHP through "@php" in a button label.
-    return Blade::render(
-        '<flux:button :href="$href" :variant="$variant">{{ $text }}</flux:button>',
-        ['href' => html_entity_decode($href ?: '#'), 'variant' => $variant, 'text' => html_entity_decode($text)],
-    );
-}, 10, 2);
-
-/**
- * Filter to allow rendering blocks using Acorn's Blade integration
- * It checks the 'render' property (which translates to render_callback) for a .blade.php file.
- */
-add_filter('register_block_type_args', function (array $args, string $name): array {
-    if (empty($args['render_callback']) || ! ($args['render_callback'] instanceof \Closure)) {
-        return $args;
-    }
-    $reflector = new \ReflectionFunction($args['render_callback']);
-    $renderCallbackVariables = $reflector->getStaticVariables();
-    if (array_key_exists('template_path', $renderCallbackVariables) && str_ends_with($renderCallbackVariables['template_path'], '.blade.php')) {
-        $args['render_callback'] = function ($attributes, $content, $block) use ($renderCallbackVariables) {
-            return view()
-                ->file($renderCallbackVariables['template_path'], compact('attributes', 'content', 'block'))
-                ->render();
-        };
-    }
-
-    return $args;
-}, 1, 2);
-
-/**
- * Dynamically register all compiled native blocks.
- */
-add_action('init', function () {
-    // Look for our Vite plugin compiled block.jsons
-    $blocksDir = locate_template('resources/.blocks');
-    if (! $blocksDir) {
-        return;
-    }
-
-    // Use glob to find all block.json files in subdirectories
-    $blockJsonFiles = glob($blocksDir.'/*/block.json');
-    if ($blockJsonFiles) {
-        foreach ($blockJsonFiles as $jsonFile) {
-            register_block_type(dirname($jsonFile));
-        }
-    }
 });
