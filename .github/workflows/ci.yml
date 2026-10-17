@@ -1,0 +1,131 @@
+# Everything `composer check` and `npm run build` do locally, on every pull request.
+# Deploy workflows call this through workflow_call, so nothing ships that did not pass it.
+name: CI
+
+on:
+  pull_request:
+  workflow_call:
+    secrets:
+      ACF_PRO_KEY:
+        required: false
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# Explicit bash runs with -eo pipefail; the implicit default is plain bash -e.
+defaults:
+  run:
+    shell: bash
+
+env:
+  THEME: web/app/themes/alma
+
+jobs:
+  syntax:
+    name: PHP syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+
+      # Fails in seconds, before any install: a parse error in a pattern takes the whole site down.
+      - name: php -l
+        run: |
+          dirs="config"
+          for dir in app bootstrap config routes patterns resources/patterns; do
+            [ -d "$THEME/$dir" ] && dirs="$dirs $THEME/$dir"
+          done
+          find $dirs -name '*.php' -not -name '*.blade.php' -print0 \
+            | xargs -0 -n 50 -P 4 php -d display_errors=stderr -l > /dev/null
+
+  lint:
+    name: Pint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+        with:
+          acf-pro-key: ${{ secrets.ACF_PRO_KEY }}
+          acf-pro-site-url: ${{ vars.ACF_PRO_SITE_URL }}
+      - name: Pint (root)
+        run: vendor/bin/pint --test
+      - name: Pint (theme)
+        working-directory: ${{ env.THEME }}
+        run: vendor/bin/pint --test
+
+  analyse:
+    name: Larastan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+        with:
+          acf-pro-key: ${{ secrets.ACF_PRO_KEY }}
+          acf-pro-site-url: ${{ vars.ACF_PRO_SITE_URL }}
+      - name: phpstan analyse
+        working-directory: ${{ env.THEME }}
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+  build:
+    name: Vite build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+        with:
+          node: "true"
+          acf-pro-key: ${{ secrets.ACF_PRO_KEY }}
+          acf-pro-site-url: ${{ vars.ACF_PRO_SITE_URL }}
+
+      # Tailwind scans PHP and Blade, so the cache key covers templates, not just the assets.
+      - name: Cache Vite output
+        id: vite
+        uses: actions/cache@v5
+        with:
+          path: ${{ env.THEME }}/public/build
+          key: vite-${{ hashFiles('web/app/themes/alma/package-lock.json', 'web/app/themes/alma/vite.config.js', 'web/app/themes/alma/vite/**', 'web/app/themes/alma/theme.json', 'web/app/themes/alma/resources/**', 'web/app/themes/alma/app/**', 'web/app/themes/alma/patterns/**') }}
+
+      - name: npm run build
+        if: steps.vite.outputs.cache-hit != 'true'
+        run: npm run build --prefix "$THEME"
+
+      - name: Check the manifest exists
+        run: test -s "$THEME/public/build/manifest.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vite-build
+          path: ${{ env.THEME }}/public/build
+          if-no-files-found: error
+          retention-days: 1
+
+  test:
+    name: Pest
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+        with:
+          acf-pro-key: ${{ secrets.ACF_PRO_KEY }}
+          acf-pro-site-url: ${{ vars.ACF_PRO_SITE_URL }}
+
+      # Some tests read the built manifest; skipUnlessCi() turns a missing one into a failure.
+      - uses: actions/download-artifact@v4
+        with:
+          name: vite-build
+          path: ${{ env.THEME }}/public/build
+
+      - name: pest
+        working-directory: ${{ env.THEME }}
+        env:
+          CI: "true"
+        run: vendor/bin/pest

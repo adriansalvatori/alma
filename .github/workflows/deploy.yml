@@ -1,0 +1,143 @@
+# Ship to an SSH host after CI passes.
+#
+#   push to `staging`               → the "staging" GitHub Environment, APP_VERSION = short SHA
+#   tag v-YYYYMMDD-vN (e.g. v-20261017-v1) → the "production" Environment (add required
+#                                      reviewers to it in Settings → Environments)
+#
+# Each Environment holds its own secrets: SSH_PRIVATE_KEY, SSH_KNOWN_HOSTS, SSH_HOST, SSH_USER,
+# SSH_PORT (optional) and DEPLOY_PATH; and variables: SITE_URL (health check), WP_CLI (optional).
+# The build runs here; the server only receives files and runs bin/remote/activate.sh.
+# See web/app/themes/alma/docs/deployment.md.
+name: Deploy
+
+on:
+  push:
+    branches: [staging]
+    tags: ["v-*"]
+
+permissions:
+  contents: read
+
+# Explicit bash runs with -eo pipefail; the implicit default is plain bash -e.
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  # One deploy per environment at a time, and never cancel one halfway through.
+  group: deploy-${{ github.ref_type == 'tag' && 'production' || 'staging' }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Resolve target
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.target.outputs.environment }}
+      version: ${{ steps.target.outputs.version }}
+    steps:
+      - id: target
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          if [ "$REF_TYPE" = "tag" ]; then
+            if ! printf '%s' "$REF_NAME" | grep -Eq '^v-[0-9]{8}-v[0-9]+$'; then
+              echo "::error::Release tags must look like v-YYYYMMDD-vN (got $REF_NAME)."
+              exit 1
+            fi
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+            echo "version=$REF_NAME" >> "$GITHUB_OUTPUT"
+          else
+            echo "environment=staging" >> "$GITHUB_OUTPUT"
+            echo "version=${SHA::7}" >> "$GITHUB_OUTPUT"
+          fi
+
+  ci:
+    name: CI
+    needs: prepare
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+
+  deploy:
+    name: Deploy to ${{ needs.prepare.outputs.environment }}
+    needs: [prepare, ci]
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.prepare.outputs.environment }}
+      url: ${{ vars.SITE_URL }}
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+        with:
+          dev: "false"
+          node: "true"
+          cache-installed: "false"
+          acf-pro-key: ${{ secrets.ACF_PRO_KEY }}
+          acf-pro-site-url: ${{ vars.ACF_PRO_SITE_URL }}
+
+      - name: Build assets
+        run: npm run build --prefix web/app/themes/alma
+
+      - name: Install the SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$SSH_PRIVATE_KEY" ] || [ -z "$SSH_KNOWN_HOSTS" ]; then
+            echo "::error::SSH_PRIVATE_KEY and SSH_KNOWN_HOSTS must be set on the ${{ needs.prepare.outputs.environment }} environment."
+            exit 1
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$RUNNER_TEMP/deploy_key"
+          chmod 600 "$RUNNER_TEMP/deploy_key"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Upload and activate
+        env:
+          DEPLOY_SSH_HOST: ${{ secrets.SSH_HOST }}
+          DEPLOY_SSH_USER: ${{ secrets.SSH_USER }}
+          DEPLOY_SSH_PORT: ${{ secrets.SSH_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_URL: ${{ vars.SITE_URL }}
+          DEPLOY_WP: ${{ vars.WP_CLI }}
+          DEPLOY_SSH_KEY_FILE: ${{ runner.temp }}/deploy_key
+          TARGET: ${{ needs.prepare.outputs.environment }}
+        run: bin/deploy "$TARGET" --no-build --version "$VERSION"
+
+      - name: Remove the SSH key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/deploy_key"
+
+  notify:
+    name: Notify
+    needs: [prepare, ci, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          RESULT: ${{ needs.deploy.result }}
+          ENVIRONMENT: ${{ needs.prepare.outputs.environment }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_URL is not set; skipping."
+            exit 0
+          fi
+          case "$RESULT" in
+            success) icon=":white_check_mark:" ;;
+            skipped|cancelled) icon=":warning:" ;;
+            *) icon=":x:" ;;
+          esac
+          text="$icon Deploy of \`$VERSION\` to *$ENVIRONMENT*: $RESULT (<$RUN_URL|run>)"
+          jq -n --arg text "$text" '{text: $text}' \
+            | curl -fsS -X POST -H 'Content-Type: application/json' --data @- "$SLACK_WEBHOOK_URL" \
+            || echo "::warning::Slack notification failed."

@@ -1,0 +1,8 @@
+{
+  "http-basic": {
+    "connect.advancedcustomfields.com": {
+      "username": "YOUR-ACF-PRO-LICENSE-KEY",
+      "password": "https://a-site-registered-to-the-license.example"
+    }
+  }
+}

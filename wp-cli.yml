@@ -1,3 +1,6 @@
 path: web/wp
 server:
   docroot: web
+
+# SSH aliases (@staging, @production) are per machine: copy wp-cli.local.yml.example to
+# wp-cli.local.yml (gitignored). WP-CLI reads it instead of this file, and it inherits this one.

@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Pull an environment's database and uploads down to your local install.
+#
+# Usage: bin/pull <env> [--no-db] [--no-uploads] [--mirror]
+#
+#   --no-db       Uploads only.
+#   --no-uploads  Database only.
+#   --mirror      Delete local uploads that do not exist remotely (default: keep them).
+#
+# Safety:
+#   - Refuses to run when the local WP_ENV is production (or unset, which Bedrock treats as such).
+#   - Backs up the local database to backups/<timestamp>-before-pull-<env>/db.sql first.
+#   - Nothing is ever written to the remote: this is a one-way pull.
+#
+# After the import, URLs are rewritten from the remote home URL (http and https) to your WP_HOME,
+# serialisation-safe, and `wp acorn alma:deploy` brings the schema up to your local code.
+#
+# Production data may point at live integrations (a lead webhook, notification recipients).
+# List option names to delete after every pull in ALMA_PULL_SCRUB_OPTIONS in .env.deploy,
+# space-separated, so a test lead on your machine cannot reach a real CRM.
+#
+# Needs the mysql and mysqldump clients on your PATH (WP-CLI's db import/export use them).
+set -euo pipefail
+
+# shellcheck source=bin/lib/common.sh
+. "$(dirname "$0")/lib/common.sh"
+
+ENV_NAME=""
+WITH_DB=true
+WITH_UPLOADS=true
+MIRROR=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help) usage "$0" && exit 0 ;;
+    --no-db) WITH_DB=false && shift ;;
+    --no-uploads) WITH_UPLOADS=false && shift ;;
+    --mirror) MIRROR=true && shift ;;
+    -*) die "Unknown option: $1 (see --help)" ;;
+    *) ENV_NAME="$1" && shift ;;
+  esac
+done
+
+cd "$ALMA_ROOT"
+refuse_local_production
+load_target "$ENV_NAME"
+require_command wp "See https://wp-cli.org/#installing."
+require_command rsync "Install rsync."
+
+remote_current="${TARGET_PATH}/current"
+
+if [[ "$WITH_DB" == true ]]; then
+  require_command mysql "WP-CLI imports through the mysql client. DBngin: add /Users/Shared/DBngin/mysql/<version>/bin to PATH; Homebrew: brew install mysql-client."
+  require_command mysqldump "It ships with the mysql client."
+
+  backup_dir="backups/$(timestamp)-before-pull-${TARGET_ENV}"
+  mkdir -p "$backup_dir"
+  info "Backing up the local database to ${backup_dir}/db.sql"
+  wp db export "${backup_dir}/db.sql" --add-drop-table --quiet
+
+  remote_home="$(remote "cd $(remote_quote "$remote_current") && $(remote_quote "$TARGET_WP") option get home")"
+  local_home="$(env_get .env WP_HOME)"
+  [[ -n "$remote_home" && -n "$local_home" ]] || die "Could not read the remote home URL or the local WP_HOME."
+
+  info "Importing the ${TARGET_ENV} database (${remote_home})"
+  remote "cd $(remote_quote "$remote_current") && $(remote_quote "$TARGET_WP") db export - --add-drop-table" | wp db import -
+
+  remote_host="$(printf '%s' "$remote_home" | sed -E 's#^[a-z]+://##; s#/.*$##')"
+  for scheme in https http; do
+    wp search-replace "${scheme}://${remote_host}" "${local_home%/}" --all-tables --precise --skip-columns=guid --report-changed-only
+  done
+
+  for option in ${ALMA_PULL_SCRUB_OPTIONS:-}; do
+    wp option delete "$option" --quiet && ok "Scrubbed option: $option"
+  done
+
+  wp cache flush --quiet
+  info "Bringing the schema up to the local code"
+  wp acorn alma:deploy
+fi
+
+if [[ "$WITH_UPLOADS" == true ]]; then
+  info "Syncing uploads"
+  delete_flag=""
+  [[ "$MIRROR" == true ]] && delete_flag="--delete"
+  # shellcheck disable=SC2086
+  rsync -az ${delete_flag} -e "ssh ${SSH_OPTS}" \
+    "${TARGET_USER}@${TARGET_HOST}:${TARGET_PATH}/shared/uploads/" web/app/uploads/
+fi
+
+ok "Pulled ${TARGET_ENV} into $(env_get .env WP_HOME)"

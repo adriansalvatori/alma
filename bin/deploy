@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# Deploy a release to an SSH host: build, upload, activate, smoke-check.
+#
+# Usage: bin/deploy <env> [--no-build] [--version <v>] [--release <name>] [--keep <n>]
+#
+#   <env>           staging, production, ... (connection settings: see .env.deploy.example)
+#   --no-build      Upload the working tree as it is. CI uses this after building the artifact.
+#                   Without it, HEAD is exported to a temporary directory and built there
+#                   (composer --no-dev, npm ci + build), so uncommitted changes never ship.
+#   --version <v>   APP_VERSION for the release. Default: the tag on HEAD, else the short SHA.
+#   --release <n>   Release directory name. Default: <UTC timestamp>-<version>.
+#   --keep <n>      Releases to keep on the server (default 5).
+#
+# The server side is bin/remote/activate.sh: shared files are linked, `wp acorn alma:deploy` runs,
+# and only then does `current` move. A failed migration leaves the live release untouched.
+# Afterwards GET <URL>/api/health must report the new version.
+set -euo pipefail
+
+# shellcheck source=bin/lib/common.sh
+. "$(dirname "$0")/lib/common.sh"
+
+ENV_NAME=""
+BUILD=true
+VERSION=""
+RELEASE=""
+KEEP=5
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help) usage "$0" && exit 0 ;;
+    --no-build) BUILD=false && shift ;;
+    --version) VERSION="$2" && shift 2 ;;
+    --release) RELEASE="$2" && shift 2 ;;
+    --keep) KEEP="$2" && shift 2 ;;
+    -*) die "Unknown option: $1 (see --help)" ;;
+    *) ENV_NAME="$1" && shift ;;
+  esac
+done
+
+load_target "$ENV_NAME"
+require_command rsync "Install rsync."
+require_command ssh "Install OpenSSH."
+cd "$ALMA_ROOT"
+
+if [[ -z "$VERSION" ]]; then
+  VERSION="$(git describe --tags --exact-match HEAD 2>/dev/null || git rev-parse --short HEAD)"
+fi
+[[ "$VERSION" =~ ^[A-Za-z0-9._-]+$ ]] || die "Invalid version: $VERSION"
+RELEASE="${RELEASE:-$(timestamp)-${VERSION}}"
+
+SOURCE="$ALMA_ROOT"
+BUILD_DIR=""
+cleanup() { [[ -n "$BUILD_DIR" ]] && rm -rf "$BUILD_DIR"; }
+trap cleanup EXIT
+
+if [[ "$BUILD" == true ]]; then
+  if [[ -n "$(git status --porcelain)" ]]; then
+    warn "You have uncommitted changes. They will NOT be deployed (building HEAD $(git rev-parse --short HEAD))."
+  fi
+
+  BUILD_DIR="$(mktemp -d)"
+  info "Building ${VERSION} in ${BUILD_DIR}"
+  git archive HEAD | tar -x -C "$BUILD_DIR"
+
+  # Composer needs the ACF Pro credentials; they never leave the build directory.
+  [[ -f auth.json ]] && cp auth.json "$BUILD_DIR/auth.json"
+  composer install --no-dev --optimize-autoloader --no-interaction --no-progress --working-dir="$BUILD_DIR"
+  composer install --no-dev --optimize-autoloader --no-interaction --no-progress --working-dir="$BUILD_DIR/web/app/themes/alma"
+  rm -f "$BUILD_DIR/auth.json"
+
+  npm ci --prefix "$BUILD_DIR/web/app/themes/alma" --no-audit --no-fund
+  npm run build --prefix "$BUILD_DIR/web/app/themes/alma"
+  SOURCE="$BUILD_DIR"
+fi
+
+[[ -f "$SOURCE/web/app/themes/alma/public/build/manifest.json" ]] \
+  || die "No Vite manifest in the release (web/app/themes/alma/public/build/manifest.json). Run npm run build first."
+[[ -f "$SOURCE/web/app/themes/alma/vendor/autoload.php" ]] || die "The theme's vendor/ is missing. Run composer install first."
+
+printf '%s\n' "$VERSION" >"$SOURCE/VERSION"
+
+release_dir="${TARGET_PATH}/releases/${RELEASE}"
+info "Uploading to ${TARGET_USER}@${TARGET_HOST}:${release_dir}"
+remote "mkdir -p $(remote_quote "$release_dir") $(remote_quote "${TARGET_PATH}/shared")"
+
+link_dest=""
+if remote "test -d $(remote_quote "${TARGET_PATH}/current/")"; then
+  # Hard-link files unchanged since the live release: fast uploads, little extra disk.
+  link_dest="--link-dest=${TARGET_PATH}/current/"
+fi
+
+# shellcheck disable=SC2086
+rsync -az --delete --exclude-from="$ALMA_ROOT/.deployignore" ${link_dest} \
+  -e "ssh ${SSH_OPTS}" "$SOURCE/" "${TARGET_USER}@${TARGET_HOST}:${release_dir}/"
+
+info "Activating"
+remote "bash $(remote_quote "${release_dir}/bin/remote/activate.sh") --path $(remote_quote "$TARGET_PATH") \
+  --release $(remote_quote "$RELEASE") --version $(remote_quote "$VERSION") --keep $(remote_quote "$KEEP") \
+  --wp $(remote_quote "$TARGET_WP")"
+
+if [[ -z "$TARGET_URL" ]]; then
+  warn "No URL for '${TARGET_ENV}' ($(upper "$TARGET_ENV")_URL); skipping the health check."
+  exit 0
+fi
+
+# PHP's realpath cache can keep resolving `current` to the previous release for up to
+# realpath_cache_ttl (120s by default), so allow a few minutes before calling it a failure.
+info "Checking ${TARGET_URL}/api/health reports ${VERSION}"
+for _ in $(seq 1 18); do
+  body="$(curl -fsS --max-time 10 "${TARGET_URL}/api/health" 2>/dev/null || true)"
+  live="$(printf '%s' "$body" | php -r '$j = json_decode(stream_get_contents(STDIN), true); echo is_array($j) ? ($j["version"] ?? "") : "";')"
+
+  if [[ "$live" == "$VERSION" ]]; then
+    ok "Live: ${VERSION} (${RELEASE})"
+    exit 0
+  fi
+
+  sleep 10
+done
+
+die "The health check never reported ${VERSION} (last: '${live:-no response}'). Inspect the site; roll back with: bin/rollback ${TARGET_ENV}"

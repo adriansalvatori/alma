@@ -1,0 +1,106 @@
+name: Set up alma
+description: >
+  PHP 8.4 + Composer dependencies for the root and the theme (with an installed-tree cache), and
+  optionally Node 22 + the theme's npm dependencies. Authenticates to the ACF Pro Composer
+  repository when composer.lock needs it.
+
+inputs:
+  dev:
+    description: Install Composer dev dependencies ("false" for a production artifact).
+    default: "true"
+  node:
+    description: Set up Node and run npm ci in the theme.
+    default: "false"
+  cache-installed:
+    description: Restore/save vendor/, web/wp and plugins as a whole (skip for release builds).
+    default: "true"
+  acf-pro-key:
+    description: The ACF Pro license key (pass secrets.ACF_PRO_KEY).
+    default: ""
+  acf-pro-site-url:
+    description: A site URL registered to the license (ACF uses it as the Composer password).
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "8.4"
+        extensions: mbstring, intl, pdo_sqlite, sqlite3, pdo_mysql, gd, zip
+        coverage: none
+        tools: composer:v2
+
+    - name: Locate the Composer cache
+      id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache Composer downloads
+      uses: actions/cache@v5
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: composer-${{ runner.os }}-${{ hashFiles('composer.lock', 'web/app/themes/alma/composer.lock') }}
+        restore-keys: composer-${{ runner.os }}-
+
+    - name: Cache the installed tree
+      id: installed
+      if: inputs.cache-installed == 'true'
+      uses: actions/cache@v5
+      with:
+        path: |
+          vendor
+          web/wp
+          web/app/plugins
+          web/app/mu-plugins
+          web/app/themes/alma/vendor
+        key: installed-${{ runner.os }}-php8.4-dev-${{ inputs.dev }}-${{ hashFiles('composer.json', 'composer.lock', 'web/app/themes/alma/composer.json', 'web/app/themes/alma/composer.lock') }}
+
+    # ACF Pro sits in a private Composer repository. Until composer.lock contains it (after
+    # `composer update wpengine/advanced-custom-fields-pro` with a key), installs need no auth.
+    - name: Authenticate to the ACF Pro repository
+      if: steps.installed.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        ACF_PRO_KEY: ${{ inputs.acf-pro-key }}
+        ACF_PRO_SITE_URL: ${{ inputs.acf-pro-site-url }}
+      run: |
+        if ! grep -q '"name": "wpengine/advanced-custom-fields-pro"' composer.lock; then
+          echo "composer.lock does not contain ACF Pro yet; no authentication needed."
+          exit 0
+        fi
+        if [ -z "$ACF_PRO_KEY" ]; then
+          echo "::error title=ACF Pro key missing::composer.lock requires wpengine/advanced-custom-fields-pro. Add the ACF_PRO_KEY secret (and the ACF_PRO_SITE_URL variable) to this repository."
+          exit 1
+        fi
+        composer config --global http-basic.connect.advancedcustomfields.com "$ACF_PRO_KEY" "${ACF_PRO_SITE_URL:-https://example.com}"
+
+    - name: Install Composer dependencies
+      if: steps.installed.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        DEV: ${{ inputs.dev }}
+      run: |
+        flags="--no-interaction --no-progress --prefer-dist --optimize-autoloader"
+        if [ "$DEV" != "true" ]; then flags="$flags --no-dev"; fi
+        composer install $flags
+        composer install $flags --working-dir=web/app/themes/alma
+
+    - name: Forget the ACF credentials
+      if: always()
+      shell: bash
+      run: composer config --global --unset http-basic.connect.advancedcustomfields.com 2>/dev/null || true
+
+    - name: Set up Node
+      if: inputs.node == 'true'
+      uses: actions/setup-node@v6
+      with:
+        node-version: "22"
+        cache: npm
+        cache-dependency-path: web/app/themes/alma/package-lock.json
+
+    - name: Install npm dependencies
+      if: inputs.node == 'true'
+      shell: bash
+      run: npm ci --prefix web/app/themes/alma --no-audit --no-fund

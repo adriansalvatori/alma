@@ -1,0 +1,72 @@
+# Files that never ship to a server. Used as rsync's --exclude-from by bin/deploy and the deploy
+# workflow, so patterns follow rsync rules: a leading / anchors to the repository root, a
+# trailing / matches directories only, and anything else matches at any depth.
+#
+# What MUST ship: vendor/ and web/wp/ and composer-managed plugins (built in CI with --no-dev),
+# the theme's vendor/, bootstrap/, app/, config/, routes/, patterns/, resources/views/,
+# resources/fonts|images/, public/build/, and bin/remote/ (activate.sh runs on the server).
+
+# Version control, CI, editors, OS noise
+.git/
+.github/
+.gitignore
+.gitattributes
+.editorconfig
+.DS_Store
+.idea/
+.vscode/
+.claude/
+.agents/
+.ai/
+.mcp.json
+
+# Secrets and per-machine config. The server's .env lives in shared/ and is linked in.
+.env
+.env.*
+auth.json
+auth.json.example
+wp-cli.local.yml
+wp-cli.local.yml.example
+
+# Runtime state that belongs to the server, never to a release
+/web/app/uploads/
+/web/app/cache/
+/web/app/upgrade/
+/web/app/debug.log
+*.log
+
+# Data and artifacts
+*.sql
+*.sql.gz
+*.zip
+/backups/
+/releases/
+/exports/
+
+# Documentation and tooling
+*.md
+docs/
+/package.json
+/package-lock.json
+/pint.json
+node_modules/
+
+# Theme: sources and dev tooling that are not needed at runtime (and would be web-reachable)
+/web/app/themes/alma/tests/
+/web/app/themes/alma/resources/css/
+/web/app/themes/alma/resources/js/
+/web/app/themes/alma/phpunit.xml
+/web/app/themes/alma/phpstan*
+/web/app/themes/alma/pint.json
+/web/app/themes/alma/package.json
+/web/app/themes/alma/package-lock.json
+/web/app/themes/alma/vite.config.js
+/web/app/themes/alma/vite/
+/web/app/themes/alma/stubs/
+/web/app/themes/alma/.phpunit.cache/
+/web/app/themes/alma/coverage/
+.phpunit.cache/
+coverage/
+
+# Package test suites inside vendor directories (dead weight, and executable under the docroot)
+tests/

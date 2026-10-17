@@ -3,9 +3,42 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and releases are tagged `v-YYYYMMDD-vN` (one tag per production deploy; see
+web/app/themes/alma/docs/deployment.md).
 
-## [Unreleased]
+## [8.0.0] - Unreleased
+
+Alma v8: a rebuild around the architecture proven on Remote Leverage v2, without the AWS/Docker
+infrastructure, so every project can deploy to SSH-capable shared hosting.
+
+### Added
+- PHP 8.4, WordPress 7.1, Acorn 6, Livewire 4.4, Flux 2, ACF Pro (Composer) and The SEO Framework.
+- A module system: each business area is a folder under `app/Domains` with its own provider,
+  listed in `config/alma.php` and switchable per environment with `ALMA_DISABLED_MODULES`.
+- `wp acorn alma:deploy`: MySQL-locked, idempotent post-deploy tasks (migrations, module tasks,
+  rewrite flush, view cache).
+- After-response work with no queue worker (`Deferred`), with an optional cron-drained database queue.
+- A Pest suite that boots the real Acorn application on SQLite with a fake WordPress layer, with no
+  network access and every secret blanked; Larastan level 5; one Pint preset everywhere.
+- GitHub Actions: CI on every pull request, plus a tag-gated production deploy and a branch-gated
+  staging deploy over SSH/rsync, with atomic `current` symlink switches, release pruning and a
+  post-deploy health check.
+- `bin/` scripts: `setup.sh` (first-time install), `deploy`, `rollback`, `pull` (remote database and
+  uploads to local, URL-rewritten), `backup`.
+- `.deployignore`, `.env.example` with every variable documented, `auth.json.example`, `.mcp.json`
+  for the WordPress MCP adapter, and `wp-cli.local.yml.example` with SSH aliases.
+
+### Changed
+- The theme's documentation lives in `web/app/themes/alma/docs/`. The root guides (API,
+  ARCHITECTURE, CONTRIBUTING, DEPLOYMENT, DEVELOPER_GUIDE, QUICKSTART, TESTING) were removed:
+  they described features that did not exist.
+
+### Removed
+- The `deploy:zip` script, which packaged `.env` and the uploads directory into the archive.
+- Substrate (requires Acorn 5), the Wompi and WooCommerce plugins from the base install
+  (WooCommerce is an optional module: `bin/setup.sh --with-woocommerce`).
+
+## [Unreleased] (pre-v8)
 
 ### Added
 - Comprehensive testing suite with Pest PHP

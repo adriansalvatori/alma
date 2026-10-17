@@ -1,11 +1,22 @@
 {
-    "mcpServers": {
-        "substrate": {
-            "command": "php",
-            "args": [
-                "vendor/bin/acorn",
-                "substrate:mcp"
-            ]
-        }
+  "mcpServers": {
+    "wordpress-local": {
+      "command": "npx",
+      "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+      "env": {
+        "WP_API_URL": "${LOCAL_MCP_URL:-http://example.test}/wp-json/mcp/mcp-adapter-default-server",
+        "WP_API_USERNAME": "${LOCAL_MCP_USER:-admin}",
+        "WP_API_PASSWORD": "${LOCAL_MCP_APP_PASSWORD}"
+      }
+    },
+    "wordpress-production": {
+      "command": "npx",
+      "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+      "env": {
+        "WP_API_URL": "${PRODUCTION_MCP_URL}/wp-json/mcp/mcp-adapter-default-server",
+        "WP_API_USERNAME": "${PRODUCTION_MCP_USER}",
+        "WP_API_PASSWORD": "${PRODUCTION_MCP_APP_PASSWORD}"
+      }
     }
+  }
 }

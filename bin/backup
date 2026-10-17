@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# Back up a database and its uploads into backups/<timestamp>-<env>/ (gitignored).
+#
+# Usage: bin/backup [local|<env>] [--db-only] [--uploads-only]
+#
+#   local (default)  This machine: db.sql (plain, --add-drop-table) + uploads.zip
+#                    (uploads.tar.gz when zip is not installed).
+#   <env>            A remote environment over SSH: db.sql streamed from the server and
+#                    uploads.tar.gz streamed from shared/uploads (shared hosts rarely have zip).
+#
+# db.sql imports over an existing database with `wp db import`. Archives contain a top-level
+# uploads/ directory: extract them inside web/app/.
+set -euo pipefail
+
+# shellcheck source=bin/lib/common.sh
+. "$(dirname "$0")/lib/common.sh"
+
+ENV_NAME="local"
+WITH_DB=true
+WITH_UPLOADS=true
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help) usage "$0" && exit 0 ;;
+    --db-only) WITH_UPLOADS=false && shift ;;
+    --uploads-only) WITH_DB=false && shift ;;
+    -*) die "Unknown option: $1 (see --help)" ;;
+    *) ENV_NAME="$1" && shift ;;
+  esac
+done
+
+cd "$ALMA_ROOT"
+dest="backups/$(timestamp)-${ENV_NAME}"
+mkdir -p "$dest"
+
+if [[ "$ENV_NAME" == "local" ]]; then
+  if [[ "$WITH_DB" == true ]]; then
+    require_command wp "See https://wp-cli.org/#installing."
+    wp db export "${dest}/db.sql" --add-drop-table --quiet
+    ok "${dest}/db.sql"
+  fi
+
+  if [[ "$WITH_UPLOADS" == true ]]; then
+    if command -v zip >/dev/null 2>&1; then
+      # Level 1: uploads are already-compressed images, so higher levels cost time for nothing.
+      (cd web/app && zip -r -q -1 "${ALMA_ROOT}/${dest}/uploads.zip" uploads)
+      ok "${dest}/uploads.zip"
+    else
+      tar -czf "${dest}/uploads.tar.gz" -C web/app uploads
+      ok "${dest}/uploads.tar.gz"
+    fi
+  fi
+else
+  load_target "$ENV_NAME"
+
+  if [[ "$WITH_DB" == true ]]; then
+    remote "cd $(remote_quote "${TARGET_PATH}/current") && $(remote_quote "$TARGET_WP") db export - --add-drop-table" >"${dest}/db.sql"
+    ok "${dest}/db.sql"
+  fi
+
+  if [[ "$WITH_UPLOADS" == true ]]; then
+    remote "tar -czf - -C $(remote_quote "${TARGET_PATH}/shared") uploads" >"${dest}/uploads.tar.gz"
+    ok "${dest}/uploads.tar.gz"
+  fi
+fi
+
+du -sh "$dest" | awk '{ print "  total: " $1 }'

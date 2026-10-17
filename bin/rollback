@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Point an environment's `current` back at an earlier release.
+#
+# Usage: bin/rollback <env> [--release <name>]
+#
+# Without --release, goes back one release. Only the symlink moves: migrations are not
+# reversed, which is why migrations must stay compatible with the previous release.
+# Runs bin/remote/rollback.sh on the server; connection settings come from .env.deploy.
+set -euo pipefail
+
+# shellcheck source=bin/lib/common.sh
+. "$(dirname "$0")/lib/common.sh"
+
+ENV_NAME=""
+TARGET_RELEASE=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help) usage "$0" && exit 0 ;;
+    --release) TARGET_RELEASE="$2" && shift 2 ;;
+    -*) die "Unknown option: $1 (see --help)" ;;
+    *) ENV_NAME="$1" && shift ;;
+  esac
+done
+
+load_target "$ENV_NAME"
+
+args="--path $(remote_quote "$TARGET_PATH")"
+[[ -n "$TARGET_RELEASE" ]] && args="${args} --release $(remote_quote "$TARGET_RELEASE")"
+
+remote "bash $(remote_quote "${TARGET_PATH}/current/bin/remote/rollback.sh") ${args}"
+
+if [[ -n "$TARGET_URL" ]]; then
+  info "Health: $(curl -fsS --max-time 10 "${TARGET_URL}/api/health" 2>/dev/null || echo 'no response')"
+fi

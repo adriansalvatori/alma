@@ -1,0 +1,16 @@
+# Copy to wp-cli.local.yml (gitignored) and adjust. Then, from the repository root:
+#
+#   wp @staging option get home
+#   wp @production acorn alma:deploy      # what bin/remote/activate.sh runs
+#
+# `ssh` is user@host[:port]/path, where path is the release WP-CLI should run in. Point it at
+# current/ (not a numbered release) so the alias always follows the live release.
+
+_:
+  inherit: wp-cli.yml
+
+@staging:
+  ssh: alma@staging.example.com:22/home/alma/staging/current
+
+@production:
+  ssh: alma@example.com:22/home/alma/production/current
