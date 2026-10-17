@@ -62,6 +62,10 @@ echo "==> Activating ${RELEASE}"
 # 1. Shared files. A directory the release shipped is replaced by the link; uploads are never
 #    in the artifact (.deployignore), but an empty directory may be.
 mkdir -p "${SHARED}/uploads" "${SHARED}/logs" "${RELEASE_DIR}/web/app/cache/acorn"
+# The uploads .htaccess (no PHP execution) ships with the code; the symlink below would hide it.
+if [[ -f "${RELEASE_DIR}/web/app/uploads/.htaccess" ]]; then
+  cp "${RELEASE_DIR}/web/app/uploads/.htaccess" "${SHARED}/uploads/.htaccess"
+fi
 ln -sfn "${SHARED}/.env" "${RELEASE_DIR}/.env"
 rm -rf "${RELEASE_DIR}/web/app/uploads" "${RELEASE_DIR}/web/app/cache/acorn/logs"
 ln -sfn "${SHARED}/uploads" "${RELEASE_DIR}/web/app/uploads"

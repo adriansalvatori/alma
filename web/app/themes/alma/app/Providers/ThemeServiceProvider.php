@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Infrastructure\Providers\CoreServiceProvider;
 use App\Infrastructure\Providers\ModuleServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ViewErrorBag;
 use Roots\Acorn\Sage\SageServiceProvider;
 
 class ThemeServiceProvider extends SageServiceProvider
@@ -25,6 +27,10 @@ class ThemeServiceProvider extends SageServiceProvider
     public function boot()
     {
         parent::boot();
+
+        // Blade views that use validation (Flux inputs read $errors) are also rendered by
+        // WordPress, where the web middleware that shares the session's errors never runs.
+        View::share('errors', new ViewErrorBag);
 
         $this->ensureApplicationTerminates();
     }

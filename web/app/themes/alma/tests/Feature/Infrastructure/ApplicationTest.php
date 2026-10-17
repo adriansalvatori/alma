@@ -9,6 +9,9 @@ use App\Infrastructure\Queue\Deferred;
 use App\Providers\ThemeServiceProvider;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ViewErrorBag;
+use Roots\Acorn\Exceptions\SkipProviderException;
 
 it('boots the application from bootstrap/application.php', function () {
     expect(app()->isBooted())->toBeTrue()
@@ -61,4 +64,20 @@ it('puts deferred work on the queue when one is configured', function () {
 
     Bus::assertDispatched(CallHandlerJob::class);
     Bus::assertNotDispatchedAfterResponse(CallHandlerJob::class);
+});
+
+it('shares an empty error bag with views WordPress renders', function () {
+    expect(view()->shared('errors'))->toBeInstanceOf(ViewErrorBag::class);
+});
+
+it('fails loudly in tests when a provider cannot boot', function () {
+    $provider = new class(app()) extends ServiceProvider
+    {
+        public function boot(): void
+        {
+            throw new RuntimeException('boom');
+        }
+    };
+
+    expect(fn () => app()->register($provider))->toThrow(SkipProviderException::class);
 });

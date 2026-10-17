@@ -54,6 +54,17 @@
         -->
         <server name="SENTRY_LARAVEL_DSN" value=""/>
         <env name="SENTRY_LARAVEL_DSN" value="" force="true"/>
+        <server name="SENTRY_DSN" value=""/>
+        <env name="SENTRY_DSN" value="" force="true"/>
+        <server name="HEALTH_TOKEN" value=""/>
+        <env name="HEALTH_TOKEN" value="" force="true"/>
+        <!-- Mail: never reach a real SMTP server from a test -->
+        <server name="MAIL_HOST" value=""/>
+        <env name="MAIL_HOST" value="" force="true"/>
+        <server name="MAIL_USERNAME" value=""/>
+        <env name="MAIL_USERNAME" value="" force="true"/>
+        <server name="MAIL_PASSWORD" value=""/>
+        <env name="MAIL_PASSWORD" value="" force="true"/>
         <server name="ACF_PRO_KEY" value=""/>
         <env name="ACF_PRO_KEY" value="" force="true"/>
         <!-- Leads -->

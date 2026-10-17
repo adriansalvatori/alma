@@ -29,7 +29,10 @@ wp-cli.local.yml
 wp-cli.local.yml.example
 
 # Runtime state that belongs to the server, never to a release
-/web/app/uploads/
+# ...except its .htaccess (no PHP execution), which activate.sh copies into shared/uploads.
+# rsync syntax: a "+ " include must come before the exclude it overrides (no "!" negation).
++ /web/app/uploads/.htaccess
+/web/app/uploads/*
 /web/app/cache/
 /web/app/upgrade/
 /web/app/debug.log
