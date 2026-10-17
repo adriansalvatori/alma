@@ -67,6 +67,8 @@
         <env name="LEAD_RETENTION_DAYS" value="" force="true"/>
         <server name="LEAD_STORE_SPAM" value=""/>
         <env name="LEAD_STORE_SPAM" value="" force="true"/>
+        <server name="LEAD_DELIVERY" value=""/>
+        <env name="LEAD_DELIVERY" value="" force="true"/>
         <server name="LEAD_BLOCKLIST" value=""/>
         <env name="LEAD_BLOCKLIST" value="" force="true"/>
         <!-- Payment -->

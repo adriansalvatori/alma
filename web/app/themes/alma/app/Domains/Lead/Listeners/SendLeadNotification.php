@@ -33,6 +33,14 @@ class SendLeadNotification
             return;
         }
 
+        if (! $this->settings->mayDeliverTo('recipients')) {
+            $this->activity->record($lead, 'LeadCaptured', self::ACTOR, LeadActivity::SKIPPED, [
+                'reason' => 'not production: recipients from the database are ignored (set LEAD_NOTIFICATION_RECIPIENTS or LEAD_DELIVERY=always)',
+            ]);
+
+            return;
+        }
+
         try {
             $sent = $this->send($recipients, $event);
         } catch (Throwable $e) {

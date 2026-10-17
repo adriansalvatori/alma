@@ -86,8 +86,21 @@ Leads → Settings covers notification recipients, webhook URL and secret, reten
 | `LEAD_BLOCKLIST` | Comma-separated emails or domains |
 | `LEAD_MIN_FILL_SECONDS` | Spam guard fill time (default 3) |
 | `LEAD_RATE_LIMIT` | Submissions per IP per 10 minutes (default 5) |
+| `LEAD_DELIVERY` | `auto` / `always` / `never`; see below |
 
 Use `.env` to pin a value per environment, for example so staging posts to a test webhook.
+
+### Outside production: database destinations are ignored
+
+A local or staging database is often a copy of production's (`bin/pull`), so the recipients and webhook URL it holds are production's. A test lead on a laptop would otherwise reach the real inbox and the real CRM. So outside production (`wp_get_environment_type() !== 'production'`) the notification and the webhook only go to destinations set in that environment's own `.env`. Everything else is recorded as **skipped**, with the reason, in the lead's activity log.
+
+| `LEAD_DELIVERY` | Behaviour |
+| :--- | :--- |
+| `auto` (default) | Production delivers everywhere; other environments only to `.env` destinations |
+| `always` | Deliver to every configured destination, in any environment |
+| `never` | Deliver nothing, in any environment (leads are still stored) |
+
+The **Send test webhook** button is an explicit admin action and is not subject to this rule.
 
 ## Connecting a CRM (the webhook)
 

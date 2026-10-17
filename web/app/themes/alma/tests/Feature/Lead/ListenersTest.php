@@ -18,6 +18,9 @@ use Tests\Support\WordPress\WordPress;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
+    // These tests describe production delivery; the non-production guard has its own tests below.
+    WordPress::$environment = 'production';
+
     $this->lead = Lead::query()->create([
         'name' => 'Ada Lovelace',
         'email' => 'ada@example.com',
@@ -125,3 +128,39 @@ it('writes the dispatch row in the request and the outcomes after the response',
         SendLeadWebhook::ACTOR => LeadActivity::SUCCEEDED,
     ]);
 });
+
+it('ignores database destinations outside production', function () {
+    WordPress::$environment = 'local';
+    app(LeadSettings::class)->save(['recipients' => 'sales@example.test', 'webhook_url' => 'https://crm.example.test/hook']);
+    Http::fake();
+
+    app(SendLeadNotification::class)->handle($this->event);
+    app(SendLeadWebhook::class)->handle($this->event);
+
+    Http::assertNothingSent();
+    expect(WordPress::$mails)->toBe([])
+        ->and(outcome($this->lead, SendLeadNotification::ACTOR)->outcome)->toBe(LeadActivity::SKIPPED)
+        ->and(outcome($this->lead, SendLeadWebhook::ACTOR)->outcome)->toBe(LeadActivity::SKIPPED);
+});
+
+it('delivers outside production to destinations set in this environment\'s .env', function () {
+    WordPress::$environment = 'staging';
+    config(['leads.recipients' => ['qa@example.test'], 'leads.webhook_url' => 'https://staging-crm.example.test/hook']);
+    Http::fake(['*' => Http::response('', 200)]);
+
+    app(SendLeadNotification::class)->handle($this->event);
+    app(SendLeadWebhook::class)->handle($this->event);
+
+    Http::assertSentCount(1);
+    expect(WordPress::$mails[0]['to'])->toBe(['qa@example.test']);
+});
+
+it('honours LEAD_DELIVERY=always and never', function (string $mode, int $mails) {
+    WordPress::$environment = 'local';
+    config(['leads.delivery' => $mode]);
+    app(LeadSettings::class)->save(['recipients' => 'sales@example.test']);
+
+    app(SendLeadNotification::class)->handle($this->event);
+
+    expect(WordPress::$mails)->toHaveCount($mails);
+})->with([['always', 1], ['never', 0]]);

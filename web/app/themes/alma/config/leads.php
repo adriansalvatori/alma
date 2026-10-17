@@ -25,6 +25,11 @@ return [
     // Comma-separated email addresses that receive a notification for each lead.
     'recipients' => $list(env('LEAD_NOTIFICATION_RECIPIENTS')),
 
+    // auto (default): production delivers to every configured destination; other environments only
+    // to destinations set in their own .env, because their database is often a copy of production's.
+    // always / never override that.
+    'delivery' => env('LEAD_DELIVERY'),
+
     // Every captured lead is POSTed here as JSON (Zapier, Make, n8n, a CRM endpoint...).
     'webhook_url' => env('LEAD_WEBHOOK_URL'),
 

@@ -37,6 +37,14 @@ class SendLeadWebhook
             return;
         }
 
+        if (! $this->settings->mayDeliverTo('webhook_url')) {
+            $this->activity->record($event->lead, 'LeadCaptured', self::ACTOR, LeadActivity::SKIPPED, [
+                'reason' => 'not production: the webhook URL from the database is ignored (set LEAD_WEBHOOK_URL or LEAD_DELIVERY=always)',
+            ]);
+
+            return;
+        }
+
         $result = $this->deliver($event->lead, $url);
 
         $this->activity->record(

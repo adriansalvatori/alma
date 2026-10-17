@@ -50,6 +50,23 @@ class LeadSettings
     }
 
     /**
+     * Whether a notification or webhook may be sent to the destination stored under $key.
+     *
+     * Outside production the database is usually a copy of production's (bin/pull), so the
+     * recipients and webhook URL it holds are production's: a test lead on a laptop would land in
+     * the real inbox and the real CRM. There, only destinations set in this environment's own
+     * .env count, unless LEAD_DELIVERY=always. LEAD_DELIVERY=never silences every environment.
+     */
+    public function mayDeliverTo(string $key): bool
+    {
+        return match (config('leads.delivery') ?: 'auto') {
+            'always' => true,
+            'never' => false,
+            default => wp_get_environment_type() === 'production' || $this->lockedByConfig($key),
+        };
+    }
+
+    /**
      * Whether config/leads.php (an .env variable) sets this key, so wp-admin cannot change it.
      */
     public function lockedByConfig(string $key): bool
