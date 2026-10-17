@@ -130,6 +130,13 @@ if (env('ACF_PRO_KEY')) {
     Config::define('ACF_PRO_LICENSE', env('ACF_PRO_KEY'));
 }
 
+/**
+ * The MCP adapter plugin is installed by Composer, so Bedrock's autoloader already maps its
+ * classes. Without this it looks for a bundled vendor/ directory that a Composer install doesn't
+ * have, raises a notice on every request (a 500 under Acorn), and the MCP endpoint never loads.
+ */
+Config::define('WP_MCP_AUTOLOAD', false);
+
 Config::define('AUTOMATIC_UPDATER_DISABLED', true);
 Config::define('DISABLE_WP_CRON', env('DISABLE_WP_CRON') ?: false);
 

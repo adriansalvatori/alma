@@ -177,6 +177,8 @@ if (! class_exists('WP_Post')) {
 
         public string $post_type = 'post';
 
+        public string $post_mime_type = '';
+
         public int|string $post_author = 0;
 
         public int $post_parent = 0;

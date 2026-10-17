@@ -16,7 +16,7 @@ use Throwable;
 class DeployCommand extends Command
 {
     protected $signature = 'alma:deploy
-        {--skip=* : Skip a task by its class basename, e.g. --skip=WarmCaches}
+        {--skip=* : Skip tasks by class basename, comma-separated: --skip=WarmCaches,FlushRewriteRules}
         {--lock-timeout=30 : Seconds to wait for another deploy to finish}';
 
     protected $description = 'Run post-deploy tasks: migrations, module tasks, rewrite flush, cache warm-up.';
@@ -43,7 +43,12 @@ class DeployCommand extends Command
      */
     public function tasks(): array
     {
-        $skip = (array) $this->option('skip');
+        // Comma-separated, because WP-CLI keeps only the last of repeated options.
+        $skip = collect((array) $this->option('skip'))
+            ->flatMap(fn (string $value) => explode(',', $value))
+            ->map(fn (string $name) => trim($name))
+            ->filter()
+            ->all();
 
         return collect($this->laravel->tagged(DeployTask::TAG))
             ->reject(fn (DeployTask $task) => in_array(class_basename($task), $skip, true))

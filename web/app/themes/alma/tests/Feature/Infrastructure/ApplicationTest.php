@@ -40,6 +40,13 @@ it('runs migrations first and every task in priority order', function () {
     expect($tasks->first())->toBeInstanceOf(RunMigrations::class);
 });
 
+it('skips a comma-separated list of tasks', function () {
+    $this->artisan('alma:deploy', ['--skip' => ['WarmCaches,FlushRewriteRules']])
+        ->doesntExpectOutputToContain('Flush rewrite rules')
+        ->doesntExpectOutputToContain('precompile views')
+        ->assertSuccessful();
+});
+
 it('deploys idempotently', function () {
     $this->artisan('alma:deploy', ['--skip' => ['WarmCaches']])->assertSuccessful();
     $this->artisan('alma:deploy', ['--skip' => ['WarmCaches']])->assertSuccessful();

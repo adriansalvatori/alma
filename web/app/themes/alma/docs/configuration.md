@@ -43,6 +43,8 @@ first three are listed below because they matter on shared hosting.
 | `WP_DEBUG_LOG` | `true` (development) | Development only. Point it outside the document root. |
 | `ACF_PRO_KEY` | none | Defines `ACF_PRO_LICENSE` (activates ACF Pro). Composer authenticates separately, via `auth.json`. |
 
+`config/application.php` also defines `WP_MCP_AUTOLOAD=false` unconditionally: the MCP adapter is installed by Composer, so Bedrock's autoloader loads it.
+
 ## Application (theme `config/alma.php`, Acorn)
 
 | Variable | Default | Notes |
@@ -111,6 +113,23 @@ The recipients and the webhook can also be set in wp-admin → Leads → Setting
 | `LEAD_BLOCKLIST` | none | Comma-separated emails or domains treated as spam. |
 | `LEAD_MIN_FILL_SECONDS` | `3` | Minimum seconds between rendering and submitting the form. |
 | `LEAD_RATE_LIMIT` | `5` | Submissions per IP per ten minutes. |
+| `LEAD_DELIVERY` | `auto` | `auto`: outside production, notifications and the webhook only go to destinations set in that environment's `.env` (a pulled database holds production's). `always` / `never` override it. |
+
+## AI / MCP (theme `config/ai.php`)
+
+| Variable | Default | Notes |
+| :--- | :--- | :--- |
+| `AI_ENABLED` | `true` | Switches the Ai module off on an environment. It also needs WordPress' Abilities API. |
+| `AI_AGENT_LOGIN` | `ai-agent` | The dedicated user MCP clients log in as. |
+| `AI_AGENT_EMAIL` | none | That user's email address. |
+| `AI_AGENT_CAN_PUBLISH` | `false` | May publish posts/pages it creates. |
+| `AI_AGENT_CAN_EDIT_PUBLISHED` | `false` | May change content that is already live. |
+| `AI_AGENT_CAN_READ_LEADS` | `false` | May use the lead abilities (personal data). |
+| `AI_AGENT_CAN_UPLOAD_MEDIA` | `true` | May upload to the media library. |
+| `AI_AGENT_CAN_MANAGE_REDIRECTS` | `false` | May create and delete redirects. |
+| `AI_MEDIA_MAX_MB` | `10` | Upload size cap for `upload-media`. |
+
+The `AI_AGENT_CAN_*` flags are re-applied on every deploy, so turning one off revokes it. Credentials are never set here: issue named Application Passwords from Settings → AI Access, or with `wp acorn alma:ai:agent --issue=<label>`.
 
 ## Commerce and payments (theme `config/commerce.php`, `config/payments.php`)
 
