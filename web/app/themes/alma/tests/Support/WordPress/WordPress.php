@@ -14,7 +14,7 @@ namespace Tests\Support\WordPress;
  */
 final class WordPress
 {
-    /** @var array<string, array<int, list<array{callback: callable, args: int}>>> */
+    /** @var array<string, array<int, list<array{callback: callable|string|array, args: int}>>> */
     public static array $filters = [];
 
     /** @var array<string, int> */

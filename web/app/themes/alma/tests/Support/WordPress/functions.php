@@ -13,19 +13,22 @@ use Tests\Support\WordPress\WordPress;
 // Hooks
 // ---------------------------------------------------------------------------------------------
 
-function add_filter(string $hook, callable $callback, int $priority = 10, int $args = 1): bool
+// Callbacks are typed loosely, like core: WordPress accepts the name of a function that does not
+// exist (yet), and code that removes core's own hooks passes exactly such names.
+
+function add_filter(string $hook, callable|string|array $callback, int $priority = 10, int $args = 1): bool
 {
     WordPress::$filters[$hook][$priority][] = ['callback' => $callback, 'args' => $args];
 
     return true;
 }
 
-function add_action(string $hook, callable $callback, int $priority = 10, int $args = 1): bool
+function add_action(string $hook, callable|string|array $callback, int $priority = 10, int $args = 1): bool
 {
     return add_filter($hook, $callback, $priority, $args);
 }
 
-function remove_filter(string $hook, callable $callback, int $priority = 10): bool
+function remove_filter(string $hook, callable|string|array $callback, int $priority = 10): bool
 {
     foreach (WordPress::$filters[$hook][$priority] ?? [] as $i => $entry) {
         if ($entry['callback'] === $callback) {
@@ -38,7 +41,7 @@ function remove_filter(string $hook, callable $callback, int $priority = 10): bo
     return false;
 }
 
-function remove_action(string $hook, callable $callback, int $priority = 10): bool
+function remove_action(string $hook, callable|string|array $callback, int $priority = 10): bool
 {
     return remove_filter($hook, $callback, $priority);
 }
@@ -55,7 +58,7 @@ function remove_all_actions(string $hook): bool
     return remove_all_filters($hook);
 }
 
-function has_filter(string $hook, callable|false $callback = false): bool|int
+function has_filter(string $hook, callable|string|array|false $callback = false): bool|int
 {
     if ($callback === false) {
         return ! empty(WordPress::$filters[$hook]);
@@ -72,7 +75,7 @@ function has_filter(string $hook, callable|false $callback = false): bool|int
     return false;
 }
 
-function has_action(string $hook, callable|false $callback = false): bool|int
+function has_action(string $hook, callable|string|array|false $callback = false): bool|int
 {
     return has_filter($hook, $callback);
 }
