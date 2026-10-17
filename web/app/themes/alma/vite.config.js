@@ -16,7 +16,7 @@ export default defineConfig({
     jsxFactory: 'window.wp.element.createElement',
     jsxFragment: 'window.wp.element.Fragment',
   },
-  base: '/app/themes/sage/public/build/',
+  base: '/app/themes/alma/public/build/',
   plugins: [
     bladeBlocksPlugin(),
     tailwindcss(),

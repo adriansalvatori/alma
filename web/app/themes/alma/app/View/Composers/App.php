@@ -9,7 +9,7 @@ class App extends Composer
     /**
      * List of views served by this composer.
      *
-     * @var array
+     * @var array<string>
      */
     protected static $views = [
         '*',

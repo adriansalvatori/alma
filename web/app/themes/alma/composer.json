@@ -1,73 +1,76 @@
 {
-  "name": "roots/sage",
+  "name": "alma/alma-theme",
   "type": "wordpress-theme",
   "license": "MIT",
-  "description": "WordPress starter theme with a modern development workflow",
-  "homepage": "https://roots.io/sage/",
-  "authors": [
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
-    },
-    {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "QWp6t",
-      "email": "hi@qwp6t.me",
-      "homepage": "https://github.com/qwp6t"
-    },
-    {
-      "name": "Brandon Nifong",
-      "email": "brandon@tendency.me",
-      "homepage": "https://github.com/log1x"
-    }
-  ],
+  "description": "Alma: a WordPress + Laravel (Acorn) boilerplate theme for marketing websites.",
   "keywords": [
-    "wordpress"
+    "wordpress",
+    "acorn",
+    "blade",
+    "livewire",
+    "acf"
   ],
-  "support": {
-    "issues": "https://github.com/roots/sage/issues",
-    "forum": "https://discourse.roots.io/"
-  },
   "autoload": {
     "psr-4": {
       "App\\": "app/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "require": {
-    "php": ">=8.2",
-    "bacon/bacon-qr-code": "^3.0",
+    "php": "^8.4",
+    "bacon/bacon-qr-code": "^3.1",
     "generoi/sage-woocommerce": "^1.1",
-    "livewire/flux": "^2.12",
+    "livewire/flux": "^2.20",
+    "livewire/livewire": "^4.4",
     "log1x/acf-composer": "^3.4",
     "log1x/sage-directives": "^2.0",
     "pragmarx/google2fa": "^9.0",
-    "roots/acorn": "^5.0"
+    "roots/acorn": "^6.3",
+    "sentry/sentry-laravel": "^4.29"
   },
   "require-dev": {
-    "laravel/pint": "^1.20",
-    "pestphp/pest": "^3.0",
-    "brain/monkey": "^2.6"
-  },
-  "suggest": {
-    "log1x/sage-directives": "A collection of useful Blade directives for WordPress and Sage (^1.0)."
+    "illuminate/mail": "^13.0",
+    "larastan/larastan": "^3.13",
+    "laravel/pint": "^1.32",
+    "mockery/mockery": "^1.6",
+    "pestphp/pest": "^5.3",
+    "php-stubs/acf-pro-stubs": "^6.8",
+    "php-stubs/woocommerce-stubs": "^11.2",
+    "szepeviktor/phpstan-wordpress": "^2.0"
   },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "scripts": {
     "post-autoload-dump": [
       "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
     ],
     "test": "pest",
-    "test:coverage": "pest --coverage"
+    "lint": "pint --test",
+    "lint:fix": "pint",
+    "analyse": "phpstan analyse --memory-limit=1G",
+    "check": [
+      "@lint",
+      "@analyse",
+      "@test"
+    ]
+  },
+  "scripts-descriptions": {
+    "test": "Run the Pest suite (no WordPress, no network, no database server).",
+    "lint": "Check formatting with Pint (the CI gate).",
+    "lint:fix": "Fix formatting with Pint.",
+    "analyse": "Run Larastan over app/, config/ and routes/.",
+    "check": "Everything CI runs: lint, analyse, test."
   }
 }

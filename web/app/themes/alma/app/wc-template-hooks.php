@@ -5,11 +5,10 @@
  *
  * Action/filter hooks used for WooCommerce functions/templates.
  *
- * @package WooCommerce/Templates
  * @version 2.1.0
  */
 
- namespace App;
+namespace App;
 
 // remove_filter('body_class', 'wc_body_class');
 // remove_filter('post_class', 'wc_product_post_class', 20);

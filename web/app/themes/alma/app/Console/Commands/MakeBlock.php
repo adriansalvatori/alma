@@ -34,6 +34,7 @@ class MakeBlock extends Command
 
         if (file_exists($viewPath)) {
             $this->error("Block {$kebabName}.blade.php already exists.");
+
             return;
         }
 
@@ -79,13 +80,13 @@ class MakeBlock extends Command
 </section>
 BLADE;
 
-        if (!is_dir(dirname($viewPath))) {
+        if (! is_dir(dirname($viewPath))) {
             mkdir(dirname($viewPath), 0755, true);
         }
 
         file_put_contents($viewPath, $bladeContent);
 
         $this->info("Successfully created native block: resources/views/blocks/{$kebabName}.blade.php");
-        $this->info("Run `npm run build` or `npm run dev` to compile the block metadata.");
+        $this->info('Run `npm run build` or `npm run dev` to compile the block metadata.');
     }
 }

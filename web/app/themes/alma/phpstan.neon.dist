@@ -1,0 +1,25 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - config
+        - routes
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+    scanFiles:
+        - vendor/php-stubs/acf-pro-stubs/acf-pro-stubs.php
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    # Bedrock loads .env on every request, so env() outside config/ is safe here.
+    noEnvCallsOutsideOfConfig: false
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # WordPress' __($text, $domain) is the one that exists at runtime (WordPress loads before
+        # Acorn, and Acorn only defines Laravel's __() when none exists), but Larastan reflects
+        # Laravel's signature. This is the only error the clash produces.
+        -
+            message: '#^Parameter \#2 \$\w+ of function __ expects array<.+>, .+ given\.$#'
+            identifier: argument.type

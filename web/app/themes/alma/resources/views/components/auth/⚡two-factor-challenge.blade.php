@@ -1,8 +1,8 @@
 <?php
 
 use Livewire\Component;
-use App\Services\TwoFactorService;
-use App\Services\AuthService;
+use App\Domains\Account\Services\TwoFactorService;
+use App\Domains\Account\Services\AuthService;
 
 new class extends Component {
     public string $code = '';

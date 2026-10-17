@@ -6,6 +6,8 @@
 
 namespace App;
 
+use App\Domains\Account\Services\RoleService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Vite;
 
 /**
@@ -33,15 +35,15 @@ add_filter('block_editor_settings_all', function ($settings) {
  * @return void
  */
 add_action('admin_head', function () {
-    if (!get_current_screen()?->is_block_editor()) {
+    if (! get_current_screen()?->is_block_editor()) {
         return;
     }
 
-    if (!Vite::isRunningHot()) {
+    if (! Vite::isRunningHot()) {
         $dependencies = json_decode(Vite::content('editor.deps.json'));
 
         foreach ($dependencies as $dependency) {
-            if (!wp_script_is($dependency)) {
+            if (! wp_script_is($dependency)) {
                 wp_enqueue_script($dependency);
             }
         }
@@ -93,7 +95,7 @@ add_filter('block_categories_all', function ($categories) {
                 'title' => __('Alma Blocks', 'alma'),
                 'icon' => 'admin-site',
             ],
-        ]
+        ],
     );
 });
 
@@ -132,7 +134,7 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/reference/functions/register_nav_menus/
      */
     register_nav_menus([
-        'primary_navigation' => __('Primary Navigation', 'sage'),
+        'primary_navigation' => __('Primary Navigation', 'alma'),
     ]);
 
     /**
@@ -227,12 +229,12 @@ add_action('widgets_init', function () {
     ];
 
     register_sidebar([
-        'name' => __('Primary', 'sage'),
+        'name' => __('Primary', 'alma'),
         'id' => 'sidebar-primary',
     ] + $config);
 
     register_sidebar([
-        'name' => __('Footer', 'sage'),
+        'name' => __('Footer', 'alma'),
         'id' => 'sidebar-footer',
     ] + $config);
 });
@@ -242,7 +244,7 @@ add_action('widgets_init', function () {
  */
 add_action('after_switch_theme', function () {
     // 1. Create Default Roles
-    $roleService = app(\App\Services\RoleService::class);
+    $roleService = app(RoleService::class);
     $roleService->createRole('alma_admin', 'Alma Admin', [
         'read' => true,
         'edit_posts' => true,
@@ -252,7 +254,7 @@ add_action('after_switch_theme', function () {
     // Helper to create page if it doesn't exist
     $createPage = function ($title, $slug) {
         $page = get_page_by_path($slug);
-        if (!$page) {
+        if (! $page) {
             return wp_insert_post([
                 'post_type' => 'page',
                 'post_title' => $title,
@@ -261,6 +263,7 @@ add_action('after_switch_theme', function () {
                 'post_content' => "<!-- wp:alma/hero {\"title\":\"{$title}\"} /-->",
             ]);
         }
+
         return $page->ID;
     };
 
@@ -282,14 +285,13 @@ add_action('after_switch_theme', function () {
  * Enqueue frontend assets since FSE bypasses the standard Blade layout.
  */
 add_action('wp_head', function () {
-    echo \Illuminate\Support\Facades\Blade::render("@vite(['resources/css/app.css', 'resources/js/app.js'])\n@livewireStyles");
-    echo \Illuminate\Support\Facades\Blade::render("@fluxAppearance");
+    echo Blade::render("@vite(['resources/css/app.css', 'resources/js/app.js'])\n@livewireStyles");
+    echo Blade::render('@fluxAppearance');
 }, 5);
 
 add_action('wp_footer', function () {
-    echo \Illuminate\Support\Facades\Blade::render("@substrateJs");
-    echo \Illuminate\Support\Facades\Blade::render("@livewireScripts");
-    echo \Illuminate\Support\Facades\Blade::render("@fluxScripts");
+    echo Blade::render('@livewireScripts');
+    echo Blade::render('@fluxScripts');
 }, 5);
 
 /**
@@ -300,7 +302,7 @@ add_filter('render_block_core/buttons', function ($block_content, $block) {
         return $block_content;
     }
 
-    return '<div class="flex flex-wrap items-center gap-3">' . $block_content . '</div>';
+    return '<div class="flex flex-wrap items-center gap-3">'.$block_content.'</div>';
 }, 10, 2);
 
 /**
@@ -336,13 +338,12 @@ add_filter('render_block_core/button', function ($block_content, $block) {
         $text = strip_tags($block['innerHTML']);
     }
 
-    // Default to # if no link
-    $href = $href ?: '#';
-
-    // Compile dynamic blade component string
-    $bladeString = "<flux:button href=\"{$href}\" variant=\"{$variant}\">{$text}</flux:button>";
-
-    return \Illuminate\Support\Facades\Blade::render($bladeString);
+    // Editor content is data, never template source: compiling it as Blade would let anyone who
+    // can edit a post run PHP through "@php" in a button label.
+    return Blade::render(
+        '<flux:button :href="$href" :variant="$variant">{{ $text }}</flux:button>',
+        ['href' => html_entity_decode($href ?: '#'), 'variant' => $variant, 'text' => html_entity_decode($text)],
+    );
 }, 10, 2);
 
 /**
@@ -350,7 +351,7 @@ add_filter('render_block_core/button', function ($block_content, $block) {
  * It checks the 'render' property (which translates to render_callback) for a .blade.php file.
  */
 add_filter('register_block_type_args', function (array $args, string $name): array {
-    if (empty($args['render_callback']) || !($args['render_callback'] instanceof \Closure)) {
+    if (empty($args['render_callback']) || ! ($args['render_callback'] instanceof \Closure)) {
         return $args;
     }
     $reflector = new \ReflectionFunction($args['render_callback']);
@@ -362,6 +363,7 @@ add_filter('register_block_type_args', function (array $args, string $name): arr
                 ->render();
         };
     }
+
     return $args;
 }, 1, 2);
 
@@ -371,11 +373,12 @@ add_filter('register_block_type_args', function (array $args, string $name): arr
 add_action('init', function () {
     // Look for our Vite plugin compiled block.jsons
     $blocksDir = locate_template('resources/.blocks');
-    if (!$blocksDir)
+    if (! $blocksDir) {
         return;
+    }
 
     // Use glob to find all block.json files in subdirectories
-    $blockJsonFiles = glob($blocksDir . '/*/block.json');
+    $blockJsonFiles = glob($blocksDir.'/*/block.json');
     if ($blockJsonFiles) {
         foreach ($blockJsonFiles as $jsonFile) {
             register_block_type(dirname($jsonFile));

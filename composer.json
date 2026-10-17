@@ -1,33 +1,15 @@
 {
-  "name": "roots/bedrock",
+  "name": "alma/alma",
   "type": "project",
   "license": "MIT",
-  "description": "WordPress boilerplate with Composer, easier configuration, and an improved folder structure",
-  "homepage": "https://roots.io/bedrock/",
-  "authors": [
-    {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
-    }
-  ],
+  "description": "Alma v8: a WordPress + Laravel (Bedrock, Acorn, Livewire, ACF) boilerplate for marketing websites that deploys to shared hosting.",
   "keywords": [
-    "bedrock",
-    "composer",
-    "roots",
     "wordpress",
-    "wp",
-    "wp-config"
+    "bedrock",
+    "acorn",
+    "livewire",
+    "boilerplate"
   ],
-  "support": {
-    "issues": "https://github.com/roots/bedrock/issues",
-    "forum": "https://discourse.roots.io/category/bedrock"
-  },
   "repositories": [
     {
       "name": "wpackagist",
@@ -37,36 +19,46 @@
         "wpackagist-plugin/*",
         "wpackagist-theme/*"
       ]
+    },
+    {
+      "name": "acf",
+      "type": "composer",
+      "url": "https://connect.advancedcustomfields.com",
+      "only": [
+        "wpengine/*"
+      ]
     }
   ],
   "require": {
-    "php": ">=8.1",
-    "composer/installers": "^2.2",
-    "vlucas/phpdotenv": "^5.5",
+    "php": "^8.4",
+    "composer/installers": "^2.3",
     "oscarotero/env": "^2.1",
     "roots/bedrock-autoloader": "^1.0",
     "roots/bedrock-disallow-indexing": "^2.0",
-    "roots/wordpress": "6.9.1",
-    "roots/wp-config": "1.0.0",
-    "wpackagist-theme/twentytwentyfive": "^1.0",
-    "wpackagist-plugin/wompi-portal-de-pagos": "^2.0",
-    "wpackagist-plugin/woocommerce": "^10.5"
+    "roots/wordpress": "^7.1",
+    "roots/wp-config": "^1.0",
+    "vlucas/phpdotenv": "^5.6",
+    "wordpress/mcp-adapter": "^0.7",
+    "wpackagist-plugin/autodescription": "^5.1",
+    "wpengine/advanced-custom-fields-pro": "^6.8"
   },
   "require-dev": {
-    "laravel/pint": "^1.18",
-    "digitalnodecom/substrate": "dev-main",
-    "pestphp/pest": "^3.0",
-    "brain/monkey": "^2.6"
+    "laravel/pint": "^1.32"
+  },
+  "suggest": {
+    "wpackagist-plugin/woocommerce": "Enables the optional Commerce module (composer require wpackagist-plugin/woocommerce)."
   },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
+    "sort-packages": true,
     "allow-plugins": {
+      "automattic/jetpack-autoloader": true,
       "composer/installers": true,
       "roots/wordpress-core-installer": true
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "extra": {
     "installer-paths": {
@@ -85,11 +77,18 @@
   "scripts": {
     "lint": "pint --test",
     "lint:fix": "pint",
-    "test": "pest",
-    "test:coverage": "pest --coverage",
-    "test:parallel": "pest --parallel",
+    "theme": "@composer --working-dir=web/app/themes/alma",
+    "check": [
+      "@lint",
+      "@composer --working-dir=web/app/themes/alma check"
+    ],
     "post-create-project-cmd": [
       "bash bin/setup.sh"
     ]
+  },
+  "scripts-descriptions": {
+    "lint": "Check formatting of the Bedrock files (the theme has its own Pint config).",
+    "theme": "Run a composer command in the theme, e.g. composer theme test.",
+    "check": "Everything CI runs, for the root and the theme."
   }
 }

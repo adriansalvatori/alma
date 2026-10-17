@@ -1,9 +1,14 @@
 {
-  "preset": "per",
+  "preset": "laravel",
   "exclude": [
     "web/wp",
-    "web/app/mu-plugins/bedrock-disallow-indexing",
     "web/app/plugins",
-    "web/app/themes/twentytwentyfive"
+    "web/app/mu-plugins/bedrock-disallow-indexing",
+    "web/app/themes",
+    "web/app/uploads",
+    "web/app/cache"
+  ],
+  "notPath": [
+    "web/app/mu-plugins/bedrock-autoloader.php"
   ]
 }

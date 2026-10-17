@@ -16,6 +16,9 @@ Config::define('WP_DISABLE_FATAL_ERROR_HANDLER', true);
 Config::define('SCRIPT_DEBUG', true);
 Config::define('DISALLOW_INDEXING', true);
 
+// Re-read theme.json and block metadata on every request while developing.
+Config::define('WP_DEVELOPMENT_MODE', 'theme');
+
 ini_set('display_errors', '1');
 
 // Enable plugin and theme updates and installation from the admin

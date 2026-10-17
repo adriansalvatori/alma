@@ -4,3 +4,7 @@
 !/public/.gitkeep
 .env
 npm-debug.log
+/.phpunit.cache
+/coverage
+# Local PHPStan overrides (copy phpstan.neon.dist)
+/phpstan.neon

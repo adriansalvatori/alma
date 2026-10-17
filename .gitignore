@@ -26,3 +26,14 @@ auth.json
 
 # WP-CLI
 wp-cli.local.yml
+
+# OS / editors
+.DS_Store
+**/.DS_Store
+
+# Database dumps and release artifacts (never commit these)
+*.sql
+*.sql.gz
+/exports/
+/releases/
+*.zip

@@ -9,6 +9,9 @@
  * can.
  */
 
+use Dotenv\Repository\Adapter\EnvConstAdapter;
+use Dotenv\Repository\Adapter\PutenvAdapter;
+use Dotenv\Repository\RepositoryBuilder;
 use Roots\WPConfig\Config;
 
 use function Env\env;
@@ -28,20 +31,20 @@ $root_dir = dirname(__DIR__);
  *
  * @var non-falsy-string
  */
-$webroot_dir = $root_dir . '/web';
+$webroot_dir = $root_dir.'/web';
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
  * .env.local will override .env if it exists
  */
-if (file_exists($root_dir . '/.env')) {
-    $env_files = file_exists($root_dir . '/.env.local')
+if (file_exists($root_dir.'/.env')) {
+    $env_files = file_exists($root_dir.'/.env.local')
         ? ['.env', '.env.local']
         : ['.env'];
 
-    $repository = Dotenv\Repository\RepositoryBuilder::createWithNoAdapters()
-        ->addAdapter(Dotenv\Repository\Adapter\EnvConstAdapter::class)
-        ->addAdapter(Dotenv\Repository\Adapter\PutenvAdapter::class)
+    $repository = RepositoryBuilder::createWithNoAdapters()
+        ->addAdapter(EnvConstAdapter::class)
+        ->addAdapter(PutenvAdapter::class)
         ->immutable()
         ->make();
 
@@ -49,7 +52,7 @@ if (file_exists($root_dir . '/.env')) {
     $dotenv->load();
 
     $dotenv->required(['WP_HOME', 'WP_SITEURL']);
-    if (!env('DATABASE_URL')) {
+    if (! env('DATABASE_URL')) {
         $dotenv->required(['DB_NAME', 'DB_USER', 'DB_PASSWORD']);
     }
 }
@@ -63,7 +66,7 @@ define('WP_ENV', env('WP_ENV') ?: 'production');
 /**
  * Infer WP_ENVIRONMENT_TYPE based on WP_ENV
  */
-if (!env('WP_ENVIRONMENT_TYPE') && in_array(WP_ENV, ['production', 'staging', 'development', 'local'])) {
+if (! env('WP_ENVIRONMENT_TYPE') && in_array(WP_ENV, ['production', 'staging', 'development', 'local'])) {
     Config::define('WP_ENVIRONMENT_TYPE', WP_ENV);
 }
 
@@ -77,8 +80,8 @@ Config::define('WP_SITEURL', env('WP_SITEURL'));
  * Custom Content Directory
  */
 Config::define('CONTENT_DIR', '/app');
-Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
-Config::define('WP_CONTENT_URL', Config::get('WP_HOME') . Config::get('CONTENT_DIR'));
+Config::define('WP_CONTENT_DIR', $webroot_dir.Config::get('CONTENT_DIR'));
+Config::define('WP_CONTENT_URL', Config::get('WP_HOME').Config::get('CONTENT_DIR'));
 
 /**
  * DB settings
@@ -119,6 +122,14 @@ Config::define('NONCE_SALT', env('NONCE_SALT'));
 /**
  * Custom Settings
  */
+/**
+ * ACF Pro license. Composer authenticates with the same key (see auth.json.example); defining it
+ * here also activates the plugin's updates screen without storing the key in the database.
+ */
+if (env('ACF_PRO_KEY')) {
+    Config::define('ACF_PRO_LICENSE', env('ACF_PRO_KEY'));
+}
+
 Config::define('AUTOMATIC_UPDATER_DISABLED', true);
 Config::define('DISABLE_WP_CRON', env('DISABLE_WP_CRON') ?: false);
 
@@ -150,7 +161,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
     $_SERVER['HTTPS'] = 'on';
 }
 
-$env_config = __DIR__ . '/environments/' . WP_ENV . '.php';
+$env_config = __DIR__.'/environments/'.WP_ENV.'.php';
 
 if (file_exists($env_config)) {
     require_once $env_config;
@@ -161,6 +172,6 @@ Config::apply();
 /**
  * Bootstrap WordPress
  */
-if (!defined('ABSPATH')) {
-    define('ABSPATH', $webroot_dir . '/wp/');
+if (! defined('ABSPATH')) {
+    define('ABSPATH', $webroot_dir.'/wp/');
 }

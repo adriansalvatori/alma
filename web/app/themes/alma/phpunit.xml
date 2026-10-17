@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         executionOrder="defects"
+         resolveDependencies="true"
+         failOnWarning="true"
+         failOnRisky="true">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">./app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing" force="true"/>
+        <env name="APP_KEY" value="base64:UhFfiWDXeF2BQdEsiNrc1t6+6U8CHXhsc3Cl0zZ0lls=" force="true"/>
+        <env name="APP_VERSION" value="test" force="true"/>
+        <env name="BCRYPT_ROUNDS" value="4" force="true"/>
+        <env name="DB_CONNECTION" value="sqlite" force="true"/>
+        <env name="DB_DATABASE" value=":memory:" force="true"/>
+        <env name="CACHE_STORE" value="array" force="true"/>
+        <env name="SESSION_DRIVER" value="array" force="true"/>
+        <env name="QUEUE_CONNECTION" value="sync" force="true"/>
+        <env name="MAIL_MAILER" value="array" force="true"/>
+        <env name="LOG_CHANNEL" value="null" force="true"/>
+        <env name="ALMA_DISABLED_MODULES" value="" force="true"/>
+
+        <!--
+            No real credential reaches the suite. A developer shell can export the site's
+            environment, and a test that read a real webhook URL or API key from it could call
+            the live service.
+
+            Each name is blanked twice on purpose: Laravel's env() reads $_SERVER before $_ENV,
+            and the PHP CLI copies the process environment into $_SERVER, so <env force="true">
+            alone would leave the real value in place. The network itself is closed by
+            Http::preventStrayRequests() in tests/TestCase.php.
+
+            Add every new secret a module reads here.
+        -->
+        <server name="SENTRY_LARAVEL_DSN" value=""/>
+        <env name="SENTRY_LARAVEL_DSN" value="" force="true"/>
+        <server name="ACF_PRO_KEY" value=""/>
+        <env name="ACF_PRO_KEY" value="" force="true"/>
+    </php>
+</phpunit>

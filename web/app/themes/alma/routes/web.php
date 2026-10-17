@@ -1,21 +1,20 @@
 <?php
 
+use App\Domains\Account\Http\Controllers\Auth\LoginController;
+use App\Domains\Account\Http\Controllers\Auth\RegisterController;
+use App\Domains\Account\Http\Controllers\DashboardController;
+use App\Domains\Account\Http\Controllers\SettingsController;
+use App\Domains\Account\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\TwoFactorController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| Acorn matches these on parse_request, before WordPress resolves a page, so
+| a route here wins over a page with the same slug. Use controllers, not
+| closures, so the routes stay cacheable.
 |
 */
 

@@ -1,7 +1,5 @@
 <?php
 
-use Roots\Acorn\Application;
-
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -13,49 +11,40 @@ use Roots\Acorn\Application;
 |
 */
 
-if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
-    wp_die(__('Error locating autoloader. Please run <code>composer install</code>.', 'sage'));
+if (! file_exists($composer = __DIR__.'/vendor/autoload.php')) {
+    wp_die(__('Error locating autoloader. Please run <code>composer install</code>.', 'alma'));
 }
 
 require $composer;
 
 /*
 |--------------------------------------------------------------------------
-| Register The Bootloader
+| Boot The Application
 |--------------------------------------------------------------------------
 |
-| The first thing we will do is schedule a new Acorn application container
-| to boot when WordPress is finished loading the theme. The application
-| serves as the "glue" for all the components of Laravel and is
-| the IoC container for the system binding all of the various parts.
+| The builder lives in bootstrap/application.php so the test suite and Larastan can
+| create the exact same application without booting it inside WordPress.
 |
 */
 
-Application::configure()
-    ->withProviders([
-        App\Providers\ThemeServiceProvider::class,
-    ])
-    ->withRouting(web: base_path('routes/web.php'))
-    ->boot();
+(require __DIR__.'/bootstrap/application.php')->boot();
 
 /*
 |--------------------------------------------------------------------------
-| Register Sage Theme Files
+| Register Theme Files
 |--------------------------------------------------------------------------
 |
-| Out of the box, Sage ships with categorically named theme files
-| containing common functionality and setup to be bootstrapped with your
-| theme. Simply add (or remove) files from the array below to change what
-| is registered alongside Sage.
+| Plain WordPress theme setup (supports, menus, sidebars, assets). Anything
+| with behaviour belongs in a class registered by a module provider instead.
 |
 */
 
 collect(['setup', 'filters'])
     ->each(function ($file) {
-        if (!locate_template($file = "app/{$file}.php", true, true)) {
+        if (! locate_template($file = "app/{$file}.php", true, true)) {
             wp_die(
                 /* translators: %s is replaced with the relative file path */
-                sprintf(__('Error locating <code>%s</code> for inclusion.', 'sage'), $file)
+                sprintf(__('Error locating <code>%s</code> for inclusion.', 'alma'), $file),
             );
         }
     });

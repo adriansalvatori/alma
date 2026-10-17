@@ -4,7 +4,7 @@ Advanced hybrid WordPress theme with Laravel Blade, Livewire 4, and Flux UI.
 
 ## Overview
 
-Alma is a **Sage-based WordPress theme** that brings Laravel development patterns to WordPress:
+Alma is a **modern WordPress theme** that brings Laravel development patterns to WordPress:
 
 - **Blade templating** - Clean, component-based views
 - **Livewire 4** - Reactive single-file components
@@ -293,7 +293,7 @@ npm run deploy:zip
 
 ## Resources
 
-- [Sage Documentation](https://roots.io/sage/docs/)
+- [Alma Documentation](../../README.md)
 - [Acorn Documentation](https://roots.io/acorn/)
 - [Livewire Documentation](https://livewire.laravel.com/)
 - [Flux UI](https://fluxui.xyz/)
@@ -301,4 +301,4 @@ npm run deploy:zip
 
 ## License
 
-MIT License © [Roots](https://roots.io/)
+MIT License © [Alma Team](https://alma.io/)

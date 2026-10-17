@@ -2,7 +2,7 @@
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Services\FavoritesService;
+use App\Domains\Commerce\Services\FavoritesService;
 
 new class extends Component {
     #[On('favorites-updated')]
