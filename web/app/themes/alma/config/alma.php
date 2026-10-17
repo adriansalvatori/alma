@@ -1,6 +1,7 @@
 <?php
 
 use App\Domains\Account\AccountServiceProvider;
+use App\Domains\Ai\AiServiceProvider;
 use App\Domains\Commerce\CommerceServiceProvider;
 use App\Domains\Content\ContentServiceProvider;
 use App\Domains\Lead\LeadServiceProvider;
@@ -30,6 +31,7 @@ return [
         'account' => AccountServiceProvider::class,
         'commerce' => CommerceServiceProvider::class,
         'payment' => PaymentServiceProvider::class,
+        'ai' => AiServiceProvider::class,
     ],
 
     'disabled' => array_values(array_filter(array_map(
