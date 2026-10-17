@@ -26,6 +26,15 @@ and move it to the bottom after a while.
 6. **WooCommerce:** the Commerce components, Woo template overrides and the payment gateway bridge
    have not been run against a real WooCommerce install.
 
+## Local development artifacts (Valet/Herd)
+
+- **`/robots.txt` answers 404 locally while serving the right content.** Valet's nginx handles
+  the filename itself before WordPress does. Production on Apache/LiteSpeed returns 200. Don't
+  chase it. RL saw the same thing with Herd.
+- **Valet runs nginx, which ignores `.htaccess`.** Theme internals (`composer.json`, Blade views)
+  are reachable on the local site. The deny rules only apply on Apache/LiteSpeed; on an nginx-only
+  host, port them by hand (see operations.md).
+
 ## Behaviour to know about
 
 7. **A new release can report its old version for up to about 2 minutes.** PHP's realpath cache
