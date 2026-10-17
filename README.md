@@ -1,294 +1,51 @@
-<p align="center">
-  <a href="https://alma.roots.io/">
-    <img alt="Alma" src="https://cdn.roots.io/app/uploads/logo-bedrock.svg" height="100">
-  </a>
-</p>
+# Alma v8
 
-<p align="center">
-  <strong>A multipurpose WordPress + Laravel hybrid starter kit</strong>
-</p>
+A WordPress + Laravel boilerplate for marketing websites that deploy to shared hosting.
 
-<p align="center">
-  Build full applications (websites, ecommerce, SaaS) with WordPress and Laravel tools.<br>
-  Feels like Laravel Livewire Starter Kit without losing WordPress functionality.
-</p>
+Every project starts on a foundation that has already been through production: Alma v8 carries
+the lessons of the Remote Leverage rebuild, minus the AWS/Docker infrastructure, so it runs
+anywhere with PHP 8.4, MySQL, cron and SSH.
 
-<p align="center">
-  <a href="https://packagist.org/packages/roots/bedrock"><img alt="Packagist Installs" src="https://img.shields.io/packagist/dt/roots/bedrock?label=projects%20created&colorB=2b3072&colorA=525ddc&style=flat-square"></a>
-  <a href="https://github.com/roots/bedrock/actions/workflows/ci.yml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/roots/bedrock/ci.yml?branch=master&logo=github&label=CI&style=flat-square"></a>
-  <a href="https://github.com/sponsors/roots"><img src="https://img.shields.io/badge/sponsor%20roots-525ddc?logo=github&style=flat-square&logoColor=ffffff&message=" alt="Sponsor Roots"></a>
-</p>
+## What you get
 
----
+| | |
+| :--- | :--- |
+| **Stack** | Bedrock · WordPress 7.1 · Acorn 6 (Laravel 13) · Livewire 4 + Flux · ACF Pro (ACF Composer) · Tailwind 4 · Vite 8 |
+| **Content** | Code-first ACF blocks with an enforced authoring contract, pages as patterns in git, a curated editor, a build-time image pipeline |
+| **Leads** | Lead form block, first/last-touch attribution, spam protection, email notifications, signed CRM webhook, wp-admin screens, retention and privacy tools |
+| **SEO** | The SEO Framework with settings in code, robots.txt, noindex markers, real 404s, two-tier redirects |
+| **Accounts** | Login, registration and 2FA enforced at WordPress authentication (wp-admin included) |
+| **Optional** | WooCommerce integration; a gateway-agnostic payment module; MCP abilities so Claude can operate the site |
+| **Operations** | Post-deploy command, health endpoints, cron health, Sentry, SMTP, outbound-call log, hardened `.htaccess` |
+| **Delivery** | CI (Pint, Larastan, Pest, Vite), SSH release deploys with atomic switch and rollback, `bin/pull` for production → local |
 
-## Overview
+## Quick start
 
-Alma is a **multipurpose starter kit** that combines the best of WordPress and Laravel ecosystems:
-
-- **WordPress** - World's most popular CMS
-- **Bedrock** - Modern WordPress project structure
-- **Acorn** - Laravel components in WordPress (replaces Artisan)
-- **Livewire 4** - Reactive single-file components
-- **Flux UI** - Premium component library
-- **Blade** - Elegant templating engine
-- **Tailwind CSS 4** - Modern utility-first CSS
-- **WooCommerce** - E-commerce functionality
-
-## Features
-
-### 🏗️ Architecture
-- Service-oriented architecture
-- Laravel-style MVC pattern
-- Clean separation of concerns
-- Dependency injection
-- PSR-4 autoloading
-
-### ⚡ Development
-- Vite build system
-- Hot module replacement
-- Modern JavaScript (ES6+)
-- Tailwind CSS 4
-- Dark mode support
-
-### 🧩 Components
-- Native Gutenberg blocks (single-file Blade)
-- Livewire single-file components
-- Flux UI components
-- Reusable Blade components
-- View composers
-
-### 🔐 Security
-- Authentication system
-- 2FA support
-- Role management
-- Middleware protection
-- Input validation
-
-### 🛍️ E-commerce
-- WooCommerce integration
-- Custom template overrides
-- Tailwind styling
-- Flux UI components
-
-### 🧪 Testing
-- Pest PHP test suite
-- Unit tests
-- Feature tests
-- Mocking utilities
-- Coverage reporting
-
-## Quick Start
-
-### 1. Clone
 ```bash
-git clone <repository-url> my-project
-cd my-project
+cp auth.json.example auth.json        # add your ACF Pro license key
+bin/setup.sh                          # .env, dependencies, database, WordPress install, first deploy
+cd web/app/themes/alma && npm run dev
 ```
 
-### 2. Install
+Then work through [local development](web/app/themes/alma/docs/local-development.md). Before the
+first deploy, follow [deployment](web/app/themes/alma/docs/deployment.md) and its launch checklist.
+
+## Checks
+
 ```bash
-composer install
-npm install
+cd web/app/themes/alma && composer check && npm run build
 ```
 
-### 3. Configure
-```bash
-cp .env.example .env
-# Edit .env with your settings
-```
-
-### 4. Setup
-```bash
-bash bin/setup.sh
-```
-
-### 5. Develop
-```bash
-npm run dev          # Start Vite
-wp server --port=3000  # Start WordPress
-```
-
-Visit: `http://localhost:3000`
+`composer check` runs Pint, Larastan and the Pest suite. The suite boots the real application on
+SQLite, with WordPress faked and the network closed, and runs in seconds with no services.
 
 ## Documentation
 
-| Guide | Description |
-|-------|-------------|
-| [Quick Start](QUICKSTART.md) | Get up and running in 5 minutes |
-| [Architecture](ARCHITECTURE.md) | Project structure and patterns |
-| [Developer Guide](DEVELOPER_GUIDE.md) | Building features reference |
-| [Testing Guide](TESTING.md) | Testing setup and examples |
-| [Deployment Guide](DEPLOYMENT.md) | Production deployment |
-| [API Reference](API.md) | Complete API documentation |
-| [Contributing Guide](CONTRIBUTING.md) | How to contribute |
-
-## Project Structure
-
-```
-my-project/
-├── config/                    # WordPress configuration
-├── web/
-│   ├── app/
-│   │   ├── themes/
-│   │   │   └── alma/        # Main theme
-│   │   │       ├── app/     # Laravel-style code
-│   │   │       │   ├── Console/     # WP-CLI commands
-│   │   │       │   ├── Http/        # Controllers, Middleware
-│   │   │       │   ├── Providers/   # Service providers
-│   │   │       │   ├── Services/    # Business logic
-│   │   │       │   └── View/        # View composers
-│   │   │       ├── resources/       # Front-end assets
-│   │   │       │   ├── views/       # Blade templates
-│   │   │       │   ├── css/         # Stylesheets
-│   │   │       │   └── js/          # JavaScript
-│   │   │       └── routes/          # Application routes
-│   │   ├── plugins/         # WordPress plugins
-│   │   └── mu-plugins/      # Must-use plugins
-│   └── wp/                  # WordPress core
-├── vendor/                  # Composer dependencies
-└── bin/                     # Build scripts
-```
-
-## Common Commands
-
-### Development
-```bash
-npm run dev          # Start Vite dev server
-npm run build        # Production build
-wp acorn serve       # PHP dev server
-```
-
-### Testing
-```bash
-composer test        # Run Pest tests
-composer test:coverage  # With coverage
-composer lint        # Check code style
-composer lint:fix    # Fix code style
-```
-
-### CLI
-```bash
-wp acorn list        # List commands
-wp acorn make:block  # Create Gutenberg block
-wp db export         # Export database
-wp cache flush       # Clear cache
-```
-
-### Deployment
-```bash
-npm run deploy:zip   # Create deployment package
-```
-
-## Stack Details
-
-### Backend
-- **PHP 8.2+** - Modern PHP features
-- **WordPress 6.9+** - Latest WordPress
-- **Acorn 5.0** - Laravel integration
-- **Composer** - Dependency management
-
-### Frontend
-- **Vite 7.0** - Fast build tool
-- **Tailwind CSS 4** - Utility-first CSS
-- **Livewire 4** - Reactive components
-- **Flux UI** - Component library
-- **Alpine.js** - Lightweight JS
-
-### E-commerce
-- **WooCommerce 10.5+** - Full store functionality
-- **Wompi** - Payment gateway (Colombia)
-- **ACF Pro** - Custom fields
-
-## Code Examples
-
-### Service Pattern
-```php
-namespace App\Services;
-
-class SearchService
-{
-    public function search(string $query): array
-    {
-        return get_posts(['s' => $query]);
-    }
-}
-```
-
-### Livewire Component
-```blade
-<?php
-
-use Livewire\Component;
-
-new class extends Component {
-    public string $search = '';
-    
-    public function updatedSearch(SearchService $search): void
-    {
-        $this->results = $search->search($this->search);
-    }
-};
-?>
-
-<div>
-    <flux:input wire:model.live="search" />
-    @foreach($results as $result)
-        <p>{{ $result->post_title }}</p>
-    @endforeach
-</div>
-```
-
-### Gutenberg Block
-```blade
-{{--
-{
-    "name": "alma/hero",
-    "title": "Hero",
-    "attributes": {
-        "title": {"type": "string", "control": "TextControl"}
-    }
-}
---}}
-
-@php
-    $title = $attributes['title'] ?? 'Hero';
-@endphp
-
-<section class="py-20">
-    <h2 class="text-4xl font-bold">{{ $title }}</h2>
-</section>
-```
-
-Create with: `wp acorn make:block Hero`
-
-## Requirements
-
-- **PHP**: 8.2 or higher
-- **MySQL**: 8.0+ or MariaDB 10.4+
-- **Node**: 20 or higher
-- **Composer**: Latest version
-- **WP-CLI**: Latest version
-
-## Support
-
-- **Documentation**: See guides above
-- **Issues**: Open GitHub issue
-- **Community**: [Roots Discourse](https://discourse.roots.io/)
-- **Twitter**: [@rootswp](https://twitter.com/rootswp)
-
-## Sponsors
-
-Support modern WordPress development by [sponsoring Roots](https://github.com/sponsors/roots).
-
-<a href="https://carrot.com/"><img src="https://cdn.roots.io/app/uploads/carrot.svg" alt="Carrot" width="120" height="90"></a>
-<a href="https://wordpress.com/"><img src="https://cdn.roots.io/app/uploads/wordpress.svg" alt="WordPress.com" width="120" height="90"></a>
-<a href="https://www.itineris.co.uk/"><img src="https://cdn.roots.io/app/uploads/itineris.svg" alt="Itineris" width="120" height="90"></a>
-<a href="https://kinsta.com/"><img src="https://cdn.roots.io/app/uploads/kinsta.svg" alt="Kinsta" width="120" height="90"></a>
+All docs live in [`web/app/themes/alma/docs`](web/app/themes/alma/docs/README.md): architecture,
+one guide per module, configuration, deployment, operations, decision records and known issues.
+Working with Claude Code? [`CLAUDE.md`](CLAUDE.md) and the skills in `.claude/skills/` load
+automatically.
 
 ## License
 
-MIT License © [Roots](https://roots.io/)
-
----
-
-**Built with ❤️ using WordPress + Laravel**
+MIT. Built on Roots Bedrock and Sage.

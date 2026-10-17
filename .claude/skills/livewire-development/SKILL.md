@@ -1,0 +1,178 @@
+---
+name: livewire-development
+description: >-
+  Develops reactive Livewire 4 components. Activates when creating, updating, or modifying
+  Livewire components; working with wire:model, wire:click, wire:loading, or any wire: directives;
+  adding real-time updates, loading states, or reactivity; debugging component behavior;
+  writing Livewire tests; or when the user mentions Livewire, component, counter, or reactive UI.
+---
+
+# Livewire Development
+
+## When to Apply
+
+Activate this skill when:
+
+- Creating or modifying Livewire components
+- Using wire: directives (model, click, loading, sort, intersect)
+- Implementing islands or async actions
+- Writing Livewire component tests
+
+## Documentation
+
+Livewire 4 documentation: https://livewire.laravel.com/docs. In alma, run commands as `wp acorn …` from the repository root (Acorn replaces Artisan).
+
+## In alma
+
+- Components are **single-file** (Livewire 4 SFC) and live with their module's views:
+  `web/app/themes/alma/resources/views/components/<module>/⚡<name>.blade.php`, used as
+  `<livewire:<module>.<name> />`. A convention test fails the build if a tag doesn't resolve.
+- Keep logic out of the component: call the module's Actions/Services (`app/Domains/<Module>`).
+- Put `#[Locked]` on every property the server sets (ids, form keys, prices). Write helpers as
+  `protected`; public methods are callable from the browser, so each one re-checks what it relies on.
+- Forms that take public input need the spam guard the Lead form uses (honeypot, fill-time
+  token, `RateLimiter`); see `docs/lead.md`.
+- Test with `Livewire::test()` in Pest: `tests/Feature/<Module>/`. The suite boots the real app,
+  so Livewire works exactly as in production (WordPress is faked: `tests/Support/WordPress`).
+- WordPress-rendered pages share an empty `$errors` bag; Flux inputs rely on it.
+
+## Basic Usage
+
+### Creating Components
+
+<code-snippet name="Component Creation Commands" lang="bash">
+
+# Single-file component (default in v4)
+
+wp acorn make:livewire create-post
+
+# Multi-file component
+
+wp acorn make:livewire create-post --mfc
+
+# Class-based component (v3 style)
+
+wp acorn make:livewire create-post --class
+
+# With namespace
+
+wp acorn make:livewire Posts/CreatePost
+
+</code-snippet>
+
+### Converting Between Formats
+
+Use `wp acorn livewire:convert create-post` to convert between single-file, multi-file, and class-based formats.
+
+### Component Format Reference
+
+| Format | Flag | Structure |
+|--------|------|-----------|
+| Single-file (SFC) | default | PHP + Blade in one file |
+| Multi-file (MFC) | `--mfc` | Separate PHP class, Blade, JS, tests |
+| Class-based | `--class` | Traditional v3 style class |
+| View-based | ⚡ prefix | Blade-only with functional state |
+
+### Single-File Component Example
+
+<code-snippet name="Single-File Component Example" lang="php">
+
+<?php
+use Livewire\Component;
+
+new class extends Component {
+    public int $count = 0;
+
+    public function increment(): void
+    {
+        $this->count++;
+    }
+}
+?>
+
+<div>
+    <button wire:click="increment">Count: @{{ $count }}</button>
+</div>
+
+</code-snippet>
+
+## Livewire 4 Specifics
+
+### Key Changes From Livewire 3
+
+These things changed in Livewire 4, but may not have been updated in this application. Verify this application's setup to ensure you follow existing conventions.
+
+- Use `Route::livewire()` for full-page components; config keys renamed: `layout` → `component_layout`, `lazy_placeholder` → `component_placeholder`.
+- `wire:model` now ignores child events by default (use `wire:model.deep` for old behavior); `wire:scroll` renamed to `wire:navigate:scroll`.
+- Component tags must be properly closed; `wire:transition` now uses View Transitions API (modifiers removed).
+- JavaScript: `$wire.$js('name', fn)` → `$wire.$js.name = fn`; `commit`/`request` hooks → `interceptMessage()`/`interceptRequest()`.
+
+### New Features
+
+- Component formats: single-file (SFC), multi-file (MFC), view-based components.
+- Islands (`@island`) for isolated updates; async actions (`wire:click.async`, `#[Async]`) for parallel execution.
+- Deferred/bundled loading: `defer`, `lazy.bundle` for optimized component loading.
+
+| Feature | Usage | Purpose |
+|---------|-------|---------|
+| Islands | `@island(name: 'stats')` | Isolated update regions |
+| Async | `wire:click.async` or `#[Async]` | Non-blocking actions |
+| Deferred | `defer` attribute | Load after page render |
+| Bundled | `lazy.bundle` | Load multiple together |
+
+### New Directives
+
+- `wire:sort`, `wire:intersect`, `wire:ref`, `.renderless`, `.preserve-scroll` are available for use.
+- `data-loading` attribute automatically added to elements triggering network requests.
+- **Events:** In Livewire 4, listen for global events using PHP Attributes (`#[On('event-name')]`) above methods instead of the `$listeners` array. Dispatch them instantly with `$this->dispatch('event-name')`.
+
+| Directive | Purpose |
+|-----------|---------|
+| `wire:sort` | Drag-and-drop sorting |
+| `wire:intersect` | Viewport intersection detection |
+| `wire:ref` | Element references for JS |
+| `.renderless` | Component without rendering |
+| `.preserve-scroll` | Preserve scroll position |
+
+## Best Practices
+
+- Always use `wire:key` in loops
+- Use `wire:loading` for loading states
+- Use `wire:model.live` for instant updates (default is debounced)
+- Validate and authorize in actions (treat like HTTP requests)
+
+## Configuration
+
+- `smart_wire_keys` defaults to `true`; new configs: `component_locations`, `component_namespaces`, `make_command`, `csp_safe`.
+
+## Alpine & JavaScript
+
+- `wire:transition` uses browser View Transitions API; `$errors` and `$intercept` magic properties available.
+- Non-blocking `wire:poll` and parallel `wire:model.live` updates improve performance.
+
+For interceptors and hooks, see [reference/javascript-hooks.md](reference/javascript-hooks.md).
+
+## Testing
+
+<code-snippet name="Testing Example" lang="php">
+
+Livewire::test(Counter::class)
+    ->assertSet('count', 0)
+    ->call('increment')
+    ->assertSet('count', 1);
+
+</code-snippet>
+
+## Verification
+
+1. Browser console: Check for JS errors
+2. Network tab: Verify Livewire requests return 200
+3. Ensure `wire:key` on all `@foreach` loops
+
+## Common Pitfalls
+
+- Missing `wire:key` in loops → unexpected re-rendering
+- Expecting `wire:model` real-time → use `wire:model.live`
+- Unclosed component tags → syntax errors in v4
+- Using deprecated config keys or JS hooks
+- Including Alpine.js separately (already bundled in Livewire 4)
