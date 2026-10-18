@@ -23,6 +23,7 @@ return [
         'hosts' => array_values(array_filter(array_map('trim', explode(',', (string) env('INTEGRATION_LOG_HOSTS', ''))))),
 
         // Never recorded: WordPress' own update checks, the error reporter, and loopback calls.
+        // The site's own host (home_url/site_url) is always skipped too, in IntegrationCallRecorder.
         'ignore_hosts' => [
             'api.wordpress.org',
             'downloads.wordpress.org',

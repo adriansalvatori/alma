@@ -110,7 +110,9 @@ class IntegrationCallRecorder
 
     public function shouldRecord(string $host): bool
     {
-        if ($host === '') {
+        // The site calling itself (WP-Cron spawning, Site Health's loopback checks) is not an
+        // integration, and "localhost" in ignore_hosts never matches the site's real hostname.
+        if ($host === '' || in_array($host, $this->ownHosts(), true)) {
             return false;
         }
 
@@ -121,6 +123,17 @@ class IntegrationCallRecorder
         }
 
         return ! $this->matchesAny($host, (array) config('observability.integration_log.ignore_hosts', []));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function ownHosts(): array
+    {
+        return array_values(array_unique(array_filter([
+            strtolower((string) parse_url(home_url(), PHP_URL_HOST)),
+            strtolower((string) parse_url(site_url(), PHP_URL_HOST)),
+        ])));
     }
 
     /**

@@ -71,7 +71,8 @@ describe('integration call log', function () {
     it('skips ignored hosts and honours the allowlist', function () {
         $recorder = app(IntegrationCallRecorder::class);
 
-        expect($recorder->shouldRecord('api.wordpress.org'))->toBeFalse()
+        expect($recorder->shouldRecord('example.test'))->toBeFalse() // the site itself: WP-Cron, loopbacks
+            ->and($recorder->shouldRecord('api.wordpress.org'))->toBeFalse()
             ->and($recorder->shouldRecord('o12.ingest.sentry.io'))->toBeFalse()
             ->and($recorder->shouldRecord('crm.example.com'))->toBeTrue();
 
