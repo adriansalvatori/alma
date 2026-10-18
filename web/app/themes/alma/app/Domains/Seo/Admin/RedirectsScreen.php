@@ -71,58 +71,42 @@ class RedirectsScreen
 
         try {
             $rows = Redirect::query()->orderBy('from_path')->get();
+            $missing = false;
         } catch (Throwable) {
             $rows = collect();
-            echo '<div class="notice notice-error"><p>'.esc_html__('The redirects table is missing. Run wp acorn alma:deploy.', 'alma').'</p></div>';
+            $missing = true;
         }
 
-        echo '<div class="wrap"><h1>'.esc_html__('Redirects', 'alma').'</h1>';
-        $this->notices();
-
-        echo '<h2>'.esc_html__('Add a redirect', 'alma').'</h2>';
-        echo '<form method="post" action="'.esc_url(admin_url('admin-post.php')).'">';
-        wp_nonce_field('alma_redirect_create');
-        echo '<input type="hidden" name="action" value="alma_redirect_create">';
-        echo '<table class="form-table"><tbody>';
-        echo '<tr><th><label for="from_path">'.esc_html__('From path', 'alma').'</label></th><td><input name="from_path" id="from_path" class="regular-text" placeholder="/old-page" required></td></tr>';
-        echo '<tr><th><label for="to_url">'.esc_html__('To', 'alma').'</label></th><td><input name="to_url" id="to_url" class="regular-text" placeholder="/new-page/ or https://example.com/" required></td></tr>';
-        echo '<tr><th><label for="status_code">'.esc_html__('Type', 'alma').'</label></th><td><select name="status_code" id="status_code"><option value="301">301 '.esc_html__('Permanent', 'alma').'</option><option value="302">302 '.esc_html__('Temporary', 'alma').'</option></select></td></tr>';
-        echo '<tr><th><label for="note">'.esc_html__('Note', 'alma').'</label></th><td><input name="note" id="note" class="regular-text" maxlength="255"></td></tr>';
-        echo '</tbody></table>';
-        submit_button(__('Add redirect', 'alma'));
-        echo '</form>';
-
-        echo '<h2>'.esc_html__('Redirects', 'alma').'</h2>';
-        echo '<table class="widefat striped"><thead><tr><th>'.esc_html__('From', 'alma').'</th><th>'.esc_html__('To', 'alma').'</th><th>'.esc_html__('Type', 'alma').'</th><th>'.esc_html__('Hits', 'alma').'</th><th>'.esc_html__('Note', 'alma').'</th><th></th></tr></thead><tbody>';
-
-        foreach ($rows as $row) {
-            echo '<tr><td><code>'.esc_html($row->from_path).'</code></td><td>'.esc_html($row->to_url).'</td><td>'.esc_html((string) $row->status_code).'</td><td>'.esc_html((string) $row->hits).'</td><td>'.esc_html((string) $row->note).'</td><td>';
-            echo '<form method="post" action="'.esc_url(admin_url('admin-post.php')).'" onsubmit="return confirm(\''.esc_js(__('Delete this redirect?', 'alma')).'\')">';
-            wp_nonce_field('alma_redirect_delete');
-            echo '<input type="hidden" name="action" value="alma_redirect_delete"><input type="hidden" name="id" value="'.esc_attr((string) $row->id).'">';
-            echo '<button class="button-link-delete">'.esc_html__('Delete', 'alma').'</button></form></td></tr>';
-        }
-
-        foreach ($this->store->codeMap() as $path => $redirect) {
-            echo '<tr><td><code>'.esc_html($path).'</code></td><td>'.esc_html($redirect['to']).'</td><td>'.esc_html((string) $redirect['status']).'</td><td>&ndash;</td><td><em>'.esc_html__('In code (config/redirects.php)', 'alma').'</em></td><td></td></tr>';
-        }
-
-        echo '</tbody></table></div>';
+        echo view('seo::admin.redirects', [
+            'rows' => $rows,
+            'code' => $this->store->codeMap(),
+            'missing' => $missing,
+            'notices' => $this->notices(),
+        ])->render();
     }
 
-    private function notices(): void
+    /**
+     * The outcome of the last create/delete, from the query string the redirect back carried.
+     *
+     * @return list<array{0: string, 1: string}> [type, message] pairs
+     */
+    private function notices(): array
     {
+        $notices = [];
+
         if (isset($_GET['created'])) {
-            echo '<div class="notice notice-success is-dismissible"><p>'.esc_html__('Redirect added.', 'alma').'</p></div>';
+            $notices[] = ['success', __('Redirect added.', 'alma')];
         }
 
         if (isset($_GET['deleted'])) {
-            echo '<div class="notice notice-success is-dismissible"><p>'.esc_html__('Redirect deleted.', 'alma').'</p></div>';
+            $notices[] = ['success', __('Redirect deleted.', 'alma')];
         }
 
         if (isset($_GET['error'])) {
-            echo '<div class="notice notice-error"><p>'.esc_html(rawurldecode(wp_unslash((string) $_GET['error']))).'</p></div>';
+            $notices[] = ['error', rawurldecode(wp_unslash((string) $_GET['error']))];
         }
+
+        return $notices;
     }
 
     private function authorize(string $action): void

@@ -16,7 +16,8 @@ it('compiles every Blade view to valid PHP', function () {
     $scratch = sys_get_temp_dir().'/alma-blade-lint-'.getmypid();
     @mkdir($scratch, 0755, true);
 
-    foreach (convention_files('resources/views', '.blade.php') as $index => $view) {
+    // The theme's views and each module's own (lead::, ai::, seo::, payment::…).
+    foreach ([...convention_files('resources/views', '.blade.php'), ...convention_files('app/Domains', '.blade.php')] as $index => $view) {
         try {
             $compiled = Blade::compileString((string) file_get_contents($view));
         } catch (Throwable $e) {

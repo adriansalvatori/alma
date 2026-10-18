@@ -1,0 +1,646 @@
+/*
+ * The admin design system for alma's own screens (App\Infrastructure\WordPress\Admin\AdminDesignSystem).
+ *
+ * Everything is scoped under .alma-admin, the wrapper <x-admin::page> renders, so these rules can
+ * load on every admin screen without restyling core ones. They don't depend on the skin
+ * (ADMIN_THEME): a module screen looks the same with the skin switched off.
+ *
+ * The Blade components in resources/views/admin/components emit these classes; prefer the
+ * components to hand-written markup. Tokens: ./_tokens.css.
+ */
+@import "./_tokens.css";
+
+.alma-admin {
+  max-width: 1200px;
+  color: var(--alma-admin-text-soft);
+  font-family: var(--alma-admin-font);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.alma-admin *,
+.alma-admin *::before,
+.alma-admin *::after {
+  box-sizing: border-box;
+}
+
+.alma-admin :is(h1, h2, h3, h4) {
+  color: var(--alma-admin-text);
+}
+
+.alma-admin code,
+.alma-admin .alma-mono {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--color-zinc-100);
+  color: var(--alma-admin-text);
+  font-family: var(--alma-admin-mono);
+  font-size: 12px;
+}
+
+.alma-admin a:not(.alma-btn) {
+  color: var(--alma-admin-brand);
+}
+
+.alma-admin a:not(.alma-btn):hover {
+  color: var(--alma-admin-brand-hover);
+}
+
+/* --- Page header ------------------------------------------------------------------------------ */
+
+.alma-admin .alma-admin-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 8px 0 20px;
+}
+
+.alma-admin .alma-admin-title {
+  margin: 0;
+  padding: 0;
+  color: var(--alma-admin-text);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.alma-admin .alma-admin-description {
+  max-width: 70ch;
+  margin: 4px 0 0;
+  color: var(--alma-admin-muted);
+  font-size: 13px;
+}
+
+.alma-admin .alma-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* A control in a header or toolbar row takes its own width, not the row's. */
+.alma-admin .alma-actions .alma-input {
+  width: auto;
+  min-width: 180px;
+}
+
+/* Core moves notices to just after this line; it's kept, but takes no room. */
+.alma-admin hr.wp-header-end {
+  margin: 0;
+  border: 0;
+}
+
+/* --- Layout ----------------------------------------------------------------------------------- */
+
+.alma-admin .alma-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.alma-admin .alma-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.alma-admin .alma-split {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+
+@media (max-width: 960px) {
+  .alma-admin .alma-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- Card ------------------------------------------------------------------------------------- */
+
+.alma-admin .alma-card {
+  border: 1px solid var(--alma-admin-border);
+  border-radius: var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin .alma-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 0;
+}
+
+.alma-admin .alma-card__title {
+  margin: 0;
+  padding: 0;
+  color: var(--alma-admin-text);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.alma-admin .alma-card__description {
+  margin: 2px 0 0;
+  color: var(--alma-admin-muted);
+}
+
+.alma-admin .alma-card__body {
+  padding: 16px 20px 20px;
+}
+
+.alma-admin .alma-card__body--flush {
+  padding: 12px 0 0;
+}
+
+.alma-admin .alma-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--alma-admin-border);
+  border-radius: 0 0 var(--alma-admin-radius-lg) var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface-muted);
+}
+
+/* --- Stat tile -------------------------------------------------------------------------------- */
+
+.alma-admin .alma-stat {
+  padding: 16px 18px;
+  border: 1px solid var(--alma-admin-border);
+  border-radius: var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin .alma-stat__label {
+  color: var(--alma-admin-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.alma-admin .alma-stat__value {
+  margin-top: 6px;
+  color: var(--alma-admin-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.alma-admin .alma-stat__hint {
+  margin-top: 6px;
+  color: var(--alma-admin-muted);
+  font-size: 12px;
+}
+
+/* --- Badge ------------------------------------------------------------------------------------ */
+
+.alma-admin .alma-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 9px;
+  border-radius: 9999px;
+  background: var(--color-zinc-100);
+  color: var(--color-zinc-700);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.alma-admin .alma-badge--success {
+  background: var(--alma-admin-success-soft);
+  color: var(--color-emerald-700);
+}
+
+.alma-admin .alma-badge--warning {
+  background: var(--alma-admin-warning-soft);
+  color: var(--color-amber-700);
+}
+
+.alma-admin .alma-badge--danger {
+  background: var(--alma-admin-danger-soft);
+  color: var(--color-red-700);
+}
+
+.alma-admin .alma-badge--info {
+  background: var(--alma-admin-info-soft);
+  color: var(--color-sky-700);
+}
+
+.alma-admin .alma-badge--brand {
+  background: var(--alma-admin-brand-soft);
+  color: var(--color-brand-700);
+}
+
+/* --- Buttons ---------------------------------------------------------------------------------- */
+
+.alma-admin .alma-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--alma-admin-border-strong);
+  border-radius: var(--alma-admin-radius);
+  background: var(--alma-admin-surface);
+  color: var(--alma-admin-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: var(--alma-admin-shadow);
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.alma-admin .alma-btn:hover {
+  background: var(--alma-admin-surface-muted);
+  color: var(--alma-admin-text);
+}
+
+.alma-admin .alma-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--alma-admin-ring);
+}
+
+.alma-admin .alma-btn--primary {
+  border-color: var(--alma-admin-brand);
+  background: var(--alma-admin-brand);
+  color: var(--alma-admin-brand-on);
+}
+
+.alma-admin .alma-btn--primary:hover {
+  border-color: var(--alma-admin-brand-hover);
+  background: var(--alma-admin-brand-hover);
+  color: var(--alma-admin-brand-on);
+}
+
+.alma-admin .alma-btn--danger {
+  border-color: color-mix(in oklab, var(--alma-admin-danger) 35%, white);
+  color: var(--alma-admin-danger);
+}
+
+.alma-admin .alma-btn--danger:hover {
+  border-color: var(--alma-admin-danger);
+  background: var(--alma-admin-danger-soft);
+  color: var(--alma-admin-danger);
+}
+
+.alma-admin .alma-btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.alma-admin .alma-btn--ghost:hover {
+  background: var(--color-zinc-100);
+}
+
+.alma-admin .alma-btn--sm {
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.alma-admin .alma-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Forms ------------------------------------------------------------------------------------ */
+
+.alma-admin .alma-field + .alma-field {
+  margin-top: 18px;
+}
+
+.alma-admin .alma-field__label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--alma-admin-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.alma-admin .alma-field__hint {
+  margin: 6px 0 0;
+  color: var(--alma-admin-muted);
+  font-size: 12px;
+}
+
+.alma-admin .alma-field__lock {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  color: var(--color-amber-700);
+  font-size: 12px;
+}
+
+.alma-admin .alma-field__lock .dashicons {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+}
+
+.alma-admin .alma-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.alma-admin .alma-form-grid .alma-field + .alma-field {
+  margin-top: 0;
+}
+
+.alma-admin .alma-input {
+  width: 100%;
+  min-height: 36px;
+  margin: 0;
+  padding: 6px 11px;
+  border: 1px solid var(--alma-admin-border-strong);
+  border-radius: var(--alma-admin-radius);
+  background: var(--alma-admin-surface);
+  color: var(--alma-admin-text);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin textarea.alma-input {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.alma-admin .alma-input:focus {
+  border-color: var(--alma-admin-brand);
+  outline: none;
+  box-shadow: var(--alma-admin-ring);
+}
+
+.alma-admin .alma-input[disabled] {
+  background: var(--alma-admin-surface-muted);
+  color: var(--alma-admin-muted);
+}
+
+.alma-admin .alma-input--short {
+  width: 120px;
+}
+
+.alma-admin .alma-input--code,
+.alma-admin textarea.alma-input--code {
+  font-family: var(--alma-admin-mono);
+  font-size: 12px;
+}
+
+.alma-admin .alma-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--alma-admin-text-soft);
+}
+
+.alma-admin .alma-check input {
+  margin-top: 2px;
+}
+
+.alma-admin .alma-inline-form {
+  display: inline;
+  margin: 0;
+}
+
+/* --- Tables ----------------------------------------------------------------------------------- */
+
+.alma-admin .alma-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--alma-admin-border);
+  border-radius: var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin .alma-card .alma-table-wrap {
+  border-width: 1px 0 0;
+  border-radius: 0 0 var(--alma-admin-radius-lg) var(--alma-admin-radius-lg);
+  box-shadow: none;
+}
+
+.alma-admin .alma-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.alma-admin .alma-table th {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--alma-admin-border);
+  background: var(--alma-admin-surface-muted);
+  color: var(--alma-admin-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.alma-admin .alma-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-zinc-100);
+  color: var(--alma-admin-text-soft);
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.alma-admin .alma-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.alma-admin .alma-table tbody tr:hover td {
+  background: color-mix(in oklab, var(--alma-admin-brand) 3%, var(--alma-admin-surface));
+}
+
+.alma-admin .alma-table .alma-table__nowrap {
+  white-space: nowrap;
+}
+
+.alma-admin .alma-table .alma-table__num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.alma-admin .alma-kv {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.alma-admin .alma-kv th {
+  width: 34%;
+  padding: 8px 12px 8px 0;
+  color: var(--alma-admin-muted);
+  font-weight: 500;
+  text-align: left;
+  vertical-align: top;
+}
+
+.alma-admin .alma-kv td {
+  padding: 8px 0;
+  color: var(--alma-admin-text);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.alma-admin .alma-kv tr + tr :is(th, td) {
+  border-top: 1px solid var(--color-zinc-100);
+}
+
+/* WP_List_Table inside an alma screen: the same card look, with or without the skin. */
+.alma-admin .wp-list-table.widefat {
+  border: 1px solid var(--alma-admin-border);
+  border-radius: var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin .wp-list-table.widefat thead th,
+.alma-admin .wp-list-table.widefat thead td,
+.alma-admin .wp-list-table.widefat tfoot th,
+.alma-admin .wp-list-table.widefat tfoot td {
+  border-color: var(--alma-admin-border);
+  background: var(--alma-admin-surface-muted);
+  color: var(--alma-admin-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.alma-admin .wp-list-table.widefat td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.alma-admin .wp-list-table .row-title,
+.alma-admin .wp-list-table .column-primary > strong > a {
+  color: var(--alma-admin-text);
+  font-weight: 600;
+}
+
+.alma-admin .tablenav {
+  margin: 8px 0;
+}
+
+.alma-admin .subsubsub {
+  margin: 0 0 8px;
+}
+
+.alma-admin .search-box input[type="search"] {
+  min-height: 32px;
+  border-radius: var(--alma-admin-radius);
+}
+
+/* --- Empty state, notice, details, copyable ---------------------------------------------------- */
+
+.alma-admin .alma-empty {
+  padding: 28px 20px;
+  color: var(--alma-admin-muted);
+  text-align: center;
+}
+
+.alma-admin .alma-empty__title {
+  margin: 0 0 4px;
+  color: var(--alma-admin-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alma-admin .alma-empty__description {
+  margin: 0;
+}
+
+.alma-admin .alma-notice {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--alma-admin-border);
+  border-left: 4px solid var(--alma-admin-info);
+  border-radius: var(--alma-admin-radius);
+  background: var(--alma-admin-surface);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+.alma-admin .alma-notice p {
+  margin: 0;
+}
+
+.alma-admin .alma-notice p + p {
+  margin-top: 6px;
+}
+
+.alma-admin .alma-notice--success {
+  border-left-color: var(--alma-admin-success);
+}
+
+.alma-admin .alma-notice--warning {
+  border-left-color: var(--alma-admin-warning);
+}
+
+.alma-admin .alma-notice--danger {
+  border-left-color: var(--alma-admin-danger);
+}
+
+.alma-admin details > summary {
+  color: var(--alma-admin-brand);
+  cursor: pointer;
+}
+
+.alma-admin pre.alma-pre {
+  max-width: 70ch;
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  overflow: auto;
+  border-radius: var(--alma-admin-radius);
+  background: var(--color-zinc-950);
+  color: var(--color-zinc-100);
+  font-family: var(--alma-admin-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+
+.alma-admin .alma-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-zinc-400);
+}
+
+.alma-admin .alma-status-dot--success {
+  background: var(--alma-admin-success);
+}
+
+.alma-admin .alma-status-dot--warning {
+  background: var(--alma-admin-warning);
+}
+
+.alma-admin .alma-status-dot--danger {
+  background: var(--alma-admin-danger);
+}

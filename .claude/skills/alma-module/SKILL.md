@@ -61,6 +61,9 @@ protected ?string $apiRoutes = __DIR__.'/routes/api.php';                       
 - Outside production, don't deliver to destinations copied from a production database
   (see `LeadSettings::mayDeliverTo()`).
 - wp-admin actions check a capability and a nonce. Grant custom capabilities in a deploy task.
+- wp-admin screens are Blade views wrapped in `<x-admin::page>` (it renders `.wrap.alma-admin`),
+  built from the admin components (`<x-admin::card>`, `field`, `button`, `badge`, `stat`, `table`,
+  `empty`, `notice`); see `docs/design-system.md` → Admin. A convention test enforces the wrapper.
 - Deploy tasks are idempotent and non-fatal unless the release truly can't run without them.
 
 ## Tests

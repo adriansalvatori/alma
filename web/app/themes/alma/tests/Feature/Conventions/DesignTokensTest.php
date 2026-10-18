@@ -1,14 +1,14 @@
 <?php
 
 /*
- * The editor palette (theme.json) and the CSS tokens (app.css) describe the same colours, and
+ * The editor palette (theme.json) and the CSS tokens (tokens.css) describe the same colours, and
  * every palette colour has the class core's dequeued global-styles used to provide.
  */
 
 require_once __DIR__.'/Support.php';
 
 it('keeps the theme.json brand colour equal to --color-brand-600', function () {
-    $css = (string) file_get_contents(theme_path('resources/css/app.css'));
+    $css = (string) file_get_contents(theme_path('resources/css/tokens.css'));
     $palette = collect(json_decode((string) file_get_contents(theme_path('theme.json')), true)['settings']['color']['palette']);
 
     preg_match('/--color-brand-600:\s*([^;]+);/', $css, $token);
@@ -30,6 +30,11 @@ it('defines a text and a background class for every palette colour', function ()
     }
 
     expect($missing)->toBe([]);
+});
+
+it('builds the site and wp-admin from the same tokens', function () {
+    expect((string) file_get_contents(theme_path('resources/css/app.css')))->toContain('@import "./tokens.css"')
+        ->and((string) file_get_contents(theme_path('resources/css/admin/_tokens.css')))->toContain('@import "../tokens.css"');
 });
 
 it('scans patterns and PHP for Tailwind classes', function () {

@@ -10,103 +10,101 @@
     __('Received', 'alma') => $lead->created_at?->toDateTimeString(),
   ];
   $touches = ['first' => __('First touch', 'alma'), 'last' => __('Last touch', 'alma')];
+  $outcomeTone = fn (string $outcome) => match ($outcome) {
+    \App\Domains\Lead\Models\LeadActivity::SUCCEEDED => 'success',
+    \App\Domains\Lead\Models\LeadActivity::FAILED => 'danger',
+    \App\Domains\Lead\Models\LeadActivity::DISPATCHED => 'info',
+    default => 'neutral',
+  };
 @endphp
 
-<div class="wrap">
-  <h1 class="wp-heading-inline">{{ $lead->name !== '' ? $lead->name : $lead->email }}</h1>
-  <a href="{{ \App\Domains\Lead\Admin\LeadsAdmin::url() }}" class="page-title-action">{{ __('All leads', 'alma') }}</a>
-  <hr class="wp-header-end">
+<x-admin::page :title="$lead->name !== '' ? $lead->name : $lead->email">
+  <x-slot:actions>
+    <x-admin::badge :tone="$lead->status->tone()">{{ $lead->status->label() }}</x-admin::badge>
+    <x-admin::button :href="\App\Domains\Lead\Admin\LeadsAdmin::url()" variant="ghost">{{ __('All leads', 'alma') }}</x-admin::button>
+  </x-slot:actions>
 
   @if ($updated)
     <div class="notice notice-success is-dismissible"><p>{{ __('Lead updated.', 'alma') }}</p></div>
   @endif
 
-  <div id="poststuff">
-    <div id="post-body" class="metabox-holder columns-2">
-      <div id="post-body-content">
-        <div class="postbox">
-          <h2 class="hndle">{{ __('Submission', 'alma') }}</h2>
-          <div class="inside">
-            <table class="form-table" role="presentation">
-              @foreach ($rows as $label => $value)
-                @if ($value !== null && $value !== '')
-                  <tr><th scope="row">{{ $label }}</th><td>{{ $value }}</td></tr>
-                @endif
-              @endforeach
-              @foreach ($lead->fields ?? [] as $field => $value)
-                @if (! str_starts_with((string) $field, '_'))
-                  <tr><th scope="row">{{ $field }}</th><td>{{ is_scalar($value) ? $value : wp_json_encode($value) }}</td></tr>
-                @endif
-              @endforeach
-            </table>
-            @if ($lead->message)
-              <h3>{{ __('Message', 'alma') }}</h3>
-              <div style="white-space: pre-wrap">{{ $lead->message }}</div>
+  <div class="alma-split">
+    <div class="alma-stack">
+      <x-admin::card :title="__('Submission', 'alma')">
+        <table class="alma-kv" role="presentation">
+          @foreach ($rows as $label => $value)
+            @if ($value !== null && $value !== '')
+              <tr><th scope="row">{{ $label }}</th><td>{{ $value }}</td></tr>
             @endif
-          </div>
-        </div>
+          @endforeach
+          @foreach ($lead->fields ?? [] as $field => $value)
+            @if (! str_starts_with((string) $field, '_'))
+              <tr><th scope="row">{{ $field }}</th><td>{{ is_scalar($value) ? $value : wp_json_encode($value) }}</td></tr>
+            @endif
+          @endforeach
+        </table>
+        @if ($lead->message)
+          <h3>{{ __('Message', 'alma') }}</h3>
+          <div style="white-space: pre-wrap">{{ $lead->message }}</div>
+        @endif
+      </x-admin::card>
 
-        <div class="postbox">
-          <h2 class="hndle">{{ __('Attribution', 'alma') }}</h2>
-          <div class="inside">
-            @foreach ($touches as $key => $label)
+      <x-admin::card :title="__('Attribution', 'alma')" :description="__('Where the visitor came from the first time, and on the visit they converted.', 'alma')">
+        <div class="alma-grid">
+          @foreach ($touches as $key => $label)
+            <div>
               <h3>{{ $label }}</h3>
               @if (is_array($lead->attribution[$key] ?? null))
-                <table class="widefat striped">
+                <table class="alma-kv">
                   @foreach (array_filter($lead->attribution[$key]) as $name => $value)
-                    <tr><th scope="row" style="width: 12em">{{ $name }}</th><td>{{ $value }}</td></tr>
+                    <tr><th scope="row">{{ $name }}</th><td>{{ $value }}</td></tr>
                   @endforeach
                 </table>
               @else
                 <p>{{ __('Direct visit (no campaign or referrer recorded).', 'alma') }}</p>
               @endif
-            @endforeach
-          </div>
+            </div>
+          @endforeach
         </div>
+      </x-admin::card>
 
-        <div class="postbox">
-          <h2 class="hndle">{{ __('Activity', 'alma') }}</h2>
-          <div class="inside">
-            <p class="description">{{ __('Each integration records its own outcome. A dispatch without outcomes means the follow-up work never ran.', 'alma') }}</p>
-            <table class="widefat striped">
-              <thead><tr><th>{{ __('When', 'alma') }}</th><th>{{ __('Event', 'alma') }}</th><th>{{ __('By', 'alma') }}</th><th>{{ __('Outcome', 'alma') }}</th><th>{{ __('Detail', 'alma') }}</th></tr></thead>
-              <tbody>
-                @forelse ($lead->activity as $entry)
-                  <tr>
-                    <td>{{ $entry->created_at?->toDateTimeString() }}</td>
-                    <td>{{ $entry->event }}</td>
-                    <td>{{ $entry->actor }}</td>
-                    <td><strong>{{ $entry->outcome }}</strong></td>
-                    <td><code>{{ $entry->detail ? wp_json_encode($entry->detail) : '' }}</code></td>
-                  </tr>
-                @empty
-                  <tr><td colspan="5">{{ __('No activity recorded.', 'alma') }}</td></tr>
-                @endforelse
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div id="postbox-container-1" class="postbox-container">
-        <div class="postbox">
-          <h2 class="hndle">{{ __('Status', 'alma') }}</h2>
-          <div class="inside">
-            <form method="post" action="{{ admin_url('admin-post.php') }}">
-              <input type="hidden" name="action" value="alma_lead_status">
-              <input type="hidden" name="lead" value="{{ $lead->id }}">
-              @php(wp_nonce_field('alma_lead_status_'.$lead->id))
-              <select name="status" style="width: 100%">
-                @foreach ($statuses as $status)
-                  <option value="{{ $status->value }}" @selected($lead->status === $status)>{{ $status->label() }}</option>
-                @endforeach
-              </select>
-              <p><button type="submit" class="button button-primary">{{ __('Update status', 'alma') }}</button></p>
-            </form>
-            <p><a href="mailto:{{ $lead->email }}" class="button">{{ __('Reply by email', 'alma') }}</a></p>
-          </div>
-        </div>
-      </div>
+      <x-admin::card :title="__('Activity', 'alma')" :description="__('Each integration records its own outcome. A dispatch without outcomes means the follow-up work never ran.', 'alma')" flush>
+        <x-admin::table>
+          <thead><tr><th>{{ __('When', 'alma') }}</th><th>{{ __('Event', 'alma') }}</th><th>{{ __('By', 'alma') }}</th><th>{{ __('Outcome', 'alma') }}</th><th>{{ __('Detail', 'alma') }}</th></tr></thead>
+          <tbody>
+            @forelse ($lead->activity as $entry)
+              <tr>
+                <td class="alma-table__nowrap">{{ $entry->created_at?->toDateTimeString() }}</td>
+                <td>{{ $entry->event }}</td>
+                <td>{{ $entry->actor }}</td>
+                <td><x-admin::badge :tone="$outcomeTone($entry->outcome)">{{ $entry->outcome }}</x-admin::badge></td>
+                <td><code>{{ $entry->detail ? wp_json_encode($entry->detail) : '' }}</code></td>
+              </tr>
+            @empty
+              <tr><td colspan="5">{{ __('No activity recorded.', 'alma') }}</td></tr>
+            @endforelse
+          </tbody>
+        </x-admin::table>
+      </x-admin::card>
     </div>
+
+    <x-admin::card :title="__('Status', 'alma')">
+      <form method="post" action="{{ admin_url('admin-post.php') }}">
+        <input type="hidden" name="action" value="alma_lead_status">
+        <input type="hidden" name="lead" value="{{ $lead->id }}">
+        @php(wp_nonce_field('alma_lead_status_'.$lead->id))
+        <x-admin::field :label="__('Status', 'alma')" for="alma-lead-status">
+          <select id="alma-lead-status" name="status" class="alma-input">
+            @foreach ($statuses as $status)
+              <option value="{{ $status->value }}" @selected($lead->status === $status)>{{ $status->label() }}</option>
+            @endforeach
+          </select>
+        </x-admin::field>
+        <p class="alma-actions" style="margin-top: 16px">
+          <x-admin::button type="submit" variant="primary">{{ __('Update status', 'alma') }}</x-admin::button>
+          <x-admin::button :href="'mailto:'.$lead->email">{{ __('Reply by email', 'alma') }}</x-admin::button>
+        </p>
+      </form>
+    </x-admin::card>
   </div>
-</div>
+</x-admin::page>

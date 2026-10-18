@@ -52,6 +52,10 @@ first three are listed below because they matter on shared hosting.
 | `APP_KEY` | none | **Required.** `base64:` + 32 random bytes. Encrypts 2FA secrets and signed values; changing it invalidates them. |
 | `APP_VERSION` | `dev` | The running release. Written to `<release>/.env.local` by `bin/remote/activate.sh`; do not set it in `shared/.env`. Read by `config/alma.php` and `config/sentry.php` (Sentry's release). |
 | `ALMA_DISABLED_MODULES` | empty | Comma-separated module keys to switch off (`content`, `seo`, `lead`, `account`, `commerce`, `payment`). |
+| `ADMIN_THEME` | `true` | The admin skin: wp-admin, the toolbar (front end too) and wp-login.php, branded from `resources/css/tokens.css`. `false` keeps WordPress' look; alma's own admin screens keep their design system either way. Read by `config/admin.php`. |
+| `ADMIN_BRAND_NAME` | site name | The name in the toolbar and on the login page. |
+| `ADMIN_BRAND_MARK` | `resources/images/brand/mark.svg` | Theme-relative image for the mark (square SVG). Missing file: the name's initial on a brand-coloured square. |
+| `ADMIN_ACF_UI` | unset | ACF's field-group screens. Unset: shown outside production only (field groups are code). `true`/`false` forces it. |
 | `COMMENTS_ENABLED` | `false` | Comments and pingbacks are off everywhere: front end, wp-admin, toolbar, REST, feeds. Existing comments are hidden, not deleted. |
 | `QUEUE_CONNECTION` | `sync` | `sync` runs deferred work after the response with no worker; `database` queues it for a cron-run `wp acorn queue:work --stop-when-empty`. |
 | `CACHE_STORE` | `file` | Keep `file` on shared hosting. `redis` also needs `illuminate/redis` installed. |

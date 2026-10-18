@@ -1,0 +1,56 @@
+/*
+ * wp-admin's design tokens.
+ *
+ * Tailwind's default theme (greys, radii, shadows) and the site's own tokens (../tokens.css: the
+ * brand scale, the font) are emitted as CSS variables only. Nothing here imports Tailwind's
+ * preflight or utilities, so wp-admin's own styles stay intact.
+ *
+ * The --alma-admin-* names below are the only ones the admin sheets use. To rebrand, change
+ * ../tokens.css (the brand scale, the font); to re-theme the admin itself, change this map.
+ */
+@import "tailwindcss/theme.css" theme(static);
+@import "../tokens.css";
+
+:root {
+  --alma-admin-font: var(--font-sans);
+  --alma-admin-mono: var(--font-mono);
+
+  --alma-admin-brand: var(--color-brand-600);
+  --alma-admin-brand-hover: var(--color-brand-700);
+  --alma-admin-brand-active: var(--color-brand-800);
+  --alma-admin-brand-soft: var(--color-brand-50);
+  --alma-admin-brand-on: var(--color-white);
+
+  --alma-admin-bg: var(--color-zinc-100);
+  --alma-admin-surface: var(--color-white);
+  --alma-admin-surface-muted: var(--color-zinc-50);
+  --alma-admin-border: var(--color-zinc-200);
+  --alma-admin-border-strong: var(--color-zinc-300);
+  --alma-admin-text: var(--color-zinc-950);
+  --alma-admin-text-soft: var(--color-zinc-700);
+  --alma-admin-muted: var(--color-zinc-500);
+
+  /* The dark chrome: sidebar and toolbar. */
+  --alma-admin-chrome: var(--color-zinc-950);
+  --alma-admin-chrome-raised: var(--color-zinc-900);
+  --alma-admin-chrome-active: var(--color-zinc-800);
+  --alma-admin-chrome-border: var(--color-zinc-800);
+  --alma-admin-chrome-text: var(--color-zinc-400);
+  --alma-admin-chrome-icon: var(--color-zinc-500);
+  --alma-admin-chrome-text-strong: var(--color-white);
+
+  --alma-admin-success: var(--color-emerald-600);
+  --alma-admin-success-soft: var(--color-emerald-50);
+  --alma-admin-warning: var(--color-amber-600);
+  --alma-admin-warning-soft: var(--color-amber-50);
+  --alma-admin-danger: var(--color-red-600);
+  --alma-admin-danger-soft: var(--color-red-50);
+  --alma-admin-info: var(--color-sky-600);
+  --alma-admin-info-soft: var(--color-sky-50);
+
+  --alma-admin-radius: var(--radius-md);
+  --alma-admin-radius-lg: var(--radius-xl);
+  --alma-admin-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  --alma-admin-shadow-lg: 0 10px 30px -10px rgb(0 0 0 / 0.25);
+  --alma-admin-ring: 0 0 0 3px color-mix(in oklab, var(--alma-admin-brand) 25%, transparent);
+}

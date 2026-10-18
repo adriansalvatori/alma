@@ -22,4 +22,19 @@ enum LeadStatus: string
             self::Spam => __('Spam', 'alma'),
         };
     }
+
+    /**
+     * The admin badge tone (<x-admin::badge>): new leads stand out, closed ones recede.
+     */
+    public function tone(): string
+    {
+        return match ($this) {
+            self::New => 'brand',
+            self::Contacted => 'info',
+            self::Qualified => 'warning',
+            self::Won => 'success',
+            self::Lost => 'neutral',
+            self::Spam => 'danger',
+        };
+    }
 }

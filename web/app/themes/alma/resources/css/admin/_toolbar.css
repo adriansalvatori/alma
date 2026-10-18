@@ -1,0 +1,147 @@
+/*
+ * The toolbar (#wpadminbar), on wp-admin and on the front end.
+ *
+ * Every selector mirrors one in wp-includes/css/admin-bar.css (or the admin colour scheme's
+ * colors.css) with `html` in front. That one extra element outranks core's own rule however the
+ * sheets end up ordered, so nothing here needs !important. Geometry (height, positions,
+ * breakpoints) is core's and is left alone: only colour, type and the brand mark change.
+ */
+
+html #wpadminbar {
+  background: var(--alma-admin-chrome);
+  color: var(--alma-admin-chrome-text);
+  font-family: var(--alma-admin-font);
+  border-bottom: 1px solid var(--alma-admin-chrome-border);
+}
+
+html #wpadminbar * {
+  font-family: var(--alma-admin-font);
+}
+
+html #wpadminbar .ab-empty-item,
+html #wpadminbar a.ab-item,
+html #wpadminbar > #wp-toolbar span.ab-label,
+html #wpadminbar > #wp-toolbar span.noticon {
+  color: var(--alma-admin-chrome-text-strong);
+}
+
+html #wpadminbar .ab-icon:before,
+html #wpadminbar .ab-item:before,
+html #wpadminbar #adminbarsearch:before {
+  color: var(--alma-admin-chrome-icon);
+}
+
+/* Hover and focus: a raised surface, white text. Core paints these light blue. */
+html #wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
+html #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
+html #wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
+html #wpadminbar .ab-top-menu > li.hover > .ab-item {
+  background: var(--alma-admin-chrome-raised);
+  color: var(--alma-admin-chrome-text-strong);
+}
+
+html #wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
+html #wpadminbar > #wp-toolbar li.hover span.ab-label,
+html #wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
+  color: var(--alma-admin-chrome-text-strong);
+}
+
+/* Dropdowns: a raised panel with a soft edge instead of core's flat slab. */
+html #wpadminbar .menupop .ab-sub-wrapper,
+html #wpadminbar .shortlink-input {
+  background: var(--alma-admin-chrome-raised);
+  border: 1px solid var(--alma-admin-chrome-border);
+  border-radius: 0 0 var(--alma-admin-radius) var(--alma-admin-radius);
+  box-shadow: var(--alma-admin-shadow-lg);
+}
+
+html #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
+html #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
+  background: var(--alma-admin-chrome-active);
+}
+
+html #wpadminbar .ab-submenu .ab-item,
+html #wpadminbar .quicklinks .menupop ul li a,
+html #wpadminbar .quicklinks .menupop ul li a strong,
+html #wpadminbar .quicklinks .menupop.hover ul li a,
+html #wpadminbar.nojs .quicklinks .menupop:hover ul li a {
+  color: var(--alma-admin-chrome-text);
+}
+
+html #wpadminbar .quicklinks .menupop ul li a:hover,
+html #wpadminbar .quicklinks .menupop ul li a:focus,
+html #wpadminbar .quicklinks .menupop ul li a:hover strong,
+html #wpadminbar .quicklinks .menupop ul li a:focus strong,
+html #wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a,
+html #wpadminbar .quicklinks .menupop.hover ul li a:hover,
+html #wpadminbar .quicklinks .menupop.hover ul li a:focus,
+html #wpadminbar .quicklinks .menupop .ab-sub-secondary > li > a:hover,
+html #wpadminbar .quicklinks .menupop .ab-sub-secondary > li .ab-item:focus a,
+html #wpadminbar li:hover .ab-icon:before,
+html #wpadminbar li:hover .ab-item:before,
+html #wpadminbar li a:focus .ab-icon:before,
+html #wpadminbar li .ab-item:focus:before,
+html #wpadminbar li .ab-item:focus .ab-icon:before,
+html #wpadminbar li.hover .ab-icon:before,
+html #wpadminbar li.hover .ab-item:before,
+html #wpadminbar li:hover #adminbarsearch:before,
+html #wpadminbar li #adminbarsearch.adminbar-focused:before,
+html #wpadminbar .quicklinks li a:hover .blavatar,
+html #wpadminbar .quicklinks li a:focus .blavatar {
+  color: var(--alma-admin-chrome-text-strong);
+}
+
+/* Update and comment counters: a brand pill. */
+html #wpadminbar .quicklinks a span#ab-updates,
+html #wpadminbar .ab-label.awaiting-mod,
+html #wpadminbar .ab-label.pending-count {
+  background: var(--alma-admin-brand);
+  color: var(--alma-admin-brand-on);
+  border-radius: 9999px;
+}
+
+/*
+ * The brand: AdminTheme replaces the site-name node's title with the mark and the name, so the
+ * house/dashboard dashicon core draws in front of it goes.
+ */
+html #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
+  content: none;
+}
+
+html #wpadminbar #wp-admin-bar-site-name > .ab-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+html #wpadminbar .alma-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--alma-admin-brand);
+  color: var(--alma-admin-brand-on);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+html #wpadminbar .alma-brand-mark.has-image {
+  background: none;
+}
+
+html #wpadminbar .alma-brand-mark img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* The account avatar: round, no core border. */
+html #wpadminbar #wp-admin-bar-my-account.with-avatar > a img {
+  border-color: var(--alma-admin-chrome-border);
+}

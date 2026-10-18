@@ -65,7 +65,7 @@ class LeadsListTable extends \WP_List_Table
         return match ($column_name) {
             'email' => sprintf('<a href="mailto:%1$s">%1$s</a>', esc_attr($item->email)),
             'form' => esc_html($item->form_key),
-            'status' => esc_html($item->status->label()),
+            'status' => sprintf('<span class="alma-badge alma-badge--%s">%s</span>', esc_attr($item->status->tone()), esc_html($item->status->label())),
             'source' => esc_html(self::source($item)),
             'created_at' => esc_html((string) $item->created_at?->format(get_option('date_format').' '.get_option('time_format'))),
             default => '',

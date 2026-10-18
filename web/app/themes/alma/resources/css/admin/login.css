@@ -1,0 +1,160 @@
+/*
+ * wp-login.php (log in, lost password, reset, the admin-email check), enqueued after core's login
+ * sheet by App\Infrastructure\WordPress\Admin\AdminTheme. Same approach as skin.css: brand through
+ * core's theme-colour properties, `body.login` in front of core's selectors, no !important.
+ *
+ * The header link holds the brand mark and the site name (AdminTheme's login_headertext), so the
+ * WordPress logo core draws as a background image is switched off and the text shown.
+ */
+@import "./_tokens.css";
+
+/* (0,2,1): above core's body.admin-color-modern, which wp-login.php always adds. */
+:root body.login {
+  --wp-admin-theme-color: var(--alma-admin-brand);
+  --wp-admin-theme-color-darker-10: var(--alma-admin-brand-hover);
+  --wp-admin-theme-color-darker-20: var(--alma-admin-brand-active);
+}
+
+body.login {
+  background: var(--alma-admin-bg);
+  color: var(--alma-admin-text-soft);
+  font-family: var(--alma-admin-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.login #login {
+  width: 360px;
+  padding-top: 8vh;
+}
+
+body.login h1.wp-login-logo a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 24px;
+  overflow: visible;
+  background: none;
+  color: var(--alma-admin-text);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-indent: 0;
+}
+
+body.login h1.wp-login-logo a:hover,
+body.login h1.wp-login-logo a:focus {
+  color: var(--alma-admin-text);
+}
+
+body.login .alma-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--alma-admin-brand);
+  color: var(--alma-admin-brand-on);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+body.login .alma-brand-mark.has-image {
+  background: none;
+}
+
+body.login .alma-brand-mark img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+body.login form {
+  padding: 28px;
+  border: 1px solid var(--alma-admin-border);
+  border-radius: var(--alma-admin-radius-lg);
+  background: var(--alma-admin-surface);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06), 0 12px 32px -16px rgb(0 0 0 / 0.18);
+}
+
+body.login label {
+  color: var(--alma-admin-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Core sets 24px text in the login fields; bring them back to the admin's scale. */
+body.login form .input,
+body.login input[type="text"],
+body.login input[type="password"],
+body.login input[type="email"] {
+  min-height: 40px;
+  padding: 6px 12px;
+  border-color: var(--alma-admin-border-strong);
+  border-radius: var(--alma-admin-radius);
+  color: var(--alma-admin-text);
+  font-size: 15px;
+  box-shadow: var(--alma-admin-shadow);
+}
+
+body.login form .input:focus,
+body.login input[type="text"]:focus,
+body.login input[type="password"]:focus,
+body.login input[type="email"]:focus {
+  border-color: var(--alma-admin-brand);
+  box-shadow: var(--alma-admin-ring);
+}
+
+body.login .button.wp-hide-pw {
+  min-height: 40px;
+  color: var(--alma-admin-muted);
+}
+
+body.login .button-primary {
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: var(--alma-admin-radius);
+  font-weight: 600;
+}
+
+body.login .message,
+body.login .notice,
+body.login .success {
+  border: 1px solid var(--alma-admin-border);
+  border-left-width: 4px;
+  border-left-color: var(--alma-admin-info);
+  border-radius: var(--alma-admin-radius);
+  box-shadow: var(--alma-admin-shadow);
+}
+
+body.login .success {
+  border-left-color: var(--alma-admin-success);
+}
+
+body.login .notice-error {
+  border-left-color: var(--alma-admin-danger);
+}
+
+body.login #nav,
+body.login #backtoblog {
+  padding: 0 4px;
+  text-align: center;
+}
+
+body.login #nav a,
+body.login #backtoblog a,
+body.login .privacy-policy-page-link a {
+  color: var(--alma-admin-muted);
+}
+
+body.login #nav a:hover,
+body.login #backtoblog a:hover,
+body.login .privacy-policy-page-link a:hover {
+  color: var(--alma-admin-text);
+}

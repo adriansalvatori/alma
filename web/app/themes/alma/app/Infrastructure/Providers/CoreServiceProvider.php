@@ -15,6 +15,8 @@ use App\Infrastructure\Observability\SiteHealth;
 use App\Infrastructure\Security\HeadCleanup;
 use App\Infrastructure\Security\UserEnumerationGuard;
 use App\Infrastructure\Security\XmlRpcLockdown;
+use App\Infrastructure\WordPress\Admin\AdminDesignSystem;
+use App\Infrastructure\WordPress\Admin\AdminTheme;
 use App\Infrastructure\WordPress\DisableComments;
 
 /**
@@ -33,6 +35,8 @@ class CoreServiceProvider extends ModuleServiceProvider
         IntegrationLogScreen::class,
         SiteHealth::class,
         DisableComments::class,
+        AdminDesignSystem::class,
+        AdminTheme::class,
     ];
 
     protected array $commands = [

@@ -51,4 +51,12 @@ class SeoServiceProvider extends ModuleServiceProvider
         // sitemap exclusions.
         $this->app->singleton(RedirectStore::class);
     }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        // Tools → Redirects renders view('seo::admin.redirects').
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'seo');
+    }
 }

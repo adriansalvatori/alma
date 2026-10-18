@@ -19,6 +19,11 @@ export default defineConfig({
         'resources/js/app.js',
         'resources/css/editor.css',
         'resources/js/editor.js',
+        // wp-admin: the skin, the front-end toolbar, wp-login.php, and alma's own screens.
+        'resources/css/admin/skin.css',
+        'resources/css/admin/toolbar.css',
+        'resources/css/admin/login.css',
+        'resources/css/admin/screens.css',
       ],
       refresh: true,
     }),

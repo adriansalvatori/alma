@@ -1,6 +1,5 @@
 {{-- wp-admin → Leads → Settings. Fields pinned by .env are shown read-only with the variable that sets them. --}}
 @php
-  $locked = fn (string $key) => $settings->lockedByConfig($key);
   $env = [
     'recipients' => 'LEAD_NOTIFICATION_RECIPIENTS',
     'webhook_url' => 'LEAD_WEBHOOK_URL',
@@ -9,6 +8,8 @@
     'store_spam' => 'LEAD_STORE_SPAM',
     'blocklist' => 'LEAD_BLOCKLIST',
   ];
+  // The .env variable that pins a setting, or null when wp-admin may change it.
+  $locked = fn (string $key) => $settings->lockedByConfig($key) ? $env[$key] : null;
   $notices = [
     'saved' => ['success', __('Settings saved.', 'alma')],
     'webhook-ok' => ['success', sprintf(__('Test webhook delivered (HTTP %d).', 'alma'), $status)],
@@ -17,84 +18,67 @@
   ];
 @endphp
 
-<div class="wrap">
-  <h1>{{ __('Lead settings', 'alma') }}</h1>
+<x-admin::page :title="__('Lead settings', 'alma')" :description="__('Who hears about new leads, where they are sent, and how long they are kept.', 'alma')">
+  <x-slot:actions>
+    <x-admin::button :href="\App\Domains\Lead\Admin\LeadsAdmin::url()" variant="ghost">{{ __('All leads', 'alma') }}</x-admin::button>
+  </x-slot:actions>
 
   @if (isset($notices[$notice]))
     <div class="notice notice-{{ $notices[$notice][0] }} is-dismissible"><p>{{ $notices[$notice][1] }}</p></div>
   @endif
 
-  <form method="post" action="{{ admin_url('admin-post.php') }}">
-    <input type="hidden" name="action" value="alma_lead_settings">
-    @php(wp_nonce_field('alma_lead_settings'))
+  <div class="alma-stack">
+    <form method="post" action="{{ admin_url('admin-post.php') }}" class="alma-stack">
+      <input type="hidden" name="action" value="alma_lead_settings">
+      @php(wp_nonce_field('alma_lead_settings'))
 
-    <table class="form-table" role="presentation">
-      <tr>
-        <th scope="row"><label for="alma-recipients">{{ __('Notify', 'alma') }}</label></th>
-        <td>
-          <textarea id="alma-recipients" name="settings[recipients]" rows="3" class="large-text" @disabled($locked('recipients'))>{{ implode("\n", $settings->recipients()) }}</textarea>
-          <p class="description">{{ __('One email address per line. Each new lead is emailed to these addresses.', 'alma') }}</p>
-          @includeWhen($locked('recipients'), 'lead::admin.locked', ['variable' => $env['recipients']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="alma-webhook-url">{{ __('Webhook URL', 'alma') }}</label></th>
-        <td>
-          <input id="alma-webhook-url" type="url" name="settings[webhook_url]" value="{{ $settings->webhookUrl() }}" class="regular-text code" placeholder="https://hooks.zapier.com/..." @disabled($locked('webhook_url'))>
-          <p class="description">{{ __('Each lead is POSTed here as JSON: Zapier, Make, n8n or your CRM.', 'alma') }}</p>
-          @includeWhen($locked('webhook_url'), 'lead::admin.locked', ['variable' => $env['webhook_url']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="alma-webhook-secret">{{ __('Webhook secret', 'alma') }}</label></th>
-        <td>
-          <input id="alma-webhook-secret" type="password" name="settings[webhook_secret]" value="" class="regular-text code" autocomplete="new-password"
+      <x-admin::card :title="__('Delivery', 'alma')" :description="__('Each new lead is emailed to the team and, if set, posted to a webhook.', 'alma')">
+        <x-admin::field :label="__('Notify', 'alma')" for="alma-recipients" :hint="__('One email address per line. Each new lead is emailed to these addresses.', 'alma')" :locked="$locked('recipients')">
+          <textarea id="alma-recipients" name="settings[recipients]" rows="3" class="alma-input" @disabled($locked('recipients'))>{{ implode("\n", $settings->recipients()) }}</textarea>
+        </x-admin::field>
+
+        <x-admin::field :label="__('Webhook URL', 'alma')" for="alma-webhook-url" :hint="__('Each lead is POSTed here as JSON: Zapier, Make, n8n or your CRM.', 'alma')" :locked="$locked('webhook_url')">
+          <input id="alma-webhook-url" type="url" name="settings[webhook_url]" value="{{ $settings->webhookUrl() }}" class="alma-input alma-input--code" placeholder="https://hooks.zapier.com/..." @disabled($locked('webhook_url'))>
+        </x-admin::field>
+
+        <x-admin::field :label="__('Webhook secret', 'alma')" for="alma-webhook-secret" :hint="__('Signs every request in the X-Alma-Signature header so the receiver can verify it came from this site.', 'alma')" :locked="$locked('webhook_secret')">
+          <input id="alma-webhook-secret" type="password" name="settings[webhook_secret]" value="" class="alma-input alma-input--code" autocomplete="new-password"
             placeholder="{{ $settings->webhookSecret() !== '' ? __('Set (leave blank to keep)', 'alma') : __('Not set', 'alma') }}" @disabled($locked('webhook_secret'))>
-          <p class="description">{{ __('Signs every request in the X-Alma-Signature header so the receiver can verify it came from this site.', 'alma') }}</p>
-          @includeWhen($locked('webhook_secret'), 'lead::admin.locked', ['variable' => $env['webhook_secret']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="alma-retention">{{ __('Keep leads for', 'alma') }}</label></th>
-        <td>
-          <input id="alma-retention" type="number" min="{{ \App\Domains\Lead\Services\LeadSettings::MINIMUM_RETENTION_DAYS }}" name="settings[retention_days]" value="{{ $settings->retentionDays() }}" class="small-text" @disabled($locked('retention_days'))> {{ __('days', 'alma') }}
-          <p class="description">{{ __('Older leads and their activity are deleted daily. The minimum is 30 days.', 'alma') }}</p>
-          @includeWhen($locked('retention_days'), 'lead::admin.locked', ['variable' => $env['retention_days']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">{{ __('Spam', 'alma') }}</th>
-        <td>
+        </x-admin::field>
+      </x-admin::card>
+
+      <x-admin::card :title="__('Retention and spam', 'alma')">
+        <x-admin::field :label="__('Keep leads for', 'alma')" for="alma-retention" :hint="__('Older leads and their activity are deleted daily. The minimum is 30 days.', 'alma')" :locked="$locked('retention_days')">
+          <input id="alma-retention" type="number" min="{{ \App\Domains\Lead\Services\LeadSettings::MINIMUM_RETENTION_DAYS }}" name="settings[retention_days]" value="{{ $settings->retentionDays() }}" class="alma-input alma-input--short" @disabled($locked('retention_days'))> {{ __('days', 'alma') }}
+        </x-admin::field>
+
+        <x-admin::field :label="__('Spam', 'alma')" :locked="$locked('store_spam')">
           <input type="hidden" name="settings[store_spam]" value="0">
-          <label><input type="checkbox" name="settings[store_spam]" value="1" @checked($settings->storeSpam()) @disabled($locked('store_spam'))> {{ __('Keep submissions caught by the spam guard (status "Spam") instead of discarding them', 'alma') }}</label>
-          @includeWhen($locked('store_spam'), 'lead::admin.locked', ['variable' => $env['store_spam']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="alma-blocklist">{{ __('Blocklist', 'alma') }}</label></th>
-        <td>
-          <textarea id="alma-blocklist" name="settings[blocklist]" rows="3" class="large-text code" @disabled($locked('blocklist'))>{{ implode("\n", $settings->blocklist()) }}</textarea>
-          <p class="description">{{ __('Email addresses or domains (example.com), one per line, treated as spam.', 'alma') }}</p>
-          @includeWhen($locked('blocklist'), 'lead::admin.locked', ['variable' => $env['blocklist']])
-        </td>
-      </tr>
-      <tr>
-        <th scope="row"><label for="alma-success">{{ __('Success message', 'alma') }}</label></th>
-        <td>
-          <textarea id="alma-success" name="settings[success_message]" rows="2" class="large-text">{{ $settings->successMessage() }}</textarea>
-          <p class="description">{{ __('Shown after a submission, unless a form sets its own message or redirect.', 'alma') }}</p>
-        </td>
-      </tr>
-    </table>
+          <label class="alma-check"><input type="checkbox" name="settings[store_spam]" value="1" @checked($settings->storeSpam()) @disabled($locked('store_spam'))> {{ __('Keep submissions caught by the spam guard (status "Spam") instead of discarding them', 'alma') }}</label>
+        </x-admin::field>
 
-    @php(submit_button())
-  </form>
+        <x-admin::field :label="__('Blocklist', 'alma')" for="alma-blocklist" :hint="__('Email addresses or domains (example.com), one per line, treated as spam.', 'alma')" :locked="$locked('blocklist')">
+          <textarea id="alma-blocklist" name="settings[blocklist]" rows="3" class="alma-input alma-input--code" @disabled($locked('blocklist'))>{{ implode("\n", $settings->blocklist()) }}</textarea>
+        </x-admin::field>
+      </x-admin::card>
 
-  <h2>{{ __('Test the webhook', 'alma') }}</h2>
-  <form method="post" action="{{ admin_url('admin-post.php') }}">
-    <input type="hidden" name="action" value="alma_lead_webhook_test">
-    @php(wp_nonce_field('alma_lead_webhook_test'))
-    <p class="description">{{ __('Sends a sample lead (event "lead.test") to the saved webhook URL now.', 'alma') }}</p>
-    @php(submit_button(__('Send test webhook', 'alma'), 'secondary', 'submit', false))
-  </form>
-</div>
+      <x-admin::card :title="__('Form', 'alma')">
+        <x-admin::field :label="__('Success message', 'alma')" for="alma-success" :hint="__('Shown after a submission, unless a form sets its own message or redirect.', 'alma')">
+          <textarea id="alma-success" name="settings[success_message]" rows="2" class="alma-input">{{ $settings->successMessage() }}</textarea>
+        </x-admin::field>
+
+        <x-slot:footer>
+          <x-admin::button type="submit" name="submit" variant="primary">{{ __('Save changes', 'alma') }}</x-admin::button>
+        </x-slot:footer>
+      </x-admin::card>
+    </form>
+
+    <x-admin::card :title="__('Test the webhook', 'alma')" :description="__('Sends a sample lead (event “lead.test”) to the saved webhook URL now.', 'alma')">
+      <form method="post" action="{{ admin_url('admin-post.php') }}">
+        <input type="hidden" name="action" value="alma_lead_webhook_test">
+        @php(wp_nonce_field('alma_lead_webhook_test'))
+        <x-admin::button type="submit" name="submit">{{ __('Send test webhook', 'alma') }}</x-admin::button>
+      </form>
+    </x-admin::card>
+  </div>
+</x-admin::page>

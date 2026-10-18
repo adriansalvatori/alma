@@ -1,0 +1,6 @@
+/*
+ * The toolbar on the front end, for logged-in users (App\Infrastructure\WordPress\Admin\AdminTheme).
+ * In wp-admin the same rules arrive through skin.css.
+ */
+@import "./_tokens.css";
+@import "./_toolbar.css";

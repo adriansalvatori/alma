@@ -1,0 +1,53 @@
+/*
+ * Design tokens (docs/design-system.md), shared by the site (app.css, editor.css) and wp-admin
+ * (resources/css/admin/*). Change the brand here and every block, button, the editor palette and
+ * the admin follow: Flux reads --color-accent, theme.json mirrors --color-brand-600 (tested).
+ */
+@theme {
+  /* Brand: one hue, the full scale. Swap the indigo values for the project's colour. */
+  --color-brand-50: oklch(0.962 0.018 272.314);
+  --color-brand-100: oklch(0.93 0.034 272.788);
+  --color-brand-200: oklch(0.87 0.065 274.039);
+  --color-brand-300: oklch(0.785 0.115 274.713);
+  --color-brand-400: oklch(0.673 0.182 276.935);
+  --color-brand-500: oklch(0.585 0.233 277.117);
+  --color-brand-600: oklch(0.511 0.262 276.966);
+  --color-brand-700: oklch(0.457 0.24 277.023);
+  --color-brand-800: oklch(0.398 0.195 277.366);
+  --color-brand-900: oklch(0.359 0.144 278.697);
+  --color-brand-950: oklch(0.257 0.09 281.288);
+
+  /* Flux components take their accent from these. */
+  --color-accent: var(--color-brand-600);
+  --color-accent-content: var(--color-brand-600);
+  --color-accent-foreground: var(--color-white);
+
+  /* Type: a named scale, so a heading is the same size in every block. */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.025em;
+  --text-heading: clamp(1.875rem, 1.5rem + 1.5vw, 3rem);
+  --text-heading--line-height: 1.15;
+  --text-heading--letter-spacing: -0.02em;
+  --text-title: 1.5rem;
+  --text-title--line-height: 1.3;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.6;
+
+  /* Layout: the one canonical container width, the reading measure and section rhythm. */
+  --container-page: 80rem;
+  --container-content: 48rem;
+  --spacing-section: clamp(4rem, 3rem + 4vw, 7rem);
+
+  @keyframes fade {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  }
+}
