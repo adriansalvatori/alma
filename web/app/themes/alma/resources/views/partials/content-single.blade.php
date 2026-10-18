@@ -18,6 +18,8 @@
       </footer>
     @endif
 
-    @php(comments_template())
+    @if (comments_open() || get_comments_number())
+      @php(comments_template())
+    @endif
   </div>
 </article>

@@ -15,6 +15,7 @@ use App\Infrastructure\Observability\SiteHealth;
 use App\Infrastructure\Security\HeadCleanup;
 use App\Infrastructure\Security\UserEnumerationGuard;
 use App\Infrastructure\Security\XmlRpcLockdown;
+use App\Infrastructure\WordPress\DisableComments;
 
 /**
  * Site-wide infrastructure that every module relies on. Always registered, never disabled.
@@ -31,6 +32,7 @@ class CoreServiceProvider extends ModuleServiceProvider
         PruneIntegrationCalls::class,
         IntegrationLogScreen::class,
         SiteHealth::class,
+        DisableComments::class,
     ];
 
     protected array $commands = [

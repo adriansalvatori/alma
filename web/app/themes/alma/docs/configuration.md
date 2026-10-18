@@ -52,6 +52,7 @@ first three are listed below because they matter on shared hosting.
 | `APP_KEY` | none | **Required.** `base64:` + 32 random bytes. Encrypts 2FA secrets and signed values; changing it invalidates them. |
 | `APP_VERSION` | `dev` | The running release. Written to `<release>/.env.local` by `bin/remote/activate.sh`; do not set it in `shared/.env`. Read by `config/alma.php` and `config/sentry.php` (Sentry's release). |
 | `ALMA_DISABLED_MODULES` | empty | Comma-separated module keys to switch off (`content`, `seo`, `lead`, `account`, `commerce`, `payment`). |
+| `COMMENTS_ENABLED` | `false` | Comments and pingbacks are off everywhere: front end, wp-admin, toolbar, REST, feeds. Existing comments are hidden, not deleted. |
 | `QUEUE_CONNECTION` | `sync` | `sync` runs deferred work after the response with no worker; `database` queues it for a cron-run `wp acorn queue:work --stop-when-empty`. |
 | `CACHE_STORE` | `file` | Keep `file` on shared hosting. `redis` also needs `illuminate/redis` installed. |
 | `SESSION_DRIVER` | `file` | |

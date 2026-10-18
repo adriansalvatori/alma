@@ -41,6 +41,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Comments
+    |--------------------------------------------------------------------------
+    |
+    | Off by default: marketing sites don't take comments, and an open form is
+    | a spam inlet. Off closes comments and pingbacks everywhere (front end,
+    | wp-admin, toolbar, REST, feeds) and hides existing ones without deleting
+    | them. Set COMMENTS_ENABLED=true for a site that wants them.
+    |
+    */
+
+    'comments' => (bool) env('COMMENTS_ENABLED', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Release
     |--------------------------------------------------------------------------
     |
