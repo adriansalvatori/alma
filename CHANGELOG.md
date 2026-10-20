@@ -6,7 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and releases are tagged `v-YYYYMMDD-vN` (one tag per production deploy; see
 web/app/themes/alma/docs/deployment.md).
 
-## [8.0.0] - Unreleased
+## [8.1.0] - 2026-10-20
+
+### Added
+- The front-end kit, Movidagráfica's design system made reusable and opt-in
+  (`docs/design-system.md` → "Front-end kit"):
+  - `kit.css`: an editorial type scale (`type-hero` to `type-body`) on variables each project
+    overrides, including `--type-display-case` and `--type-display-weight`.
+  - `<x-kit.*>` components: pill, arrow-link, marquee, drag carousel (+ item), full-screen menu,
+    media card (video on hover, morph source) and a numbered document page.
+  - `resources/js/kit`: scroll reveals, the physics carousel, lazy and hover videos, idempotent and
+    re-run after `wire:navigate`.
+  - Page transitions on `wire:navigate` (`PAGE_TRANSITIONS`, off by default): a media card's panel
+    grows into the next page; any other link draws the `--kit-curtain` circle.
+- `gsap` as a theme dependency; rendering tests for every kit component.
+
+## [8.0.0] - 2026-10-19
 
 Alma v8: a rebuild around the architecture proven on Remote Leverage v2, without the AWS/Docker
 infrastructure, so every project can deploy to SSH-capable shared hosting.
