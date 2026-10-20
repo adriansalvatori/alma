@@ -86,6 +86,44 @@ instead of once per page, so analytics and third-party widgets must listen for
 - plain links use `@navigate`;
 - Flux components take `:attributes="\App\Support\Navigate::attributes()"`.
 
+## Front-end kit
+
+Components and motion for marketing pages, ported from Movidagráfica's site. Everything is
+opt-in: a page that uses none of it pays only for `gsap` in the bundle.
+
+**Type.** `kit.css` adds an editorial scale beside the `--text-*` tokens: `type-hero`,
+`type-display`, `type-menu`, `type-title`, `type-lead`, `type-eyebrow`, `type-body`. Their sizes
+are variables (`--type-hero`, `--type-display`, …); `--type-display-case` (`none`, or `uppercase`
+for a brand that shouts) and `--type-display-weight` style the three display sizes. Override them
+in `tokens.css`. Layout uses the existing `container-page` and `py-section`.
+
+**Components** (`resources/views/components/kit`). Links follow `wire:navigate` when it's on.
+
+| Component | What it is |
+| :--- | :--- |
+| `<x-kit.pill href variant size>` | The button: `solid`, `brand` or `outline`; `md` or `lg`; an arrow unless `:arrow="false"`. |
+| `<x-kit.arrow-link href>` | A link whose arrow slides in on hover, scaled to its text. |
+| `<x-kit.marquee :items reverse>` | Words in hero type sliding sideways forever; still with reduced motion; hidden from assistive tech. |
+| `<x-kit.carousel inset width width-mobile>` + `<x-kit.carousel-item>` | One row of fixed-width cards you drag; they ease and squash with speed. `inset` lines the first card up with the container while dragged cards run to the screen edge. |
+| `<x-kit.menu :links>` | A full-screen menu (slots: `brand`, `aside`). Open it with `onclick="toggleKitMenu()"` and `aria-controls="kit-menu"`; Escape closes it; inert while closed. |
+| `<x-kit.media-card href title meta image video>` | A 4:3 panel and a title. With `video`, it plays only on hover or focus. It's also the source of the card morph. |
+| `<x-kit.document title :sections>` | A page of numbered text sections: a method, payments, terms. |
+
+**Motion** (`resources/js/kit`, started by `app.js`). Each module sets up what's on the page,
+again after `wire:navigate`, and setting up twice is harmless.
+
+- Reveals: `data-reveal` rises in, `data-reveal-text` letter by letter, after `data-reveal-delay`
+  milliseconds. What's already on screen plays at once.
+- Videos: `<video data-lazy-src>` loads near the viewport; `[data-hover-video]` cards play on hover.
+- Page transitions (`PAGE_TRANSITIONS=true`, with `WIRE_NAVIGATE=true`): following a
+  `<x-kit.media-card>` grows its panel into the next page and dissolves into the page's
+  `[data-morph-target]` image; any other link draws `--kit-curtain` as a circle from the click and
+  collapses it into `[data-curtain-anchor]` (or the top-right corner). Back and forward are left to
+  Livewire. Set `--kit-curtain` to a colour, a gradient or an image.
+
+Reduced motion turns the marquee, the menu's stagger, the reveals and the hover videos off, and
+page transitions become a short fade.
+
 ## Admin
 
 wp-admin is the shadcn/ui zinc console Remote Leverage's admin was built with, ported as-is:

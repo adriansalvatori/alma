@@ -25,7 +25,7 @@
   @php(wp_head())
 </head>
 
-<body @php(body_class())>
+<body @php(body_class()) data-kit-transitions="{{ config('content.navigate') && config('content.transitions') ? 'on' : 'off' }}">
   @php(wp_body_open())
 
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-zinc-900">

@@ -61,6 +61,7 @@ first three are listed below because they matter on shared hosting.
 | `CACHE_STORE` | `file` | Keep `file` on shared hosting. `redis` also needs `illuminate/redis` installed. |
 | `SESSION_DRIVER` | `file` | |
 | `WIRE_NAVIGATE` | `false` | `config/content.php`. Livewire `wire:navigate` page transitions on links. |
+| `PAGE_TRANSITIONS` | `false` | `config/content.php`. The front-end kit's transitions (card morph, curtain) on top of `wire:navigate`; needs `WIRE_NAVIGATE`. See [design system](design-system.md#front-end-kit). |
 | `WEBP_UPLOADS` | `true` | `config/content.php`. |
 
 ## Mail (theme `config/mail.php`)

@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Page transitions
+    |--------------------------------------------------------------------------
+    |
+    | The front-end kit's transitions on wire:navigate (js/kit/transitions.js):
+    | a card's panel grows into the next page, any other link draws the brand
+    | curtain. Needs WIRE_NAVIGATE; off by default. See docs/design-system.md.
+    |
+    */
+
+    'transitions' => (bool) env('PAGE_TRANSITIONS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Pattern pages
     |--------------------------------------------------------------------------
     |

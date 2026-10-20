@@ -1,6 +1,7 @@
 @import "tailwindcss" theme(static);
 @import "../../vendor/livewire/flux/dist/flux.css";
 @import "./tokens.css";
+@import "./kit.css";
 
 /*
  * Every file that can contain a class. Patterns and block classes are PHP, so they are scanned

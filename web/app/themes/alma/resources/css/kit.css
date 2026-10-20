@@ -1,0 +1,192 @@
+/*
+ * The front-end kit (docs/design-system.md → "Front-end kit"): an editorial type scale for
+ * marketing pages, and the styles of the kit's components (resources/views/components/kit) and
+ * motion (resources/js/kit). Re-skin a project by overriding these variables in tokens.css.
+ */
+:root {
+  --type-hero: clamp(2.75rem, 0.75rem + 7.4vw, 7rem);
+  --type-display: clamp(2.5rem, 1rem + 6vw, 6.25rem);
+  --type-menu: clamp(2.25rem, 1rem + 3.4vw, 4.5rem);
+  --type-title: clamp(1.5rem, 1.1rem + 1.4vw, 2.25rem);
+  --type-lead: clamp(1.375rem, 1rem + 1.2vw, 2rem);
+  --type-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+
+  /* Display type (hero, display, menu). A brand that shouts sets uppercase. */
+  --type-display-case: none;
+  --type-display-weight: 600;
+
+  /* Motion: what fills the page-transition curtain (a colour, gradient or image) and the easing
+     every kit animation shares. */
+  --kit-curtain: var(--color-brand-500);
+  --kit-ease: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@utility type-hero {
+  font-size: var(--type-hero);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-transform: var(--type-display-case);
+  font-weight: var(--type-display-weight);
+}
+
+@utility type-display {
+  font-size: var(--type-display);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: var(--type-display-case);
+  font-weight: var(--type-display-weight);
+}
+
+@utility type-menu {
+  font-size: var(--type-menu);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: var(--type-display-case);
+  font-weight: var(--type-display-weight);
+}
+
+@utility type-title {
+  font-size: var(--type-title);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+@utility type-lead {
+  font-size: var(--type-lead);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+@utility type-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility type-body {
+  font-size: var(--type-body);
+  line-height: 1.6;
+}
+
+/* <x-kit.arrow-link>: the arrow slides in from the left on hover, scaled to the link's text. */
+.kit-arrow-link {
+  display: inline-flex;
+  align-items: center;
+
+  .kit-arrow {
+    display: inline-flex;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: -0.8em;
+    margin-right: 0.15em;
+    opacity: 0;
+    transition: margin 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  &:hover .kit-arrow,
+  &:focus-visible .kit-arrow {
+    margin-left: 0;
+    opacity: 1;
+  }
+}
+
+/* <x-kit.marquee>: two copies of the words slide by half their width, forever. */
+.kit-marquee-track {
+  animation: kit-marquee 45s linear infinite;
+
+  &.is-reverse {
+    animation-direction: reverse;
+  }
+}
+
+@keyframes kit-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* <x-kit.carousel>: one row of fixed-width cards that js/kit/carousel.js drags. The inset is
+   padding inside the carousel, so dragged cards run to the screen edge instead of clipping. */
+.kit-carousel {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  cursor: grab;
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+
+  &.is-inset {
+    padding-left: max(1rem, calc((100vw - var(--container-page)) / 2 + 1.5rem));
+  }
+
+  .kit-carousel-track {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .kit-carousel-item {
+    flex: 0 0 var(--kit-carousel-width);
+    user-select: none;
+
+    @media (max-width: 768px) {
+      flex-basis: var(--kit-carousel-width-mobile);
+    }
+  }
+}
+
+/* <x-kit.menu>: fades in, its links rise one after another. */
+.kit-menu {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-out;
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .kit-menu-link {
+    opacity: 0;
+    transform: translateY(40%);
+    transition: opacity 0.5s ease, transform 0.7s var(--kit-ease);
+    transition-delay: calc(var(--i) * 60ms + 120ms);
+  }
+
+  &.is-open .kit-menu-link {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Page transitions (js/kit/transitions.js): the curtain and the card morph. They sit on <html>,
+   outside the <body> wire:navigate swaps, over everything. */
+.kit-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  background: var(--kit-curtain);
+  background-size: cover;
+  pointer-events: none;
+}
+
+.kit-morph {
+  position: fixed;
+  z-index: 1000;
+  border-radius: 1.5rem;
+  background: var(--color-zinc-950) center / cover no-repeat;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kit-marquee-track,
+  .kit-menu .kit-menu-link {
+    animation: none;
+    transition: none;
+  }
+}
