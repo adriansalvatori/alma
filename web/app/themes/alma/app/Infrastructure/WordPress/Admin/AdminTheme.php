@@ -2,16 +2,21 @@
 
 namespace App\Infrastructure\WordPress\Admin;
 
+use App\Infrastructure\Observability\Health\CheckResult;
+use App\Infrastructure\WordPress\Admin\Dashboard\PlatformHealth;
+
 /**
- * The admin's look: wp-admin, the toolbar on both sides of the site, and wp-login.php, branded
- * from the design tokens (resources/css/tokens.css) and config/admin.php. ADMIN_THEME=false
- * leaves WordPress' own look and registers nothing.
+ * The admin's look: wp-admin, the toolbar on both sides of the site, and wp-login.php, in the
+ * shadcn/ui zinc console Remote Leverage's admin was built with, branded from config/admin.php.
+ * ADMIN_THEME=false leaves WordPress' own look and registers nothing.
  *
  * The sheets (resources/css/admin/) are enqueued as hashed <link>s that depend on core's own
- * handles, so they print after them. Remote Leverage printed its skin inline at an exact point
- * because nearly every rule was !important and ties were settled by order. These sheets
- * outrank core by specificity instead (each selector is core's with `body.wp-admin` or `html` in
- * front), so their position no longer decides anything, and they can be cached files.
+ * handles, so they print after them. Nearly every rule is !important, as it was in the original,
+ * so the order the sheets import their parts in (skin.css) is what settles ties.
+ *
+ * The toolbar's notifications bell collects wp-admin's notices into a drawer
+ * (admin/_notifications.blade.php) instead of stacking them above every screen. A notice that
+ * must stay on the page carries the `alma-keep-notice` class (the stalled-cron notice does).
  */
 class AdminTheme
 {
@@ -20,6 +25,9 @@ class AdminTheme
     public const TOOLBAR = 'resources/css/admin/toolbar.css';
 
     public const LOGIN = 'resources/css/admin/login.css';
+
+    /** The toolbar nodes a client site doesn't need: core's menus that duplicate the sidebar. */
+    private const NOISE = ['wp-logo', 'comments', 'view-site', 'dashboard', 'themes', 'widgets', 'menus', 'customize', 'search'];
 
     public function __construct(
         private readonly Brand $brand,
@@ -37,6 +45,8 @@ class AdminTheme
         add_action('wp_enqueue_scripts', [$this, 'enqueueToolbar'], 99);
         add_action('wp_head', [$this, 'ensureToolbarInitialized'], 0);
         add_action('admin_bar_menu', [$this, 'brandToolbar'], 999);
+        add_action('admin_footer', [$this, 'renderNotifications'], 999);
+        add_action('wp_footer', [$this, 'renderSiteNotifications'], 999);
 
         add_filter('login_headerurl', [$this, 'loginUrl']);
         add_filter('login_headertext', [$this, 'loginText']);
@@ -91,19 +101,64 @@ class AdminTheme
     }
 
     /**
-     * Put the brand on the site-name node (core keeps its link and menu), and drop the WordPress
-     * logo menu and the toolbar search, which a client site doesn't need.
+     * One brand on the left with the places people go from it, the notifications bell on the
+     * right, and none of core's menus that repeat the sidebar. Modules add their own entries
+     * under `site-name` (Leads adds "Leads & submissions").
      */
     public function brandToolbar(\WP_Admin_Bar $toolbar): void
     {
-        $toolbar->remove_node('wp-logo');
-        $toolbar->remove_node('search');
+        foreach (self::NOISE as $node) {
+            $toolbar->remove_node($node);
+        }
 
-        if ($toolbar->get_node('site-name')) {
-            $toolbar->add_node([
-                'id' => 'site-name',
-                'title' => $this->brand->html(),
-            ]);
+        $toolbar->add_node([
+            'id' => 'site-name',
+            'title' => $this->brand->html(),
+            'href' => admin_url('/'),
+            'meta' => ['title' => sprintf(__('%s admin', 'alma'), $this->brand->name())],
+        ]);
+
+        $toolbar->add_node([
+            'id' => 'alma-sub-dashboard',
+            'parent' => 'site-name',
+            'title' => esc_html__('Admin console', 'alma'),
+            'href' => admin_url('/'),
+        ]);
+
+        $toolbar->add_node([
+            'id' => 'alma-sub-site',
+            'parent' => 'site-name',
+            'title' => esc_html__('View live website', 'alma'),
+            'href' => home_url('/'),
+        ]);
+
+        $toolbar->add_node([
+            'id' => 'alma-notifications',
+            'parent' => 'top-secondary',
+            'title' => '<span class="alma-notif-bar-trigger" id="alma-notif-trigger" role="button" tabindex="0" title="'.esc_attr__('Notifications', 'alma').'">'
+                .'<svg class="alma-notif-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>'
+                .'<span class="alma-notif-badge" id="alma-notif-badge" style="display:none;">0</span>'
+                .'</span>',
+            'href' => '#',
+            'meta' => ['title' => __('Notifications', 'alma'), 'class' => 'alma-notif-admin-bar-item'],
+        ]);
+    }
+
+    /**
+     * The notifications drawer and the script that moves wp-admin's notices into it.
+     */
+    public function renderNotifications(): void
+    {
+        echo view('admin._notifications', ['brand' => $this->brand->name()])->render();
+    }
+
+    /**
+     * The same drawer on the front end, wherever the toolbar (and so its bell) shows.
+     */
+    public function renderSiteNotifications(): void
+    {
+        if (is_admin_bar_showing()) {
+            $this->renderNotifications();
         }
     }
 
@@ -120,9 +175,25 @@ class AdminTheme
         return $this->brand->html();
     }
 
+    /**
+     * "<Brand> Admin Console", then how the health checks stood the last time the dashboard ran
+     * them. Only a cached result is read, so the footer never runs a check itself, and it says
+     * nothing rather than claim a state it hasn't seen.
+     */
     public function footerText(): string
     {
-        return esc_html($this->brand->name());
+        $text = '<span class="alma-footer-brand" style="font-weight: 500; color: #71717a;">'
+            .esc_html(sprintf(__('%s Admin Console', 'alma'), $this->brand->name())).'</span>';
+
+        $overall = PlatformHealth::cachedOverall();
+
+        if ($overall !== null) {
+            $text .= ' &bull; <span style="color: #a1a1aa;">'.esc_html($overall === CheckResult::OK
+                ? __('All systems operational', 'alma')
+                : __('Some checks need attention', 'alma')).'</span>';
+        }
+
+        return $text;
     }
 
     /**
@@ -130,12 +201,12 @@ class AdminTheme
      */
     public function footerVersion(): string
     {
-        return esc_html(sprintf(
+        return '<span style="color: #a1a1aa; font-size: 11px;">'.esc_html(sprintf(
             /* translators: 1: release (APP_VERSION), 2: WordPress version */
             __('Release %1$s · WordPress %2$s', 'alma'),
             config('alma.version', 'dev'),
             get_bloginfo('version'),
-        ));
+        )).'</span>';
     }
 
     public function showAcfAdmin(): bool

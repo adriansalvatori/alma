@@ -1,8 +1,9 @@
 <?php
 
 /*
- * Fakes for the admin skin (App\Infrastructure\WordPress\Admin): the toolbar and its nodes.
- * Toggle the toolbar with WordPress::$conditionals['is_admin_bar_showing'] = true.
+ * Fakes for the admin skin (App\Infrastructure\WordPress\Admin): the toolbar and its nodes, and
+ * the dashboard's widgets. Toggle the toolbar with WordPress::$conditionals['is_admin_bar_showing']
+ * = true; registered widgets are in WordPress::$options['__dashboard_widgets'], keyed by id.
  */
 
 use Tests\Support\WordPress\WordPress;
@@ -58,5 +59,12 @@ if (! class_exists('WP_Admin_Bar')) {
         {
             $this->remove_node($id);
         }
+    }
+}
+
+if (! function_exists('wp_add_dashboard_widget')) {
+    function wp_add_dashboard_widget(string $id, string $name, callable $callback, ?callable $controlCallback = null, ?array $args = null, string $context = 'normal', string $priority = 'core'): void
+    {
+        WordPress::$options['__dashboard_widgets'][$id] = compact('name', 'callback', 'context', 'priority');
     }
 }

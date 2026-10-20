@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Throwable;
 
 /**
  * @property int $id
@@ -29,6 +31,20 @@ use Illuminate\Support\Str;
  */
 class Lead extends Model
 {
+    /**
+     * Where the admin's lead figures are cached (the Leads screen's cards, the dashboard widgets,
+     * the source filter). Short-lived, and cleared whenever a lead is saved or deleted, so a new
+     * lead shows up on the next page load rather than three minutes later.
+     */
+    public const METRICS_CACHE_KEYS = [
+        'alma_lead_kpis',
+        'alma_lead_sources',
+        'alma_dashboard_lead_metrics_7d',
+        'alma_dashboard_lead_hourly_month',
+        'alma_dashboard_lead_hourly_last_month',
+        'alma_dashboard_lead_hourly_7d',
+    ];
+
     protected $table = 'alma_leads';
 
     protected $guarded = ['id'];
@@ -55,6 +71,35 @@ class Lead extends Model
         static::creating(function (Lead $lead) {
             $lead->uuid ??= (string) Str::uuid();
         });
+
+        static::saved(fn () => self::flushMetrics());
+        static::deleted(fn () => self::flushMetrics());
+    }
+
+    /**
+     * Forget the cached admin figures. Never throws: a cache that can't be written must not fail
+     * the lead capture that triggered this.
+     */
+    public static function flushMetrics(): void
+    {
+        try {
+            foreach (self::METRICS_CACHE_KEYS as $key) {
+                Cache::forget($key);
+            }
+        } catch (Throwable) {
+            // The figures expire on their own within minutes.
+        }
+    }
+
+    /**
+     * Where the visitor came from the first time: the campaign's utm_source, or the referring
+     * site's host. Null for a direct visit.
+     */
+    public function channel(): ?string
+    {
+        $source = $this->attribution['first']['source'] ?? null;
+
+        return is_string($source) && $source !== '' ? $source : null;
     }
 
     /**

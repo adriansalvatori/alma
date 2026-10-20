@@ -74,8 +74,9 @@ class SiteHealth
             return;
         }
 
+        // alma-keep-notice: the admin skin's notifications drawer leaves this one on the page.
         printf(
-            '<div class="notice notice-error"><p><strong>%s</strong> %s</p></div>',
+            '<div class="notice notice-error alma-keep-notice"><p><strong>%s</strong> %s</p></div>',
             esc_html__('Scheduled tasks have stopped.', 'alma'),
             esc_html(sprintf(
                 /* translators: %d: minutes */

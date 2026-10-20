@@ -1,0 +1,776 @@
+/*
+ * The dashboard widgets' markup (resources/views/admin/dashboard, and each module's
+ * resources/views/admin/dashboard): KPI tiles, the funnel, bar charts, channel share, tables,
+ * health rows and shortcuts. Imported by screens.css, so the widgets keep their look with the
+ * skin (ADMIN_THEME) off; the boxes around them are the skin's.
+ *
+ * Unscoped and !important, as written for the console: the widgets sit in core's .postbox, whose
+ * own rules (and the console's) they have to beat.
+ */
+
+/* Dashboard Marketing KPIs */
+.alma-dash-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+}
+.alma-dash-kpi-card {
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    padding: 14px 16px !important;
+}
+.alma-dash-kpi-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 6px !important;
+}
+.alma-dash-kpi-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #71717a !important;
+}
+.alma-dash-kpi-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: #a1a1aa !important;
+}
+.alma-dash-kpi-number {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #09090b !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+}
+.alma-dash-kpi-meta {
+    font-size: 12px !important;
+    color: #71717a !important;
+    margin-top: 4px !important;
+}
+.alma-dash-badge-dark {
+    background: #09090b !important;
+    color: #ffffff !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    padding: 2px 7px !important;
+    border-radius: 9999px !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+    display: inline-block !important;
+}
+.alma-dash-sources-bar {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 14px !important;
+}
+.alma-dash-sources-title {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+}
+.alma-dash-sources-list {
+    display: flex !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+}
+.alma-dash-source-tag {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    padding: 2px 8px !important;
+    font-size: 11px !important;
+    color: #52525b !important;
+}
+.alma-dash-source-count {
+    background: #f4f4f5 !important;
+    border-radius: 9999px !important;
+    padding: 1px 5px !important;
+    font-weight: 600 !important;
+    margin-left: 4px !important;
+    font-size: 10px !important;
+    color: #09090b !important;
+}
+
+/* Dashboard Recent Leads Table */
+.alma-dash-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 13px !important;
+}
+.alma-dash-table th {
+    text-align: left !important;
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    color: #71717a !important;
+    border-bottom: 1px solid #e4e4e7 !important;
+}
+.alma-dash-table td {
+    padding: 10px !important;
+    border-bottom: 1px solid #f4f4f5 !important;
+    vertical-align: middle !important;
+}
+.alma-dash-contact-cell {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+.alma-dash-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background: #18181b !important;
+    color: #fafafa !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+.alma-dash-lead-name {
+    font-weight: 600 !important;
+    color: #09090b !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-lead-sub {
+    font-size: 12px !important;
+    color: #71717a !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-timestamp {
+    font-size: 12px !important;
+    color: #71717a !important;
+    white-space: nowrap !important;
+}
+.alma-dash-btn-ghost {
+    display: inline-flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #09090b !important;
+    text-decoration: none !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    background: #f4f4f5 !important;
+    transition: background 0.15s !important;
+}
+.alma-dash-btn-ghost:hover {
+    background: #e4e4e7 !important;
+    text-decoration: none !important;
+}
+
+/* Dashboard Badges */
+.alma-badge-dark {
+    background: #09090b !important;
+    color: #ffffff !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+.alma-badge-subtle {
+    background: #f4f4f5 !important;
+    color: #71717a !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+}
+.alma-badge-emerald {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+.alma-badge-zinc {
+    background: #f4f4f5 !important;
+    color: #52525b !important;
+    border: 1px solid #e4e4e7 !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    display: inline-block !important;
+}
+.alma-badge-amber {
+    background: #fffbeb !important;
+    color: #d97706 !important;
+    border: 1px solid #fde68a !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+.alma-badge-rose {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+
+/* Dashboard Platform Health */
+.alma-dash-health-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+.alma-dash-health-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 9px 12px !important;
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    gap: 12px !important;
+}
+.alma-dash-health-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+.alma-dash-indicator-green {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #10b981 !important;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2) !important;
+    flex-shrink: 0 !important;
+}
+.alma-dash-indicator-amber {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #d97706 !important;
+    box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.2) !important;
+    flex-shrink: 0 !important;
+}
+.alma-dash-indicator-red {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #dc2626 !important;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
+    flex-shrink: 0 !important;
+}
+.alma-dash-health-name {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-health-desc {
+    font-size: 11px !important;
+    color: #71717a !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-health-item--expandable {
+    flex-direction: column !important;
+    align-items: stretch !important;
+}
+.alma-dash-health-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    gap: 12px !important;
+}
+.alma-dash-health-details {
+    margin-top: 6px !important;
+    padding-left: 18px !important;
+}
+.alma-dash-health-details summary {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 11px !important;
+    color: #71717a !important;
+    cursor: pointer !important;
+    font-weight: 500 !important;
+    list-style: none !important;
+}
+.alma-dash-health-details summary::-webkit-details-marker {
+    display: none !important;
+}
+.alma-dash-health-details summary::marker {
+    content: '' !important;
+}
+.alma-dash-health-details-caret {
+    font-size: 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    line-height: 14px !important;
+    color: #a1a1aa !important;
+    transition: transform 0.15s ease !important;
+}
+.alma-dash-health-details[open] .alma-dash-health-details-caret {
+    transform: rotate(90deg) !important;
+}
+.alma-dash-health-details-body {
+    margin-top: 6px !important;
+    padding: 8px 10px !important;
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    color: #3f3f46 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+.alma-dash-health-details-body code {
+    background: #f4f4f5 !important;
+    padding: 1px 4px !important;
+    border-radius: 4px !important;
+    font-size: 10.5px !important;
+}
+
+/* Dashboard Marketing Shortcuts */
+.alma-dash-shortcuts-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 10px !important;
+}
+.alma-dash-shortcut-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    padding: 12px 14px !important;
+    background: #fafafa !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+}
+.alma-dash-shortcut-card:hover {
+    background: #ffffff !important;
+    border-color: #09090b !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px) !important;
+}
+.alma-dash-shortcut-icon {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    background: #f4f4f5 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #09090b !important;
+}
+.alma-dash-shortcut-icon svg {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: #09090b !important;
+}
+.alma-dash-shortcut-title {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+    text-decoration: none !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-shortcut-desc {
+    font-size: 11px !important;
+    color: #71717a !important;
+    text-decoration: none !important;
+    line-height: 1.2 !important;
+}
+.alma-dash-card-footer {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-top: 14px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid #f4f4f5 !important;
+    font-size: 12px !important;
+}
+.alma-dash-link {
+    font-weight: 600 !important;
+    color: #09090b !important;
+    text-decoration: none !important;
+}
+.alma-dash-link:hover {
+    text-decoration: underline !important;
+}
+.alma-dash-footer-meta {
+    color: #71717a !important;
+}
+.alma-dash-empty {
+    text-align: center !important;
+    padding: 24px !important;
+    color: #71717a !important;
+}
+
+/* Funnel Progression Styles */
+.alma-dash-funnel-box {
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 14px !important;
+}
+.alma-dash-funnel-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 12px !important;
+}
+.alma-dash-box-subtitle {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+}
+.alma-dash-box-meta {
+    font-size: 11px !important;
+    color: #71717a !important;
+}
+.alma-dash-funnel-stages {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+.alma-dash-funnel-stage {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+.alma-dash-stage-info {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 11px !important;
+}
+.alma-dash-stage-name {
+    font-weight: 500 !important;
+    color: #3f3f46 !important;
+}
+.alma-dash-stage-val {
+    font-weight: 600 !important;
+    color: #09090b !important;
+}
+.alma-dash-bar-track {
+    background: #f4f4f5 !important;
+    border: 1px solid #e4e4e7 !important;
+    height: 7px !important;
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+}
+.alma-dash-bar-fill {
+    height: 100% !important;
+    border-radius: 9999px !important;
+    transition: width 0.3s ease !important;
+}
+.alma-dash-bar-fill.alma-stage-1 {
+    background: #09090b !important;
+}
+.alma-dash-bar-fill.alma-stage-2 {
+    background: #27272a !important;
+}
+.alma-dash-bar-fill.alma-stage-3 {
+    background: #10b981 !important;
+}
+
+/* 7-Day Ingestion Volume Responsive Bar Chart */
+.alma-dash-chart-card {
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    padding: 16px 18px 14px 18px !important;
+}
+.alma-dash-chart-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 16px !important;
+}
+.alma-dash-chart-body {
+    width: 100% !important;
+    padding-top: 4px !important;
+}
+.alma-dash-barchart-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    gap: 8px !important;
+    align-items: end !important;
+    height: 110px !important;
+    border-bottom: 1px solid #e4e4e7 !important;
+    padding-bottom: 2px !important;
+}
+.alma-dash-bar-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: 100% !important;
+    justify-content: flex-end !important;
+    position: relative !important;
+}
+.alma-dash-bar-val-wrap {
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-bottom: 6px !important;
+}
+.alma-dash-bar-val {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+    line-height: 1 !important;
+}
+.alma-dash-bar-val.alma-val-peak {
+    background: #09090b !important;
+    color: #ffffff !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.02em !important;
+}
+.alma-dash-bar-val-empty {
+    font-size: 11px !important;
+    color: #d4d4d8 !important;
+    line-height: 1 !important;
+}
+.alma-dash-bar-slot {
+    width: 100% !important;
+    height: 56px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+}
+.alma-dash-bar-fill-v {
+    width: 22px !important;
+    max-width: 26px !important;
+    background: #27272a !important;
+    border-radius: 4px 4px 0 0 !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer !important;
+}
+.alma-dash-bar-fill-v.alma-bar-peak {
+    background: #09090b !important;
+    box-shadow: 0 2px 6px rgba(9, 9, 11, 0.2) !important;
+}
+.alma-dash-bar-fill-v:hover {
+    filter: brightness(1.3) !important;
+    transform: translateY(-2px) !important;
+}
+.alma-dash-bar-fill-zero {
+    width: 18px !important;
+    height: 3px !important;
+    background: #e4e4e7 !important;
+    border-radius: 2px 2px 0 0 !important;
+}
+.alma-dash-bar-label-wrap {
+    padding-top: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+.alma-dash-bar-day {
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: #71717a !important;
+    line-height: 1 !important;
+}
+.alma-dash-bar-day.alma-day-peak {
+    font-weight: 700 !important;
+    color: #09090b !important;
+}
+
+/* Hourly Lead Trend: the same bars, 24 to a row, under a range filter */
+.alma-dash-hourly-header {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+}
+.alma-dash-range {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 2px !important;
+    padding: 2px !important;
+    background: #f4f4f5 !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+}
+.alma-dash-range-tab {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    color: #71717a !important;
+    text-decoration: none !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+}
+.alma-dash-range-tab:hover {
+    color: #09090b !important;
+}
+.alma-dash-range-tab.alma-dash-range-active {
+    background: #ffffff !important;
+    color: #09090b !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+}
+.alma-dash-barchart-hourly {
+    grid-template-columns: repeat(24, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+}
+.alma-dash-barchart-hourly .alma-dash-bar-fill-v {
+    width: 100% !important;
+    max-width: 18px !important;
+}
+.alma-dash-barchart-hourly .alma-dash-bar-fill-zero {
+    width: 100% !important;
+    max-width: 14px !important;
+}
+.alma-dash-barchart-hourly .alma-dash-bar-val,
+.alma-dash-barchart-hourly .alma-dash-bar-day {
+    font-size: 9px !important;
+    white-space: nowrap !important;
+}
+.alma-dash-barchart-hourly .alma-dash-bar-val.alma-val-peak {
+    padding: 2px 3px !important;
+    font-size: 9px !important;
+}
+
+/* Channels Stacked Distribution */
+.alma-dash-stacked-bar {
+    display: flex !important;
+    height: 8px !important;
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+    background: #e4e4e7 !important;
+    margin-bottom: 14px !important;
+    gap: 2px !important;
+}
+.alma-dash-stacked-seg {
+    height: 100% !important;
+    border-radius: 9999px !important;
+    transition: opacity 0.15s ease !important;
+}
+.alma-dash-stacked-seg:hover {
+    opacity: 0.8 !important;
+}
+.alma-dash-channels-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+.alma-dash-channel-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 6px 10px !important;
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 6px !important;
+    font-size: 12px !important;
+}
+.alma-dash-channel-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.alma-dash-color-dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+}
+.alma-dash-channel-name {
+    font-weight: 500 !important;
+    color: #09090b !important;
+}
+.alma-dash-channel-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.alma-dash-channel-count {
+    font-weight: 600 !important;
+    color: #09090b !important;
+}
+.alma-dash-channel-pct {
+    color: #71717a !important;
+    font-size: 11px !important;
+}
+.alma-dash-channel-link {
+    color: #71717a !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.15s ease !important;
+}
+.alma-dash-channel-link:hover {
+    color: #09090b !important;
+}
+
+/* Domain Architecture Overview */
+.alma-dash-domains-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+.alma-dash-domain-card {
+    background: #fafafa !important;
+    border: 1px solid #f4f4f5 !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+}
+.alma-dash-domain-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 6px !important;
+}
+.alma-dash-domain-title-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.alma-dash-domain-title {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #09090b !important;
+}
+.alma-dash-domain-desc {
+    font-size: 12px !important;
+    color: #71717a !important;
+    line-height: 1.4 !important;
+    margin: 0 0 8px 0 !important;
+}
+.alma-dash-domain-badges {
+    display: flex !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
+}
+.alma-dash-chip {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    color: #27272a !important;
+}

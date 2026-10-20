@@ -1,0 +1,54 @@
+/*
+ * Global reset and the console's frame: type, page background and the content area's margins.
+ * Imported by skin.css, ahead of the toolbar.
+ */
+
+/* ==========================================================================
+   ADMIN CONSOLE THEME (SHADCN/UI ZINC AESTHETIC)
+   ========================================================================== */
+
+/* --- 1. Global Reset & Typography Hierarchy --- */
+body.wp-admin,
+#wpwrap,
+#wpbody {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    background-color: #f4f4f5 !important;
+    color: #09090b !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+#wpcontent {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    background-color: #f4f4f5 !important;
+    color: #09090b !important;
+    margin-left: 180px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+}
+#wpfooter {
+    margin-left: 180px !important;
+    box-sizing: border-box !important;
+}
+#wpbody-content {
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-right: 0 !important;
+    padding-bottom: 40px !important;
+}
+.wrap {
+    margin: 16px 0 24px 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+#screen-meta-links {
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+}
+#posts-filter {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}

@@ -111,16 +111,29 @@ it('ships admin sheets and views with no trace of the project they were ported f
     expect($remnants)->toBe([]);
 });
 
-it('outranks core by specificity, not !important', function () {
-    $offenders = [];
+it('imports the skin\'s parts in the order its !important ties were written for', function () {
+    $css = (string) file_get_contents(theme_path('resources/css/admin/skin.css'));
 
-    foreach (Finder::create()->files()->name('*.css')->in(theme_path('resources/css/admin')) as $file) {
-        $css = (string) preg_replace('#/\*.*?\*/#s', '', $file->getContents());
+    preg_match_all('/@import "\.\/([^"]+)"/', $css, $imports);
 
-        if (str_contains($css, '!important')) {
-            $offenders[] = $file->getRelativePathname();
-        }
+    expect($imports[1])->toBe(['_tokens.css', 'reset.css', '_toolbar.css', 'console.css']);
+});
+
+it('re-asserts anchors drawn as controls above the skin\'s link reset', function () {
+    // The skin paints every content-area link at (1,1,1) !important; a class-only rule loses to it.
+    $css = (string) file_get_contents(theme_path('resources/css/admin/screens.css'));
+
+    foreach (['alma-btn', 'alma-tab', 'alma-stat', 'alma-audit-pill'] as $control) {
+        expect($css)->toMatch('/#wpbody-content \.alma-admin a:is\([^)]*\.'.$control.'[,)]/');
     }
 
-    expect($offenders)->toBe([]);
+    expect($css)->toContain('#wpbody-content .alma-admin a.alma-btn--primary');
+});
+
+it('keeps a notice the drawer must not move on the page', function () {
+    $css = (string) file_get_contents(theme_path('resources/css/admin/console.css'));
+    $drawer = (string) file_get_contents(theme_path('resources/views/admin/_notifications.blade.php'));
+
+    expect($css)->toContain(':not(.alma-keep-notice)')
+        ->and($drawer)->toContain("classList.contains('alma-keep-notice')");
 });

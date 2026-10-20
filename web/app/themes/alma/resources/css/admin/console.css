@@ -1,0 +1,1017 @@
+/*
+ * The rest of the console: sidebar, content area, buttons, forms, list tables, notices, dashboard
+ * widgets, link colours and the footer. Imported by skin.css, after the toolbar.
+ */
+
+/* --- 3. Left Navigation Menu (#adminmenu) --- */
+#adminmenuback,
+#adminmenuwrap {
+    width: 180px !important;
+    background-color: #09090b !important;
+    box-sizing: border-box !important;
+}
+#adminmenuback {
+    border-right: 1px solid #27272a !important;
+}
+/* Core reserves 2em above the sidebar whenever it adds the `php-error` body
+   class, to leave room for a printed PHP error:
+   `.php-error #adminmenuback, .php-error #adminmenuwrap { margin-top: 2em }`.
+   It adds that class whenever `error_get_last()` is non-null and display_errors
+   is on — and `error_get_last()` also reports errors that were suppressed with
+   `@`, which WordPress and its plugins do routinely. The result on a healthy
+   site is a 26px band under the admin bar with nothing in it.
+   Local only: `config/environments/development.php` turns on WP_DEBUG_DISPLAY,
+   while production keeps it off, so the class never appears there.
+   The trade is that a PHP error which really does print will sit under the
+   sidebar's top edge rather than above it; it is still in the page and in
+   the debug log. */
+.php-error #adminmenuback,
+.php-error #adminmenuwrap {
+    margin-top: 0 !important;
+}
+#adminmenuwrap {
+    border-right: 1px solid #27272a !important;
+}
+#adminmenu {
+    width: 180px !important;
+    max-width: 180px !important;
+    margin: 8px 0 0 0 !important;
+    padding: 0 8px !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    border-right: none !important;
+    background: transparent !important;
+}
+#adminmenu,
+#adminmenu *,
+#adminmenu *:before,
+#adminmenu *:after {
+    box-sizing: border-box !important;
+}
+
+/* Responsive and Folded sidebar sizing in 100% lockstep */
+.folded #adminmenuback,
+.folded #adminmenuwrap,
+.folded #adminmenu {
+    width: 48px !important;
+    max-width: 48px !important;
+}
+.folded #adminmenu {
+    padding: 0 4px !important;
+}
+.folded #wpcontent,
+.folded #wpfooter {
+    margin-left: 48px !important;
+}
+@media screen and (max-width: 960px) {
+    .auto-fold #adminmenuback,
+    .auto-fold #adminmenuwrap,
+    .auto-fold #adminmenu {
+        width: 48px !important;
+        max-width: 48px !important;
+    }
+    .auto-fold #adminmenu {
+        padding: 0 4px !important;
+    }
+    .auto-fold #wpcontent,
+    .auto-fold #wpfooter {
+        margin-left: 48px !important;
+    }
+}
+
+/* Neutralize all li container backgrounds so default WP color schemes never leak blue */
+#adminmenu li,
+#adminmenu li.menu-top,
+#adminmenu li.menu-top:hover,
+#adminmenu li.opensub,
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li.wp-has-current-submenu,
+#adminmenu li.wp-has-current-submenu:hover,
+#adminmenu li.wp-has-current-submenu.opensub,
+#adminmenu li.wp-has-current-submenu.hover,
+#adminmenu li.current,
+#adminmenu li.current:hover,
+#adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* Eliminate all WP focus/hover box-shadow bars (removes white crescent pill) */
+#adminmenu a,
+#adminmenu a:hover,
+#adminmenu a:focus,
+#adminmenu a:active,
+#adminmenu li.menu-top > a,
+#adminmenu li.menu-top > a:hover,
+#adminmenu li.menu-top > a:focus,
+#adminmenu .wp-submenu a,
+#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus,
+.folded #adminmenu .wp-submenu-head:hover,
+.folded #adminmenu .wp-submenu-head:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+}
+
+#adminmenu li.menu-top {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 1px 0 !important;
+    border-radius: 6px !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+}
+#adminmenu li.menu-top > a {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 6px !important;
+    padding: 0 8px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    line-height: 32px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #a1a1aa !important;
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border: none !important;
+    box-sizing: border-box !important;
+    transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+#adminmenu div.wp-menu-image {
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#adminmenu div.wp-menu-image:before {
+    font-size: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    line-height: 15px !important;
+    padding: 0 !important;
+    color: #71717a !important;
+    transition: color 0.15s ease !important;
+}
+#adminmenu div.wp-menu-name {
+    padding: 0 !important;
+    font-size: 13px !important;
+    line-height: 32px !important;
+    font-weight: 500 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+#adminmenu li.menu-top:hover > a,
+#adminmenu li.menu-top > a:hover,
+#adminmenu li.opensub > a.menu-top {
+    background-color: #18181b !important;
+    color: #fafafa !important;
+}
+#adminmenu li.menu-top:hover div.wp-menu-image:before,
+#adminmenu li.opensub div.wp-menu-image:before {
+    color: #ffffff !important;
+}
+#adminmenu li.current > a.menu-top,
+#adminmenu li.wp-has-current-submenu > a.menu-top,
+#adminmenu li.wp-has-current-submenu.hover > a.menu-top,
+#adminmenu li.wp-has-current-submenu.opensub > a.menu-top,
+#adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu {
+    background-color: #27272a !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+#adminmenu li.current div.wp-menu-image:before,
+#adminmenu li.wp-has-current-submenu div.wp-menu-image:before {
+    color: #ffffff !important;
+}
+
+/* Completely eliminate all old WordPress triangle arrows, notches and pseudo-elements */
+.wp-menu-arrow,
+.wp-menu-arrow div,
+ul#adminmenu a.wp-has-current-submenu:after,
+ul#adminmenu > li.current > a.current:after,
+#adminmenu a.menu-top:after,
+#adminmenu li.menu-top:after,
+#adminmenu li.current > a.menu-top:after,
+#adminmenu li.wp-has-current-submenu > a.menu-top:after,
+#adminmenu li.opensub > a.menu-top:after,
+#adminmenu li.hover > a.menu-top:after,
+#adminmenu li > a:after,
+#adminmenu .wp-submenu:before,
+#adminmenu .wp-submenu:after,
+#adminmenu .wp-submenu li:before,
+#adminmenu .wp-submenu li:after,
+#adminmenu .wp-submenu a:before,
+#adminmenu .wp-submenu a:after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* --- Inline Submenu for Active Current Menu (Expanded Sidebar) --- */
+#adminmenu .wp-submenu,
+#adminmenu .wp-has-current-submenu .wp-submenu,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-sizing: border-box !important;
+}
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu,
+body:not(.folded) #adminmenu li.wp-has-current-submenu.hover .wp-submenu,
+body:not(.folded) #adminmenu li.wp-has-current-submenu.opensub .wp-submenu {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 2px 0 4px 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu li {
+    background: transparent !important;
+    background-color: transparent !important;
+    margin: 1px 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu a,
+#adminmenu .wp-has-current-submenu .wp-submenu a,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu a,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu a {
+    padding: 0 8px 0 26px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #a1a1aa !important;
+    border-radius: 6px !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    transition: color 0.15s ease, background-color 0.15s ease !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu a:hover,
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu a:focus,
+#adminmenu .wp-has-current-submenu .wp-submenu a:hover,
+#adminmenu .wp-has-current-submenu .wp-submenu a:focus,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:hover,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:focus {
+    color: #ffffff !important;
+    background-color: #18181b !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+body:not(.folded) #adminmenu li.wp-has-current-submenu .wp-submenu li.current a,
+#adminmenu .wp-has-current-submenu .wp-submenu li.current a,
+#adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    background-color: #27272a !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* --- Floating Flyout Submenu for Inactive Menus on Hover --- */
+body:not(.folded) #adminmenu li.wp-not-current-submenu.opensub .wp-submenu,
+body:not(.folded) #adminmenu li.wp-not-current-submenu:hover .wp-submenu,
+.folded #adminmenu li.opensub .wp-submenu,
+.folded #adminmenu li:hover .wp-submenu {
+    position: absolute !important;
+    top: 0 !important;
+    left: 100% !important;
+    background-color: #18181b !important;
+    border: 1px solid #27272a !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3) !important;
+    padding: 4px !important;
+    margin-left: 6px !important;
+    min-width: 170px !important;
+    width: auto !important;
+    z-index: 99999 !important;
+}
+body:not(.folded) #adminmenu .wp-submenu .wp-submenu-head {
+    display: none !important;
+}
+.folded #adminmenu .wp-submenu .wp-submenu-head {
+    color: #fafafa !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+    border-bottom: 1px solid #27272a !important;
+    margin-bottom: 4px !important;
+    background: transparent !important;
+}
+#adminmenu .wp-not-current-submenu .wp-submenu a,
+.folded #adminmenu .wp-submenu a {
+    color: #a1a1aa !important;
+    border-radius: 6px !important;
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    display: block !important;
+    transition: color 0.15s ease, background-color 0.15s ease !important;
+}
+#adminmenu .wp-not-current-submenu .wp-submenu a:hover,
+.folded #adminmenu .wp-submenu a:hover {
+    color: #ffffff !important;
+    background-color: #27272a !important;
+}
+#collapse-menu {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+#collapse-button {
+    color: #71717a !important;
+    padding: 0 8px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+#collapse-button:hover {
+    color: #ffffff !important;
+    background: #18181b !important;
+}
+.update-plugins,
+.awaiting-mod {
+    background: #27272a !important;
+    color: #fafafa !important;
+    border: 1px solid #3f3f46 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    border-radius: 9999px !important;
+    padding: 1px 6px !important;
+}
+
+/* --- 4. Main Body Content Area (#wpbody-content) --- */
+#wpbody-content {
+    padding: 24px !important;
+}
+.wrap h1.wp-heading-inline,
+.wrap > h1:first-child {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+    color: #09090b !important;
+    margin-bottom: 16px !important;
+}
+
+/* --- Screen Options & Help Toggles --- */
+#screen-meta-links {
+    margin: 0 24px 0 0 !important;
+    top: 0 !important;
+}
+#screen-meta-links .screen-meta-toggle {
+    position: relative !important;
+}
+#screen-meta-links .show-settings {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-top: none !important;
+    border-radius: 0 0 6px 6px !important;
+    color: #52525b !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    padding: 0 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.15s ease !important;
+}
+#screen-meta-links .show-settings:hover,
+#screen-meta-links .show-settings:focus {
+    background: #f4f4f5 !important;
+    color: #09090b !important;
+    border-color: #d4d4d8 !important;
+}
+#screen-meta-links .show-settings:after {
+    /*
+     * No `content` or `font` override, on purpose. This rule used to be a PHP double-quoted
+     * string, where `'\f140'` is a form feed followed by "140": browsers discarded both
+     * declarations as a bad string, so core's 20px dashicons arrow is what has always shown.
+     * Restoring `content: '\f140'; font: normal 14px/1 dashicons;` would shrink it to 14px.
+     */
+    position: static !important;
+    bottom: auto !important;
+    right: auto !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
+    color: #71717a !important;
+}
+#screen-meta-links .show-settings:hover:after {
+    color: #09090b !important;
+}
+
+/* --- 5. Shadcn Button Design System & Page Actions --- */
+.wrap h1.wp-heading-inline {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+    color: #09090b !important;
+    margin-right: 12px !important;
+    line-height: 32px !important;
+}
+.wrap .page-title-action,
+.wrap .page-title-action:active,
+.wrap .page-title-action:visited,
+.page-title-action {
+    background: #ffffff !important;
+    color: #09090b !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 4px 12px !important;
+    height: 30px !important;
+    line-height: 20px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle !important;
+    top: 0 !important;
+    margin-left: 8px !important;
+}
+.wrap .page-title-action:hover,
+.wrap .page-title-action:focus,
+.page-title-action:hover,
+.page-title-action:focus {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+    color: #09090b !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    outline: none !important;
+}
+.wp-core-ui .button,
+.wp-core-ui .button-secondary {
+    background: #ffffff !important;
+    color: #09090b !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 5px 14px !important;
+    height: 32px !important;
+    line-height: 20px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.15s ease !important;
+    text-shadow: none !important;
+    cursor: pointer !important;
+}
+.wp-core-ui .button:hover,
+.wp-core-ui .button-secondary:hover {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+    color: #09090b !important;
+}
+.wp-core-ui .button-primary {
+    background: #18181b !important;
+    border-color: #18181b !important;
+    color: #fafafa !important;
+    text-shadow: none !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 6px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 5px 14px !important;
+    height: 32px !important;
+    line-height: 20px !important;
+    transition: all 0.15s ease !important;
+}
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:focus {
+    background: #27272a !important;
+    border-color: #27272a !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+.wp-core-ui .button-link-delete {
+    color: #ef4444 !important;
+}
+.wp-core-ui .button-link-delete:hover {
+    color: #dc2626 !important;
+    text-decoration: underline !important;
+}
+
+/* --- 6. Form Controls, Checkboxes & Inputs --- */
+input[type='text'],
+input[type='search'],
+input[type='password'],
+input[type='email'],
+input[type='url'],
+input[type='tel'],
+input[type='number'],
+input[type='date'],
+textarea,
+select {
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    background-color: #ffffff !important;
+    color: #09090b !important;
+    padding: 5px 10px !important;
+    font-size: 13px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+input[type='text']:focus,
+input[type='search']:focus,
+input[type='password']:focus,
+input[type='email']:focus,
+input[type='url']:focus,
+input[type='tel']:focus,
+input[type='number']:focus,
+input[type='date']:focus,
+textarea:focus,
+select:focus {
+    border-color: #18181b !important;
+    box-shadow: 0 0 0 1px #18181b !important;
+    outline: none !important;
+}
+input[type='checkbox'],
+input[type='radio'] {
+    border: 1px solid #d4d4d8 !important;
+    border-radius: 4px !important;
+    background: #ffffff !important;
+    color: #18181b !important;
+    width: 16px !important;
+    height: 16px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.15s ease !important;
+}
+input[type='radio'] {
+    border-radius: 9999px !important;
+}
+input[type='checkbox']:checked,
+input[type='radio']:checked {
+    background-color: #18181b !important;
+    border-color: #18181b !important;
+}
+input[type='checkbox']:checked:before {
+    filter: invert(1) !important;
+}
+input[type='checkbox']:focus,
+input[type='radio']:focus {
+    border-color: #18181b !important;
+    box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.2) !important;
+    outline: none !important;
+}
+
+/* --- 7. Subsubsub, Table Navigation & Search --- */
+.subsubsub {
+    color: #a1a1aa !important;
+    font-size: 13px !important;
+    margin: 10px 0 14px 0 !important;
+}
+.subsubsub li {
+    color: #d4d4d8 !important;
+}
+.subsubsub a {
+    color: #71717a !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    transition: color 0.15s ease !important;
+}
+.subsubsub a:hover {
+    color: #09090b !important;
+}
+.subsubsub a.current {
+    color: #09090b !important;
+    font-weight: 600 !important;
+}
+.subsubsub .count {
+    color: #a1a1aa !important;
+    font-weight: 400 !important;
+}
+
+.tablenav {
+    height: auto !important;
+    margin: 10px 0 !important;
+    padding: 0 !important;
+    clear: both !important;
+}
+.tablenav .actions select {
+    height: 32px !important;
+    line-height: 32px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e4e4e7 !important;
+    background: #ffffff !important;
+    color: #09090b !important;
+    font-size: 13px !important;
+    padding: 0 24px 0 10px !important;
+}
+.tablenav .actions .button,
+.tablenav .button {
+    height: 32px !important;
+    line-height: 20px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e4e4e7 !important;
+    background: #ffffff !important;
+    color: #09090b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 5px 12px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+.tablenav .actions .button:hover,
+.tablenav .button:hover {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+    color: #09090b !important;
+}
+.tablenav .displaying-num {
+    color: #71717a !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 32px !important;
+}
+.tablenav-pages .pagination-links a,
+.tablenav-pages .pagination-links .tablenav-pages-navspan {
+    border: 1px solid #e4e4e7 !important;
+    background: #ffffff !important;
+    color: #09090b !important;
+    border-radius: 6px !important;
+    padding: 3px 8px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+.tablenav-pages .pagination-links a:hover {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+}
+.tablenav-pages .pagination-links .tablenav-pages-navspan {
+    color: #a1a1aa !important;
+    background: #fafafa !important;
+}
+
+.search-box {
+    margin-bottom: 8px !important;
+}
+.search-box input[type='search'],
+#post-search-input {
+    height: 32px !important;
+    line-height: 32px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e4e4e7 !important;
+    background: #ffffff !important;
+    font-size: 13px !important;
+    padding: 0 10px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+.search-box input[type='submit'],
+#search-submit {
+    height: 32px !important;
+    line-height: 20px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e4e4e7 !important;
+    background: #ffffff !important;
+    color: #09090b !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 5px 14px !important;
+    margin-left: 4px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+.search-box input[type='submit']:hover,
+#search-submit:hover {
+    background: #f4f4f5 !important;
+    border-color: #d4d4d8 !important;
+    color: #09090b !important;
+}
+
+/* --- 8. Modern WP List Tables (.wp-list-table) --- */
+.wp-list-table,
+table.widefat {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    /*
+     * Deliberately visible. This was `hidden` to make the radius above clip the
+     * corner cells, but a table that clips its own overflow also clips anything a
+     * cell positions outside itself — column-header tooltips were being cut off at
+     * the table border. The corner cells are rounded individually below instead,
+     * which keeps the shape without trapping overlays. Needs border-collapse:
+     * separate to work, which is already set.
+     */
+    overflow: visible !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+.wp-list-table thead tr:first-child th:first-child,
+table.widefat thead tr:first-child th:first-child {
+    border-top-left-radius: 10px !important;
+}
+.wp-list-table thead tr:first-child th:last-child,
+table.widefat thead tr:first-child th:last-child {
+    border-top-right-radius: 10px !important;
+}
+.wp-list-table tfoot tr:last-child th:first-child,
+table.widefat tfoot tr:last-child th:first-child {
+    border-bottom-left-radius: 10px !important;
+}
+.wp-list-table tfoot tr:last-child th:last-child,
+table.widefat tfoot tr:last-child th:last-child {
+    border-bottom-right-radius: 10px !important;
+}
+/* Tables with no tfoot round off their last body row instead. */
+.wp-list-table tbody tr:last-child td:first-child,
+table.widefat tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 10px !important;
+}
+.wp-list-table tbody tr:last-child td:last-child,
+table.widefat tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 10px !important;
+}
+.wp-list-table th,
+table.widefat th {
+    background: #fafafa !important;
+    color: #71717a !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    border-bottom: 1px solid #e4e4e7 !important;
+    padding: 10px 14px !important;
+    text-transform: none !important;
+    letter-spacing: -0.01em !important;
+}
+.wp-list-table th a,
+.wp-list-table th a:visited {
+    color: #71717a !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+}
+.wp-list-table th a:hover,
+.wp-list-table th.sorted a {
+    color: #09090b !important;
+}
+.sorting-indicator:before,
+.sorting-indicators:before {
+    color: #71717a !important;
+}
+th.sorted .sorting-indicator:before {
+    color: #09090b !important;
+}
+.wp-list-table a.row-title {
+    color: #09090b !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+}
+.wp-list-table a.row-title:hover {
+    color: #18181b !important;
+    text-decoration: underline !important;
+}
+.wp-list-table .post-state {
+    color: #71717a !important;
+    font-weight: 400 !important;
+}
+.wp-list-table td,
+table.widefat td {
+    padding: 12px 14px !important;
+    border-bottom: 1px solid #f4f4f5 !important;
+    color: #09090b !important;
+    font-size: 13px !important;
+}
+.wp-list-table tr:hover td,
+table.widefat tr:hover td {
+    background: #fafafa !important;
+}
+.wp-list-table tr:last-child td,
+table.widefat tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* --- 8. Modern Callout Notices & Notifications Center --- */
+/* Hide raw disruptive notices from the content flow when JS is active */
+.js #wpbody-content > .notice:not(.alma-keep-notice),
+.js #wpbody-content > div.updated:not(.alma-keep-notice),
+.js #wpbody-content > div.error:not(.alma-keep-notice),
+.js #wpbody-content > .update-nag:not(.alma-keep-notice),
+.js #wpbody-content .wrap > .notice:not(.alma-keep-notice),
+.js #wpbody-content .wrap > div.updated:not(.alma-keep-notice),
+.js #wpbody-content .wrap > div.error:not(.alma-keep-notice) {
+    display: none !important;
+}
+
+.notice,
+div.updated,
+div.error {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-left: 3px solid #18181b !important;
+    border-radius: 8px !important;
+    padding: 12px 16px !important;
+    margin: 16px 0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+    color: #09090b !important;
+    font-size: 13px !important;
+}
+.notice-success,
+div.updated {
+    border-left-color: #18181b !important;
+}
+.notice-error,
+div.error {
+    border-left-color: #dc2626 !important;
+}
+.notice-info {
+    border-left-color: #71717a !important;
+}
+
+
+
+/* --- 9. Post Boxes & Modern Dashboard Widgets (.postbox) --- */
+#dashboard-widgets .postbox-container .empty-container {
+    display: none !important;
+}
+@media only screen and (min-width: 800px) {
+    #dashboard-widgets #postbox-container-1,
+    #dashboard-widgets #postbox-container-2 {
+        width: 50% !important;
+        box-sizing: border-box !important;
+    }
+    #dashboard-widgets #postbox-container-3,
+    #dashboard-widgets #postbox-container-4 {
+        display: none !important;
+    }
+}
+@media only screen and (max-width: 799px) {
+    #dashboard-widgets #postbox-container-1,
+    #dashboard-widgets #postbox-container-2,
+    #dashboard-widgets #postbox-container-3,
+    #dashboard-widgets #postbox-container-4 {
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
+.postbox {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    margin-bottom: 20px !important;
+    overflow: hidden !important;
+}
+.postbox-header {
+    border-bottom: 1px solid #f4f4f5 !important;
+    padding: 14px 18px !important;
+    background: #ffffff !important;
+}
+.postbox-header h2,
+.postbox .hndle {
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    color: #09090b !important;
+    letter-spacing: -0.01em !important;
+    border: none !important;
+}
+.postbox .inside {
+    padding: 18px !important;
+    margin: 0 !important;
+}
+
+/* --- 10. Global Link & Text Neutralization (Zero Hideous WP Blue) --- */
+/* Anchors styled as buttons are excluded: the ID outranks `.wp-core-ui .button-primary`
+   even at !important, so the ACF Add Row anchor rendered as dark underlined text on a
+   dark button.
+   One `:is()` list instead of fourteen selectors: `:is()` takes the specificity of its
+   strongest argument, so every context scores (1,1,1), as `#wpbody-content` did, and still
+   outranks the WordPress link colours this rule exists to beat. */
+:is(#wpbody-content, .wrap, #dashboard-widgets, .postbox, .notice, .wp-list-table,
+    #activity-widget, #dashboard_right_now, #dashboard_quick_press, #dashboard_site_health,
+    .community-events, .welcome-panel, #footer-thankyou, #footer-upgrade
+) a:not(.button, .components-button, .page-title-action) {
+    color: #09090b !important;
+    text-decoration: underline !important;
+    text-decoration-color: #e4e4e7 !important;
+    text-underline-offset: 2px !important;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease !important;
+}
+:is(#wpbody-content, .wrap, #dashboard-widgets, .postbox, .notice, .wp-list-table,
+    #activity-widget, #dashboard_right_now, #dashboard_quick_press, #dashboard_site_health,
+    .community-events, .welcome-panel, #footer-thankyou, #footer-upgrade
+) a:not(.button, .components-button, .page-title-action):hover {
+    color: #18181b !important;
+    text-decoration-color: #09090b !important;
+}
+#wpbody-content a:focus,
+.wrap a:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(9, 9, 11, 0.15) !important;
+}
+
+.subsubsub,
+.subsubsub a {
+    color: #71717a !important;
+    text-decoration: none !important;
+    font-size: 12px !important;
+}
+.subsubsub a:hover,
+.subsubsub a.current {
+    color: #09090b !important;
+    font-weight: 600 !important;
+}
+.row-actions,
+.row-actions span,
+.row-actions a {
+    color: #71717a !important;
+    font-size: 12px !important;
+    text-decoration: none !important;
+}
+.row-actions a:hover {
+    color: #09090b !important;
+    text-decoration: underline !important;
+}
+.row-actions span.trash a,
+.row-actions span.delete a {
+    color: #ef4444 !important;
+}
+
+#dashboard_right_now li a {
+    color: #09090b !important;
+    font-weight: 500 !important;
+}
+#dashboard_right_now .dashicons,
+#dashboard_right_now .dashicons:before,
+#dashboard_right_now li a:before,
+#dashboard_right_now li span:before,
+#dashboard_activity .dashicons:before {
+    color: #71717a !important;
+}
+#dashboard_site_health .site-health-progress-count {
+    color: #09090b !important;
+}
+
+.notice code,
+#wpbody-content code {
+    background: #f4f4f5 !important;
+    color: #09090b !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    font-size: 12px !important;
+}
+
+/* --- 11. Admin Footer (#wpfooter) --- */
+#wpfooter {
+    color: #71717a !important;
+    font-size: 12px !important;
+    border-top: 1px solid #e4e4e7 !important;
+    padding: 16px 24px !important;
+    background: #fafafa !important;
+}
+#wpfooter a {
+    color: #09090b !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+}
+#wpfooter a:hover {
+    text-decoration: underline !important;
+}

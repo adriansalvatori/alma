@@ -33,7 +33,7 @@ function fakeAdminStyles(): object
 it('registers the skin, toolbar, login and footer hooks', function () {
     app(AdminTheme::class)->register();
 
-    foreach (['admin_enqueue_scripts', 'login_enqueue_scripts', 'wp_enqueue_scripts', 'admin_bar_menu', 'login_headerurl', 'login_headertext', 'admin_footer_text', 'update_footer', 'acf/settings/show_admin'] as $hook) {
+    foreach (['admin_enqueue_scripts', 'login_enqueue_scripts', 'wp_enqueue_scripts', 'admin_bar_menu', 'admin_footer', 'wp_footer', 'login_headerurl', 'login_headertext', 'admin_footer_text', 'update_footer', 'acf/settings/show_admin'] as $hook) {
         expect(has_filter($hook))->toBeTrue("{$hook} is not hooked");
     }
 });
@@ -111,6 +111,38 @@ it('puts the brand on the toolbar and drops the WordPress logo menu', function (
         ->and($toolbar->get_node('search'))->toBeNull()
         ->and($toolbar->get_node('site-name')->title)->toContain('alma-brand-mark')
         ->and($toolbar->get_node('site-name')->href)->toBe('https://example.test/wp/wp-admin/');
+});
+
+it('keeps one brand menu and the notifications bell, without core\'s menus that repeat the sidebar', function () {
+    $toolbar = new WP_Admin_Bar;
+
+    foreach (['comments', 'view-site', 'dashboard', 'themes', 'customize', 'site-name'] as $node) {
+        $toolbar->add_node(['id' => $node, 'title' => $node]);
+    }
+
+    app(AdminTheme::class)->brandToolbar($toolbar);
+
+    expect(array_keys($toolbar->nodes))->toEqualCanonicalizing(['site-name', 'alma-sub-dashboard', 'alma-sub-site', 'alma-notifications'])
+        ->and($toolbar->get_node('alma-sub-site')->parent)->toBe('site-name')
+        ->and($toolbar->get_node('alma-notifications')->parent)->toBe('top-secondary')
+        ->and($toolbar->get_node('alma-notifications')->title)->toContain('id="alma-notif-badge"');
+});
+
+it('prints the notifications drawer in wp-admin, and on the front end only under the toolbar', function () {
+    $theme = app(AdminTheme::class);
+
+    ob_start();
+    $theme->renderNotifications();
+    $admin = (string) ob_get_clean();
+
+    ob_start();
+    $theme->renderSiteNotifications();
+    $front = (string) ob_get_clean();
+
+    expect($admin)->toContain('id="alma-notif-drawer"')
+        ->and($admin)->toContain('alma_dismissed_notices_v1')
+        ->and($admin)->toContain('"dismiss":"Dismiss notification"')
+        ->and($front)->toBe('');
 });
 
 it('initialises the toolbar on Acorn-routed pages that skipped template_redirect', function () {

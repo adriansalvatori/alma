@@ -166,9 +166,39 @@ To call a CRM's API directly, add a listener in the module and register it in `L
 
 ## wp-admin
 
-**Leads** lists submissions with search, status views and a form filter. **Export CSV** downloads exactly the filtered list. Values are escaped so a spreadsheet never runs one as a formula, and the file carries a UTF-8 BOM so Excel reads accents correctly.
+**Leads** has three tabs: the list, the activity log and settings. Every figure leaves spam out
+unless you filter for it.
 
-A lead's page shows the submission, both attribution touches, the activity log and a status selector; every status change is logged with the user who made it.
+| Screen | Shows |
+| :--- | :--- |
+| All leads (`admin.php?page=alma-leads`) | KPI cards that filter the list when clicked (total, awaiting reply, qualified, won with its share of submissions, audit log events). A filter toolbar (search, status, form, first-touch channel, last 24 hours / 7 / 30 days). Then every lead, newest first: date and age, the person with their company's logo, phone and company, the form, a status badge, the first touch (source / medium, campaign), how many audit events it has, and a way in. 20 per page |
+| A lead (`&lead=<id>`) | Header with status, form, capture time and id; update the status, reply by email, delete the lead. Cards for the contact and submission (with any extra fields), both attribution touches (click ids shortened, referrer, landing page), and the device. On the right the **execution & audit timeline**: every activity row with its actor, outcome and payload, scrolling on its own beside the details |
+| Activity log (`admin.php?page=alma-lead-activity`) | Every activity row across all leads, newest first, filterable by event, actor and outcome (both read off the table, so a new integration is filterable the day it starts logging), with each row's lead and payload. 30 per page |
+| Settings | See [Settings and precedence](#settings-and-precedence) |
+
+**Export CSV** downloads exactly the filtered list. Values are escaped so a spreadsheet never runs
+one as a formula, and the file carries a UTF-8 BOM so Excel reads accents correctly. **Run retention
+purge** runs tonight's purge now (same window, same 30-day floor). Every status change is logged
+with the user who made it; deleting a lead removes its activity too.
+
+The avatar is the favicon of the lead's email domain, loaded by the admin's browser from Google's
+favicon service (`LeadAvatar`). Only the domain is sent, never the address or a hash of it;
+mailbox providers (Gmail, Outlook…) get tinted initials and no request at all; an unknown domain
+answers 404 and the initials show through.
+
+**The dashboard** gets four widgets in its left column (`LeadDashboard`):
+
+| Widget | Shows |
+| :--- | :--- |
+| Lead performance: last 7 days | Submissions, qualified (qualified or won), won and the conversion rate, all for the same cohort: leads captured in the window, whatever they became since. The funnel (captured → contacted → qualified → won) and the daily volume chart cover the same window |
+| Hourly lead trend | Leads per day at each hour of the site's clock (Settings → General), for this month, last month or the last 7 days (`?alma_hourly_range=`, so a view can be bookmarked). Averaged per day because early in a month the hours haven't all had the same number of days; busiest and quietest hour underneath |
+| Traffic acquisition & attribution channels | Each first-touch source's share of the week's leads (a referring site's host when there was no campaign, "Direct" when there was neither), each linking to the list filtered to it |
+| Recent captured leads | The latest six, with form, status and age |
+
+The module's card on the dashboard's Modules widget carries its live counts, and its shortcuts
+(lead hub, activity trail, export) join the dashboard's. The toolbar's brand menu gets "Leads &
+submissions". Figures are cached for three minutes and cleared whenever a lead is saved or
+deleted (`Lead::flushMetrics()`).
 
 Access requires the `alma_manage_leads` capability. `wp acorn alma:deploy` grants it to administrators and editors on every deploy.
 

@@ -88,64 +88,123 @@ instead of once per page, so analytics and third-party widgets must listen for
 
 ## Admin
 
-wp-admin follows the same tokens: a project rebrands its admin by changing `tokens.css` (brand
-scale, font) and `config/admin.php` (name, mark), never by editing admin CSS.
+wp-admin is the shadcn/ui zinc console Remote Leverage's admin was built with, ported as-is:
+monochrome chrome and controls, with the brand in the mark. A project rebrands its admin through
+`config/admin.php` (name, mark) and `tokens.css` (`--color-brand-600` paints the generated mark),
+never by editing admin CSS.
 
 ### The skin (`ADMIN_THEME`, on by default)
 
 `App\Infrastructure\WordPress\Admin\AdminTheme` restyles wp-admin, the toolbar (front end
-included) and wp-login.php: a dark sidebar and toolbar, neutral surfaces, the brand on primary
-buttons, focus rings, the current menu item and the login page. Sheets in `resources/css/admin/`:
+included) and wp-login.php: a 180px black sidebar with pill items and the current section's
+submenu inline, floating flyouts for the others, a black toolbar, zinc surfaces, black primary
+buttons, 32px controls, rounded list tables and 12px boxes. Sheets in `resources/css/admin/`:
 
 | Sheet | Loads on |
 | :--- | :--- |
-| `skin.css` (imports `_toolbar.css`) | every wp-admin screen |
-| `toolbar.css` | the front end, for logged-in users |
+| `skin.css` | every wp-admin screen. Imports `reset.css`, `_toolbar.css`, `console.css`, in that order |
+| `toolbar.css` | the front end, for logged-in users (imports `_toolbar.css`) |
 | `login.css` | wp-login.php |
-| `_tokens.css` | imported by all of them: Tailwind's theme variables plus `tokens.css`, mapped to `--alma-admin-*` |
+| `_tokens.css` | Tailwind's theme variables plus `tokens.css`, and the `--alma-admin-*` map the screens use |
 
 Rules for changing them:
 
-- Colour goes through core's own properties (`--wp-admin-theme-color*`, set from the brand), so
-  core's buttons, links and focus rings follow without being restyled.
-- Every other selector is core's own with `body.wp-admin` (or `html`) in front. That outranks core
-  and every admin colour scheme regardless of load order. **No `!important`**: a test fails on it.
-- Geometry stays core's (menu widths, folded states, breakpoints), so a WordPress update can't
-  strand the layout. Change colour, type, radius and surfaces only.
-- Content-area rules skip the block editor (`:not(.block-editor-page)`), which has its own design
-  system.
+- Nearly every rule is `!important`, as in the original, so where two tie on specificity the later
+  one wins. **The import order in `skin.css` is load-bearing**; a test pins it.
+- The skin paints every link in the content area dark and underlined at (1,1,1). An anchor drawn
+  as a control (a button, a tab, a linked tile) needs an id in its selector to beat that:
+  `screens.css` ends with those rules (`#wpbody-content .alma-admin a.alma-btn…`). A test checks.
+- Core adds a `php-error` body class (and a 26px band under the toolbar) whenever an error was
+  suppressed with `@`; `console.css` zeroes it.
+
+**The toolbar** keeps one brand menu (Admin console, View live website, and each module's entry:
+Leads adds "Leads & submissions") and drops core's menus that repeat the sidebar. Its bell opens a
+**notifications drawer** (`resources/views/admin/_notifications.blade.php`): wp-admin's notices
+are moved out of the page into it, classified by severity and counted on the bell, dismissible
+for the browser session, with "Restore inline" to put them back. A notice that must stay on the
+page carries `alma-keep-notice` (the stalled-cron notice does). `.notice.inline` is never moved.
 
 The brand (`config/admin.php`): the name defaults to the site name; the mark is a theme-relative
 image (`ADMIN_BRAND_MARK`, default `resources/images/brand/mark.svg`, ideally a square SVG). Until
-that file exists, the name's initial on a brand-coloured square stands in. The footer shows the
-live release (`APP_VERSION`). ACF's field-group screens are hidden in production (`ADMIN_ACF_UI`),
-because field groups are code. Without a build (`public/build`) there is simply no skin, never an
-error.
+that file exists, the name's initial on a brand-coloured square stands in. The footer reads
+"<Brand> Admin Console" and how the health checks stood the last time the dashboard ran them (it
+never runs one itself), and the live release (`APP_VERSION`). ACF's field-group screens are hidden
+in production (`ADMIN_ACF_UI`), because field groups are code. Without a build (`public/build`)
+there is simply no skin, never an error.
+
+### The dashboard
+
+`App\Infrastructure\WordPress\Admin\Dashboard\Dashboard` removes core's blog widgets and splits
+the dashboard into two columns. Modules put their business widgets on the left (Leads: KPIs,
+hourly trend, channels, latest leads; see [lead.md](lead.md#wp-admin)); Core puts the platform on
+the right:
+
+| Widget | Shows |
+| :--- | :--- |
+| Modules & Services Status | Every module in `config/alma.php`: active, disabled (`ALMA_DISABLED_MODULES`) or missing its prerequisite; its provider's summary; what it declares (hooks, events, commands, deploy tasks, routes, tables) and any live figures it adds |
+| Platform & Infrastructure Health | The environment and release, every health check with its evidence behind "Details", each host the site called in the last 7 days judged from the integration log (down after 3 failures in a row, degraded after 1 or at a 20% failure rate), and the PHP runtime. Managers only; cached 60 seconds |
+| Shortcuts & Quick Actions | Core's (view site, add a page, integration log, Site Health), then each module's |
+
+A module contributes through two filters, from a hook class of its own:
+
+```php
+add_filter('alma/dashboard/modules', function (array $modules) {
+    $modules['quotes']['chips'] = [sprintf('Open: %d', $open)];  // live figures on its card
+
+    return $modules;
+});
+
+add_filter('alma/dashboard/shortcuts', fn (array $shortcuts) => [...$shortcuts, [
+    'title' => 'Quotes', 'description' => 'Requests waiting for a price',
+    'url' => admin_url('admin.php?page=quotes'), 'icon' => '<path d="…"/>',  // Lucide inner SVG
+]]);
+```
+
+and its own widgets with `wp_add_dashboard_widget(…, 'normal', 'high'|'default')` on
+`wp_dashboard_setup` at 999. Widget markup uses the `alma-dash-*` classes in `dashboard.css` (KPI
+tiles, funnel, bar charts, stacked channel bar, tables, health rows, shortcut cards), which load
+with the screens' sheet, so widgets keep their look with the skin off.
 
 ### Screens: the admin design system
 
 alma's own screens (Leads, Redirects, Integration log, AI Access) are Blade views built from
 `<x-admin::…>` components (`resources/views/admin/components`), styled by
-`resources/css/admin/screens.css`. Everything is scoped under `.alma-admin`, the wrapper
-`<x-admin::page>` renders, so it loads on every admin screen without touching core ones, and it
-works with the skin off.
+`resources/css/admin/screens.css` with the console's values. Everything is scoped under
+`.alma-admin`, the wrapper `<x-admin::page>` renders, so it loads on every admin screen without
+touching core ones, and it works with the skin off.
 
 | Component | For |
 | :--- | :--- |
-| `<x-admin::page :title :description>` + `<x-slot:actions>` | Every screen. Renders `.wrap.alma-admin`, the title row and the line core moves notices under |
+| `<x-admin::page :title :description>` + `actions` slot, or a `heading` slot | Every screen. Renders `.wrap.alma-admin`, the title row (or a record's own header) and the line core moves notices under |
+| `<x-admin::tabs :tabs active>` | A section's screens as segmented tabs; `tabs` is key => [label, url] |
+| `<x-admin::stat :label :value :hint href active>` + `icon` slot | A KPI tile (in an `.alma-stats-grid`). With `href` it links to the list it counts; `active` marks the filter in use |
 | `<x-admin::card :title :description flush>` + `actions` / `footer` slots | A section. `flush` lets a table run edge to edge; the footer holds form buttons |
 | `<x-admin::field :label for :hint locked>` | A form row; `locked="ENV_VAR"` notes a value pinned by `.env` |
 | `<x-admin::button href variant size type>` | `secondary` (default), `primary`, `danger`, `ghost`; `size="sm"` |
-| `<x-admin::badge tone>` | `neutral`, `success`, `warning`, `danger`, `info`, `brand` |
-| `<x-admin::stat :label :value :hint>` | A KPI tile (in an `.alma-grid`) |
+| `<x-admin::badge tone dot>` | `neutral`, `success`, `warning`, `danger`, `info`, `brand`; `dot` draws a status (white, outlined, a dot in the tone) |
+| `<x-admin::avatar :initials :tint :logo :size>` | A person: tinted initials, a logo laid over them that removes itself if it fails (see `LeadAvatar`) |
+| `<x-admin::pagination :paginator>` | Page n of m with Previous / Next |
 | `<x-admin::table>` | A plain data table; inside a `flush` card it loses its own frame |
 | `<x-admin::empty :title :description>` | An empty list |
-| `<x-admin::notice tone>` | A callout that stays put (core's `.notice` is moved under the title) |
+| `<x-admin::notice tone>` | A callout that stays put (core's `.notice` goes to the notifications drawer) |
 
-Classes for what has no component: `.alma-input` (`--short`, `--code`), `.alma-check`,
-`.alma-form-grid`, `.alma-kv` (a key-value table), `.alma-grid`, `.alma-split` (main + aside),
-`.alma-stack`, `.alma-pre`, `.alma-status-dot--{success,warning,danger}`. `WP_List_Table`
-inside `.alma-admin` gets the card look automatically.
+Classes for what has no component:
+
+- Lists: `.alma-filter-bar` > `.alma-filter-form` with `.alma-search` (`__icon`, `__input`),
+  `select.alma-select` and `.alma-count-badge`; `.alma-table-container` > `.alma-data-table` (the
+  record list: `__date`, `__age`, `__empty`, `.alma-col-attr` with `.alma-attr__source` /
+  `__campaign`); `.alma-contact` (`__info`, `__name`, `__email`, `__sub`, `__company`);
+  `.alma-pill` (`--dark`, `--indigo`); `.alma-audit-pill`.
+- Records: `.alma-record-header` (`__who`, `__name`, `__meta`); `.alma-detail-grid` (details,
+  then `.alma-timeline-col`, which scrolls on its own); `.alma-detail-card` > `.alma-detail-title`;
+  `.alma-kv` (`--compact`, `.alma-kv__group`); `.alma-timeline` > `__item` > `__dot--{outcome}` +
+  `__content` (`__meta`, `__actor`, `__time`, `__title`); `.alma-json`.
+- Forms and layout: `.alma-input` (`--short`, `--code`), `.alma-check`, `.alma-form-grid`,
+  `.alma-grid`, `.alma-split`, `.alma-stack`, `.alma-pre`, `.alma-status-dot--{success,warning,danger}`,
+  `.alma-muted`, `.alma-faint`.
+
+A paginated list in wp-admin uses `paged`, never Laravel's `page` (that is the screen's slug):
+see `LeadsAdmin::paginate()`.
 
 A new module screen:
 
@@ -156,8 +215,8 @@ A new module screen:
     <x-admin::button :href="$exportUrl">{{ __('Export CSV', 'alma') }}</x-admin::button>
   </x-slot:actions>
 
-  <div class="alma-grid">
-    <x-admin::stat :label="__('Open', 'alma')" :value="$open" />
+  <div class="alma-stats-grid">
+    <x-admin::stat :label="__('Open', 'alma')" :value="$open" :href="$openUrl" />
   </div>
 
   <x-admin::card :title="__('Latest', 'alma')" flush>
@@ -167,7 +226,9 @@ A new module screen:
 ```
 
 `tests/Feature/Admin/AdminScreensTest` fails a screen view that doesn't start from
-`<x-admin::page>`, and any PHP that opens its own `.wrap`. Don't put literal double quotes inside
-a component attribute (`:description="__('… "x" …')"`): Blade then skips the whole tag. The view
-compile test catches it.
-
+`<x-admin::page>`, and any PHP that opens its own `.wrap`. Two Blade traps: don't put literal
+double quotes inside a component attribute (`:description="__('… "x" …')"`), or Blade skips the
+whole tag; and don't print a nonce with `@php(wp_nonce_field(…))` in a view that has an
+`@php … @endphp` block after it, because Blade's block extraction runs from the inline `@php` to
+that `@endphp`. Use `{!! wp_nonce_field($action, '_wpnonce', true, false) !!}`. The view compile
+test catches both.

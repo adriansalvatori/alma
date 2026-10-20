@@ -25,8 +25,12 @@ with no shell access required day to day.
 | `mail` | No SMTP (`MAIL_HOST` unset) | n/a |
 | `error_reporting` | No Sentry DSN | n/a |
 
-The same checks appear in **Tools → Site Health**. Administrators also get a notice on every admin
-screen when cron has stalled.
+The same checks appear in **Tools → Site Health** and, with their evidence, on the dashboard's
+**Platform & Infrastructure Health** widget, next to each host the site called in the last week
+judged from the [integration log](#integration-log) (cached for a minute; see
+[design-system.md](design-system.md#the-dashboard)). Administrators also get a notice on every
+admin screen when cron has stalled; it stays on the page rather than going to the toolbar's
+notifications drawer.
 
 To add a check, implement `App\Infrastructure\Observability\Health\HealthCheck`. Then either add it
 to `HealthChecker::CHECKS`, or tag it `alma.health-checks` from a module provider. A check that

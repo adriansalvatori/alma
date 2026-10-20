@@ -20,8 +20,10 @@
 
 <x-admin::page :title="__('Lead settings', 'alma')" :description="__('Who hears about new leads, where they are sent, and how long they are kept.', 'alma')">
   <x-slot:actions>
-    <x-admin::button :href="\App\Domains\Lead\Admin\LeadsAdmin::url()" variant="ghost">{{ __('All leads', 'alma') }}</x-admin::button>
+    <x-admin::button :href="\App\Domains\Lead\Admin\LeadsAdmin::url()">{{ __('All leads', 'alma') }}</x-admin::button>
   </x-slot:actions>
+
+  <x-admin::tabs :tabs="\App\Domains\Lead\Admin\LeadsAdmin::tabs()" active="settings" />
 
   @if (isset($notices[$notice]))
     <div class="notice notice-{{ $notices[$notice][0] }} is-dismissible"><p>{{ $notices[$notice][1] }}</p></div>

@@ -17,6 +17,7 @@ use App\Infrastructure\Security\UserEnumerationGuard;
 use App\Infrastructure\Security\XmlRpcLockdown;
 use App\Infrastructure\WordPress\Admin\AdminDesignSystem;
 use App\Infrastructure\WordPress\Admin\AdminTheme;
+use App\Infrastructure\WordPress\Admin\Dashboard\Dashboard;
 use App\Infrastructure\WordPress\DisableComments;
 
 /**
@@ -37,6 +38,7 @@ class CoreServiceProvider extends ModuleServiceProvider
         DisableComments::class,
         AdminDesignSystem::class,
         AdminTheme::class,
+        Dashboard::class,
     ];
 
     protected array $commands = [

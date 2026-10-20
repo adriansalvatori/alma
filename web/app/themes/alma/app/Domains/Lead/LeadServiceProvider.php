@@ -2,6 +2,7 @@
 
 namespace App\Domains\Lead;
 
+use App\Domains\Lead\Admin\LeadDashboard;
 use App\Domains\Lead\Admin\LeadsAdmin;
 use App\Domains\Lead\Commands\PurgeLeadsCommand;
 use App\Domains\Lead\Deploy\GrantLeadCapability;
@@ -26,6 +27,7 @@ class LeadServiceProvider extends ModuleServiceProvider
         LeadRetention::class,
         LeadPrivacy::class,
         LeadsAdmin::class,
+        LeadDashboard::class,
     ];
 
     protected array $listen = [

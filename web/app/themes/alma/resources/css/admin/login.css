@@ -1,160 +1,367 @@
 /*
- * wp-login.php (log in, lost password, reset, the admin-email check), enqueued after core's login
- * sheet by App\Infrastructure\WordPress\Admin\AdminTheme. Same approach as skin.css: brand through
- * core's theme-colour properties, `body.login` in front of core's selectors, no !important.
+ * wp-login.php (AdminTheme::enqueueLogin()).
  *
- * The header link holds the brand mark and the site name (AdminTheme's login_headertext), so the
- * WordPress logo core draws as a background image is switched off and the text shown.
+ * The logo link's text is Brand::html() (AdminTheme::loginText()): the mark above the name.
  */
 @import "./_tokens.css";
 
-/* (0,2,1): above core's body.admin-color-modern, which wp-login.php always adds. */
-:root body.login {
-  --wp-admin-theme-color: var(--alma-admin-brand);
-  --wp-admin-theme-color-darker-10: var(--alma-admin-brand-hover);
-  --wp-admin-theme-color-darker-20: var(--alma-admin-brand-active);
-}
+/* ==========================================================================
+   LOGIN SCREEN (SHADCN/UI ZINC AESTHETIC)
+   ========================================================================== */
 
 body.login {
-  background: var(--alma-admin-bg);
-  color: var(--alma-admin-text-soft);
-  font-family: var(--alma-admin-font);
-  -webkit-font-smoothing: antialiased;
+    background-color: #f4f4f5 !important;
+    background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f4f4f5 100%) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    color: #09090b !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    padding: 40px 16px !important;
+    box-sizing: border-box !important;
 }
 
-body.login #login {
-  width: 360px;
-  padding-top: 8vh;
+#login {
+    width: 100% !important;
+    max-width: 390px !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
 }
 
-body.login h1.wp-login-logo a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  height: auto;
-  margin: 0 auto 24px;
-  overflow: visible;
-  background: none;
-  color: var(--alma-admin-text);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  text-indent: 0;
+/* --- Logo: the brand mark above the brand name --- */
+#login h1 {
+    margin-bottom: 24px !important;
+    text-align: center !important;
+}
+#login h1 a,
+.login h1 a {
+    background: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 18px !important;
+    text-indent: 0 !important;
+    text-decoration: none !important;
+    overflow: visible !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+#login h1 .alma-brand-mark {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 14px !important;
+    background: var(--color-brand-600, #09090b) !important;
+    color: #ffffff !important;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    line-height: 56px !important;
+    text-align: center !important;
+    display: block !important;
+    overflow: hidden !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+#login h1 .alma-brand-mark.has-image {
+    background: transparent !important;
+    border-radius: 0 !important;
+}
+#login h1 .alma-brand-mark img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+#login h1 a:hover .alma-brand-mark,
+.login h1 a:hover .alma-brand-mark {
+    transform: scale(1.05) !important;
+}
+#login h1 .alma-brand-name {
+    display: block !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.03em !important;
+    color: #09090b !important;
+    line-height: 1.25 !important;
 }
 
-body.login h1.wp-login-logo a:hover,
-body.login h1.wp-login-logo a:focus {
-  color: var(--alma-admin-text);
+/* --- Messages, Notices & Errors --- */
+#login .message,
+#login .notice,
+#login #login_error,
+.login .message,
+.login .notice,
+.login #login_error {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-left: 3px solid #18181b !important;
+    border-radius: 8px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 20px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #09090b !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+#login .message p,
+#login .notice p,
+#login #login_error p,
+.login .message p,
+.login .notice p,
+.login #login_error p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+    color: #09090b !important;
+}
+#login #login_error,
+.login #login_error {
+    border-left-color: #dc2626 !important;
+    background: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+#login #login_error p,
+.login #login_error p {
+    color: #991b1b !important;
+}
+#login .message a,
+#login #login_error a {
+    color: #09090b !important;
+    font-weight: 500 !important;
+    text-decoration: underline !important;
 }
 
-body.login .alma-brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: var(--alma-admin-brand);
-  color: var(--alma-admin-brand-on);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1;
+/* --- Form Card --- */
+#login form {
+    background: #ffffff !important;
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 10px 25px -5px rgba(0, 0, 0, 0.04) !important;
+    padding: 28px !important;
+    margin: 0 0 20px 0 !important;
+}
+#login form p {
+    margin-bottom: 18px !important;
+}
+#login form label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #09090b !important;
+    display: block !important;
+    margin-bottom: 6px !important;
 }
 
-body.login .alma-brand-mark.has-image {
-  background: none;
+/* --- Form Inputs --- */
+#login form input[type='text'],
+#login form input[type='password'] {
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 8px !important;
+    background-color: #ffffff !important;
+    color: #09090b !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+    height: 42px !important;
+    line-height: 24px !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+#login form input[type='text']:focus,
+#login form input[type='password']:focus {
+    border-color: #09090b !important;
+    box-shadow: 0 0 0 1px #09090b, 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    outline: none !important;
 }
 
-body.login .alma-brand-mark img {
-  display: block;
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+/* --- Password Wrap & Visibility Button --- */
+#login form .user-pass-wrap {
+    margin-bottom: 18px !important;
+}
+#login form .wp-pwd {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+#login form .wp-pwd input[type='password'] {
+    padding-right: 42px !important;
+}
+#login form .wp-pwd .wp-hide-pw {
+    position: absolute !important;
+    right: 6px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #71717a !important;
+    padding: 4px !important;
+    height: 32px !important;
+    width: 32px !important;
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border-radius: 6px !important;
+    transition: color 0.15s ease, background-color 0.15s ease !important;
+}
+#login form .wp-pwd .wp-hide-pw:hover {
+    color: #09090b !important;
+    background-color: #f4f4f5 !important;
+}
+#login form .wp-pwd .wp-hide-pw .dashicons {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
 }
 
-body.login form {
-  padding: 28px;
-  border: 1px solid var(--alma-admin-border);
-  border-radius: var(--alma-admin-radius-lg);
-  background: var(--alma-admin-surface);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.06), 0 12px 32px -16px rgb(0 0 0 / 0.18);
+/* --- Checkbox (Remember Me) --- */
+#login form .forgetmenot {
+    float: none !important;
+    margin: 4px 0 18px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+#login form .forgetmenot label {
+    display: inline-block !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: #52525b !important;
+    margin: 0 !important;
+    line-height: 18px !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+#login form input[type='checkbox'] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 16px !important;
+    height: 16px !important;
+    border: 1px solid #d4d4d8 !important;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.15s ease !important;
+}
+#login form input[type='checkbox']:checked {
+    background-color: #09090b !important;
+    border-color: #09090b !important;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E") !important;
+    background-size: 12px !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+#login form input[type='checkbox']:focus {
+    box-shadow: 0 0 0 2px rgba(9, 9, 11, 0.15) !important;
+    border-color: #09090b !important;
+    outline: none !important;
+}
+#login form .wp-tooltip {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+#login form .wp-tooltip__toggle {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #a1a1aa !important;
+    padding: 0 !important;
+    margin-left: 2px !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+#login form .wp-tooltip__toggle:hover {
+    color: #71717a !important;
 }
 
-body.login label {
-  color: var(--alma-admin-text);
-  font-size: 13px;
-  font-weight: 500;
+/* --- Submit Button (Solid Dark Zinc) --- */
+#login form p.submit {
+    margin: 20px 0 0 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+#login form .button-primary,
+#login form #wp-submit {
+    background: #09090b !important;
+    border: 1px solid #09090b !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 0 16px !important;
+    height: 42px !important;
+    line-height: 40px !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.15s ease !important;
+    width: 100% !important;
+    float: none !important;
+    cursor: pointer !important;
+    text-shadow: none !important;
+    display: block !important;
+    text-align: center !important;
+}
+#login form .button-primary:hover,
+#login form #wp-submit:hover {
+    background: #27272a !important;
+    border-color: #27272a !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+#login form .button-primary:focus,
+#login form #wp-submit:focus {
+    box-shadow: 0 0 0 2px rgba(9, 9, 11, 0.15) !important;
+    outline: none !important;
+}
+#login form .button-primary:active,
+#login form #wp-submit:active {
+    transform: translateY(1px) !important;
 }
 
-/* Core sets 24px text in the login fields; bring them back to the admin's scale. */
-body.login form .input,
-body.login input[type="text"],
-body.login input[type="password"],
-body.login input[type="email"] {
-  min-height: 40px;
-  padding: 6px 12px;
-  border-color: var(--alma-admin-border-strong);
-  border-radius: var(--alma-admin-radius);
-  color: var(--alma-admin-text);
-  font-size: 15px;
-  box-shadow: var(--alma-admin-shadow);
+/* --- Bottom Navigation Links (Zero Blue Text) --- */
+#login #nav,
+#login #backtoblog {
+    text-align: center !important;
+    padding: 0 !important;
+    margin: 14px 0 0 0 !important;
+}
+#login #nav a,
+#login #backtoblog a {
+    color: #71717a !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+#login #nav a:hover,
+#login #backtoblog a:hover {
+    color: #09090b !important;
+    text-decoration: underline !important;
 }
 
-body.login form .input:focus,
-body.login input[type="text"]:focus,
-body.login input[type="password"]:focus,
-body.login input[type="email"]:focus {
-  border-color: var(--alma-admin-brand);
-  box-shadow: var(--alma-admin-ring);
+/* --- Language Switcher --- */
+.language-switcher {
+    margin-top: 20px !important;
+    text-align: center !important;
 }
-
-body.login .button.wp-hide-pw {
-  min-height: 40px;
-  color: var(--alma-admin-muted);
-}
-
-body.login .button-primary {
-  min-height: 40px;
-  padding: 0 18px;
-  border-radius: var(--alma-admin-radius);
-  font-weight: 600;
-}
-
-body.login .message,
-body.login .notice,
-body.login .success {
-  border: 1px solid var(--alma-admin-border);
-  border-left-width: 4px;
-  border-left-color: var(--alma-admin-info);
-  border-radius: var(--alma-admin-radius);
-  box-shadow: var(--alma-admin-shadow);
-}
-
-body.login .success {
-  border-left-color: var(--alma-admin-success);
-}
-
-body.login .notice-error {
-  border-left-color: var(--alma-admin-danger);
-}
-
-body.login #nav,
-body.login #backtoblog {
-  padding: 0 4px;
-  text-align: center;
-}
-
-body.login #nav a,
-body.login #backtoblog a,
-body.login .privacy-policy-page-link a {
-  color: var(--alma-admin-muted);
-}
-
-body.login #nav a:hover,
-body.login #backtoblog a:hover,
-body.login .privacy-policy-page-link a:hover {
-  color: var(--alma-admin-text);
+.language-switcher select {
+    border: 1px solid #e4e4e7 !important;
+    border-radius: 6px !important;
+    background-color: #ffffff !important;
+    color: #71717a !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
 }

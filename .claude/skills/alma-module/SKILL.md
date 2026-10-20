@@ -62,8 +62,12 @@ protected ?string $apiRoutes = __DIR__.'/routes/api.php';                       
   (see `LeadSettings::mayDeliverTo()`).
 - wp-admin actions check a capability and a nonce. Grant custom capabilities in a deploy task.
 - wp-admin screens are Blade views wrapped in `<x-admin::page>` (it renders `.wrap.alma-admin`),
-  built from the admin components (`<x-admin::card>`, `field`, `button`, `badge`, `stat`, `table`,
-  `empty`, `notice`); see `docs/design-system.md` → Admin. A convention test enforces the wrapper.
+  built from the admin components (`<x-admin::card>`, `field`, `button`, `badge`, `stat`, `tabs`,
+  `avatar`, `table`, `pagination`, `empty`, `notice`); see `docs/design-system.md` → Admin. A
+  convention test enforces the wrapper. Copy the Leads screens (list, record, log) for a record list.
+- A module with figures worth seeing first gets dashboard widgets (`wp_add_dashboard_widget` on
+  `wp_dashboard_setup` 999, left column) and contributes to `alma/dashboard/modules` (live chips on
+  its card) and `alma/dashboard/shortcuts`; copy `app/Domains/Lead/Admin/LeadDashboard.php`.
 - Deploy tasks are idempotent and non-fatal unless the release truly can't run without them.
 
 ## Tests

@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Blade;
  * The design system alma's own wp-admin screens are built from.
  *
  * Two parts: the <x-admin::…> Blade components (resources/views/admin/components) and the sheet
- * that styles them (resources/css/admin/screens.css). Everything in the sheet is scoped under
- * .alma-admin, the wrapper <x-admin::page> renders, so it loads on every admin screen without
- * touching core ones. It doesn't depend on the skin: with ADMIN_THEME=false a module's screens
- * still look like one product.
+ * that styles them (resources/css/admin/screens.css, which brings the dashboard widgets' sheet
+ * with it). Everything in it is scoped under .alma-admin, the wrapper <x-admin::page> renders, or
+ * prefixed alma-dash-, so it loads on every admin screen without touching core ones. It prints
+ * after the skin and doesn't depend on it: with ADMIN_THEME=false a module's screens and the
+ * dashboard widgets still look like one product.
  *
  * See docs/design-system.md ("Admin") for the components.
  */
